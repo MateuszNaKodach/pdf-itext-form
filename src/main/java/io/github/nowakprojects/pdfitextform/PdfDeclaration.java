@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * TODO: PDF Name, Elements on declared page
+ */
 public class PdfDeclaration {
     private Set<PdfElement> elements = new HashSet<>();
 

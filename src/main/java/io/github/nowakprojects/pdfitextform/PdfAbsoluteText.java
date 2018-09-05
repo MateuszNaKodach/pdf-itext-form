@@ -67,6 +67,7 @@ class PdfAbsoluteText implements PdfElement {
         );
     }
 
+    //FIXME: Space is from the beggining, not between. How to get font size width?
     PdfAbsoluteText withSpaceBetweenLetters(float spaceBetweenLetters) {
         PdfAbsoluteText pdfAbsoluteText = new PdfAbsoluteText(this.tag, this.content, this.pdfPosition);
         pdfAbsoluteText.spaceBetweenLetters = spaceBetweenLetters;

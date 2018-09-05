@@ -4,13 +4,12 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -18,10 +17,9 @@ public class PdfForm3 {
 
     static final int FONT_SIZE = 12;
     static final String SRC = "documents\\pdfs\\source\\ZAP-3-04.pdf";
-    static final String FILLED = "documents\\pdfs\\source\\TestPESEL.pdf";
     static final String DEST = "documents\\pdfs\\filled\\ZAP-3-04-filled7.pdf";
 
-    static final String NEW_DOCUMENT = "documents\\pdfs\\filled\\NEW_DOCUMENT2.pdf";
+    static final String NEW_DOCUMENT = "documents\\pdfs\\filled\\NEW_DOCUMENT3.pdf";
 
     public static void main(String[] args) throws Exception {
         PdfDeclaration pdfDeclaration =
@@ -30,8 +28,8 @@ public class PdfForm3 {
                                 PdfAbsoluteText.builder()
                                         .withTag("pesel")
                                         .andContent("91032312312")
-                                        .positionedFromBottomLeft(100, 100)
-                                        .withSpaceBetweenLetters(5),
+                                        .positionedFromBottomLeft(63, 785)
+                                        .withSpaceBetweenLetters(15),
                                 PdfAbsoluteText.builder()
                                         .withTag("imie")
                                         .andContent("Jan")
@@ -43,6 +41,7 @@ public class PdfForm3 {
                         );
 
         generatePdfFromDeclaration(pdfDeclaration);
+        mergePdfsLayers(SRC, NEW_DOCUMENT, DEST);
     }
 
     public static void generatePdfFromDeclaration(PdfDeclaration pdfDeclaration) throws Exception {
@@ -93,6 +92,22 @@ public class PdfForm3 {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void mergePdfsLayers(String bottomFilePath, String topFilePath, String destinationPath) throws Exception {
+        PdfReader reader = new PdfReader(bottomFilePath);
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));
+        PdfContentByte canvas = stamper.getOverContent(1);
+        PdfReader r;
+        PdfImportedPage page;
+
+        r = new PdfReader(topFilePath);
+        page = stamper.getImportedPage(r, 1);
+        canvas.addTemplate(page, 0, 0);
+        stamper.getWriter().freeReader(r);
+        r.close();
+
+        stamper.close();
     }
 
 }
