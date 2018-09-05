@@ -41,11 +41,11 @@ public class PdfForm3 {
                                 PdfAbsoluteText.builder()
                                         .withTag("imie")
                                         .andContent("Jan")
-                                        .positionedFromBottomLeft(63, 400),
+                                        .positionedFromBottomLeft(330, 495),
                                 PdfAbsoluteText.builder()
                                         .withTag("nazwisko")
                                         .andContent("Kowalski")
-                                        .positionedFromBottomLeft(300, 300)
+                                        .positionedFromBottomLeft(63, 495)
                         );
 
         generatePdfFromDeclaration(pdfDeclaration);
