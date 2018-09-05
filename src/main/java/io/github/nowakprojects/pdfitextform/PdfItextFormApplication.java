@@ -1,10 +1,11 @@
 package io.github.nowakprojects.pdfitextform;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
+/*
+https://developers.itextpdf.com/content/itext-7-jump-start-tutorial/chapter-5-manipulating-existing-pdf-document
+https://developers.itextpdf.com/examples/form-examples/clone-creating-form-fields
+ */
+/*
 @SpringBootApplication
 public class PdfItextFormApplication implements CommandLineRunner {
 
@@ -17,5 +18,8 @@ public class PdfItextFormApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         System.out.println("Application run!");
+        PdfForm pdf = PdfForm.fromFile("documents\\pdfs\\source\\ZAP-3-04.pdf");
+        pdf.tryToFillPdfFormWithXml();
     }
 }
+*/
