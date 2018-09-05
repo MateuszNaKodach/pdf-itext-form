@@ -29,8 +29,6 @@ public class PdfForm2 {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
         PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(NEW_DOCUMENT));
-        /*final PdfContentByte directContent = pdfWriter.getDirectContent();
-        pdfWriter.add(new Paragraph());*/
         document.open();
         absText(pdfWriter, "TestowyTekstĄŹ", 0, a4PageSize.getTop() - FONT_SIZE);
         absText(pdfWriter, "TestowyTekst", 100, 100);
@@ -38,23 +36,6 @@ public class PdfForm2 {
         document.close();
     }
 
-    private static void absText(PdfWriter writer, String text, float x, float y) {
-        try {
-            PdfContentByte cb = writer.getDirectContent();
-            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, StandardCharsets.UTF_8.displayName(), BaseFont.NOT_EMBEDDED);
-            cb.saveState();
-            cb.beginText();
-            cb.moveText(x, y);
-            cb.setFontAndSize(bf, FONT_SIZE);
-            cb.showText(text);
-            cb.endText();
-            cb.restoreState();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
 
     public static void processPDF() throws IOException, DocumentException {
@@ -91,5 +72,23 @@ public class PdfForm2 {
             r.close();
         }
         stamper.close();
+    }
+
+    private static void absText(PdfWriter writer, String text, float x, float y) {
+        try {
+            PdfContentByte cb = writer.getDirectContent();
+            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, StandardCharsets.UTF_8.displayName(), BaseFont.NOT_EMBEDDED);
+            cb.saveState();
+            cb.beginText();
+            cb.moveText(x, y);
+            cb.setFontAndSize(bf, FONT_SIZE);
+            cb.showText(text);
+            cb.endText();
+            cb.restoreState();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

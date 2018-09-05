@@ -1,6 +1,11 @@
 package io.github.nowakprojects.pdfitextform;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class PdfAbsoluteText implements PdfElement {
     private final String tag;
@@ -14,15 +19,35 @@ class PdfAbsoluteText implements PdfElement {
         this.pdfPosition = pdfPosition;
     }
 
-    private float getX() {
+    String getTag() {
+        return tag;
+    }
+
+    String getContent() {
+        return content;
+    }
+
+    List<String> getContentLetters() {
+        return content.chars()
+                .mapToObj(c -> (char) c)
+                .map(c -> c.toString())
+                .collect(Collectors.toList());
+
+    }
+
+    float getX() {
         return this.pdfPosition.getX();
     }
 
-    private float getY() {
+    float getY() {
         return this.pdfPosition.getY();
     }
 
-    private PdfAbsoluteText changePosition(PdfPosition pdfPosition) {
+    float getSpaceBetweenLetters() {
+        return spaceBetweenLetters;
+    }
+
+    PdfAbsoluteText changePosition(PdfPosition pdfPosition) {
         return new PdfAbsoluteText(this.tag, this.content, pdfPosition);
     }
 
@@ -42,11 +67,12 @@ class PdfAbsoluteText implements PdfElement {
         );
     }
 
-    PdfAbsoluteText addSpaceBetweenLetters(float spaceBetweenLetters) {
+    PdfAbsoluteText withSpaceBetweenLetters(float spaceBetweenLetters) {
         PdfAbsoluteText pdfAbsoluteText = new PdfAbsoluteText(this.tag, this.content, this.pdfPosition);
         pdfAbsoluteText.spaceBetweenLetters = spaceBetweenLetters;
         return pdfAbsoluteText;
     }
+
 
     boolean isTextWithSpaceBetweenLetters() {
         return this.spaceBetweenLetters != 0;
