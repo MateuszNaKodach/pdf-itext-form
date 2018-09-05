@@ -30,7 +30,7 @@ class PdfAbsoluteText implements PdfElement {
     List<String> getContentLetters() {
         return content.chars()
                 .mapToObj(c -> (char) c)
-                .map(c -> c.toString())
+                .map(Object::toString)
                 .collect(Collectors.toList());
 
     }
@@ -67,7 +67,7 @@ class PdfAbsoluteText implements PdfElement {
         );
     }
 
-    //FIXME: Space is from the beggining, not between. How to get font size width?
+    //FIXME: Space is from the beggining, not between. How to get font size width? Or leave it and rename!
     PdfAbsoluteText withSpaceBetweenLetters(float spaceBetweenLetters) {
         PdfAbsoluteText pdfAbsoluteText = new PdfAbsoluteText(this.tag, this.content, this.pdfPosition);
         pdfAbsoluteText.spaceBetweenLetters = spaceBetweenLetters;
@@ -142,12 +142,10 @@ interface NeedTag {
 
 interface NeedContent {
     NeedPosition andContent(String content);
-
 }
 
 interface NeedPosition {
     PdfAbsoluteText positionedFromBottomLeft(float x, float y);
 
     PdfAbsoluteText positionedFromTopLeft(float x, float y);
-
 }

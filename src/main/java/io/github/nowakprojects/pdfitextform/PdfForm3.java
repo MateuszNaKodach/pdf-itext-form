@@ -12,7 +12,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
+/*
+Documentation iText:
+https://developers.itextpdf.com/sites/default/files/attachments/PR%20-%20iText%20in%20Action%20-%20Second%20edition%20e-book.pdf
 
+TODO:
+Definicje pliku, np. PdfFormDeclaration - który może z XML odczytać dane i stworzyć PdfDeclaration
+Taki PdfFormDeclaration musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
+
+ */
 public class PdfForm3 {
 
     static final int FONT_SIZE = 12;
@@ -33,7 +41,7 @@ public class PdfForm3 {
                                 PdfAbsoluteText.builder()
                                         .withTag("imie")
                                         .andContent("Jan")
-                                        .positionedFromBottomLeft(200, 200),
+                                        .positionedFromBottomLeft(63, 400),
                                 PdfAbsoluteText.builder()
                                         .withTag("nazwisko")
                                         .andContent("Kowalski")
