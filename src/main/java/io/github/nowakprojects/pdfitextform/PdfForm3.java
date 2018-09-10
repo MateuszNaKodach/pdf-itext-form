@@ -6,6 +6,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -19,15 +20,16 @@ https://developers.itextpdf.com/sites/default/files/attachments/PR%20-%20iText%2
 TODO:
 Definicje pliku, np. PdfFormDeclaration - który może z XML odczytać dane i stworzyć PdfDeclaration
 Taki PdfFormDeclaration musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
-
  */
 public class PdfForm3 {
 
-    static final int FONT_SIZE = 12;
-    static final String SRC = "documents\\pdfs\\source\\ZAP-3-04.pdf";
-    static final String DEST = "documents\\pdfs\\filled\\ZAP-3-04-filled7.pdf";
+    private static final String CARDO_REGULAR_FONT = "src/main/resources/fonts/Cardo-Regular.ttf";
 
-    static final String NEW_DOCUMENT = "documents\\pdfs\\filled\\NEW_DOCUMENT3.pdf";
+    private static final int FONT_SIZE = 12;
+    private static final String SRC = "documents/pdfs/source/ZAP-3-04.pdf";
+    private static final String DEST = "documents/pdfs/filled/ZAP-3-04-filled7.pdf";
+
+    private static final String NEW_DOCUMENT = "documents/pdfs/filled/NEW_DOCUMENT3.pdf";
 
     public static void main(String[] args) throws Exception {
         PdfDeclaration pdfDeclaration =
@@ -44,7 +46,7 @@ public class PdfForm3 {
                                         .positionedFromBottomLeft(330, 495),
                                 PdfAbsoluteText.builder()
                                         .withTag("nazwisko")
-                                        .andContent("Kowalski")
+                                        .andContent("Kowalski Karakuła")
                                         .positionedFromBottomLeft(63, 495)
                         );
 
@@ -87,7 +89,7 @@ public class PdfForm3 {
     private static void stringOnPosition(PdfWriter writer, String text, float x, float y) {
         try {
             PdfContentByte cb = writer.getDirectContent();
-            BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, StandardCharsets.UTF_8.displayName(), BaseFont.NOT_EMBEDDED);
+            BaseFont bf = BaseFont.createFont(CARDO_REGULAR_FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             cb.saveState();
             cb.beginText();
             cb.moveText(x, y);
@@ -95,9 +97,7 @@ public class PdfForm3 {
             cb.showText(text);
             cb.endText();
             cb.restoreState();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
     }
