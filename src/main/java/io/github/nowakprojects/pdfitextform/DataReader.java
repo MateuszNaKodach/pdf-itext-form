@@ -19,7 +19,8 @@ import java.util.TreeMap;
  */
 class DataReader {
 
-    static Map<String, String> readData(String filePath) throws ParserConfigurationException, IOException, SAXException {
+    static Map<String, String> readData(String filePath)
+            throws ParserConfigurationException, IOException, SAXException {
         Map<String, String> mapToReturn = new TreeMap<>();
 
         DocumentBuilderFactory factory =

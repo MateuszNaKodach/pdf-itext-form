@@ -16,8 +16,8 @@ public class DatePdfElement implements PdfElement {
     private final PdfPosition pdfPosition;
     private final float fontSize;
 
-    DatePdfElement(String tag, Date date, PdfPosition pdfPosition, float characterWidth,
-                   float spaceBetweenGroup, float fontSize) {
+    private DatePdfElement(String tag, Date date, PdfPosition pdfPosition, float characterWidth,
+                           float spaceBetweenGroup, float fontSize) {
         this.tag = tag;
         this.date = date;
         this.characterWidth = characterWidth;

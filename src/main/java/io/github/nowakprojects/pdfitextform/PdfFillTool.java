@@ -61,22 +61,6 @@ public class PdfFillTool {
         }
     }
 
-    public static void mergePdfsLayers(String bottomFilePath, String topFilePath, String destinationPath) throws Exception {
-        PdfReader reader = new PdfReader(bottomFilePath);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));
-        PdfContentByte canvas = stamper.getOverContent(2);
-        PdfReader r;
-        PdfImportedPage page;
-
-        r = new PdfReader(topFilePath);
-        page = stamper.getImportedPage(r, 1);
-        canvas.addTemplate(page, 0, 0);
-        stamper.getWriter().freeReader(r);
-        r.close();
-
-        stamper.close();
-    }
-
     public static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
             throws Exception {
         PdfReader reader = new PdfReader(bottomFilePath);

@@ -27,4 +27,5 @@ class TopLeftPdfPosition implements PdfPosition {
     public PositionType getPositionType() {
         return positionType;
     }
+
 }

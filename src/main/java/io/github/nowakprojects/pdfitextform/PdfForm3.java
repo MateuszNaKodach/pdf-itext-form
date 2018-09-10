@@ -15,28 +15,6 @@ public class PdfForm3 {
     public static void main(String[] args) throws Exception {
 
         Map<String, String> data = DataReader.readData("src/main/resources/input.xml");
-//        System.out.println(data.size());
-//        for (String key : data.keySet()) {
-//            System.out.println(key + " --||-- " + data.get(key));
-//        }
-
-        PdfDeclaration pdfDeclaration =
-                PdfDeclaration.
-                        withElements(
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("pesel")
-                                        .andContent("91032312312")
-                                        .positionedFromBottomLeft(63, 785)
-                                        .withCharacterWidth(15),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("imie")
-                                        .andContent("Jan")
-                                        .positionedFromBottomLeft(330, 495),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("nazwisko")
-                                        .andContent("Kowalski Karakuła")
-                                        .positionedFromBottomLeft(63, 495)
-                        );
 
         Set<PdfElementCreator> page1 = new HashSet<>(), page2 = new HashSet<>();
 
@@ -57,13 +35,10 @@ public class PdfForm3 {
         Map<Integer, Set<PdfElementCreator>> map = new HashMap<>();
         map.put(1, page1);
         map.put(2, page2);
-
         PdfToFill pdfToFill = new PdfToFill(Config.SRC, map);
 
         pdfToFill.preparePdf(data, Config.DEST);
 
-//        PdfFillTool.generatePdfFromDeclaration(pdfDeclaration);
-//        PdfFillTool.mergePdfsLayers(Config.SRC, Config.NEW_DOCUMENT, Config.DEST);
     }
 
 }

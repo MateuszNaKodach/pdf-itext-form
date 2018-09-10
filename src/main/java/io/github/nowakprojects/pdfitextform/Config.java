@@ -3,7 +3,7 @@ package io.github.nowakprojects.pdfitextform;
 /**
  * Created by Marcin
  */
-public class Config {
+class Config {
 
     static final String CARDO_REGULAR_FONT = "src/main/resources/fonts/Cardo-Regular.ttf";
 
