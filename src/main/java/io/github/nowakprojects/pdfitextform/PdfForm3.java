@@ -40,16 +40,16 @@ public class PdfForm3 {
         PdfDeclaration pdfDeclaration =
                 PdfDeclaration.
                         withElements(
-                                PdfAbsoluteText.builder()
+                                AbsoluteTextPdfElement.builder()
                                         .withTag("pesel")
                                         .andContent("91032312312")
                                         .positionedFromBottomLeft(63, 785)
-                                        .withSpaceBetweenLetters(15),
-                                PdfAbsoluteText.builder()
+                                        .withCharacterWidth(15),
+                                AbsoluteTextPdfElement.builder()
                                         .withTag("imie")
                                         .andContent("Jan")
                                         .positionedFromBottomLeft(330, 495),
-                                PdfAbsoluteText.builder()
+                                AbsoluteTextPdfElement.builder()
                                         .withTag("nazwisko")
                                         .andContent("Kowalski Karakuła")
                                         .positionedFromBottomLeft(63, 495)
@@ -71,23 +71,23 @@ public class PdfForm3 {
 
     public static void renderElementOn(PdfWriter pdfWriter, PdfElement pdfElement) {
         if (pdfElement.isAbsoluteText()) {
-            renderAbsoluteTextOn(pdfWriter, (PdfAbsoluteText) pdfElement);
+            renderAbsoluteTextOn(pdfWriter, (AbsoluteTextPdfElement) pdfElement);
         }
     }
 
-    public static void renderAbsoluteTextOn(PdfWriter pdfWriter, PdfAbsoluteText pdfAbsoluteText) {
-        if (pdfAbsoluteText.isTextWithSpaceBetweenLetters()) {
-            List<String> textLetters = pdfAbsoluteText.getContentLetters();
+    public static void renderAbsoluteTextOn(PdfWriter pdfWriter, AbsoluteTextPdfElement absoluteTextPdfElement) {
+        if (absoluteTextPdfElement.isTextWithSpaceBetweenLetters()) {
+            List<String> textLetters = absoluteTextPdfElement.getContentLetters();
             for (int i = 0; i < textLetters.size(); i++) {
                 stringOnPosition(
                         pdfWriter,
                         textLetters.get(i),
-                        pdfAbsoluteText.getX() + (i * pdfAbsoluteText.getSpaceBetweenLetters()),
-                        pdfAbsoluteText.getY()
+                        absoluteTextPdfElement.getX() + (i * absoluteTextPdfElement.getCharacterWidth()),
+                        absoluteTextPdfElement.getY()
                 );
             }
         } else {
-            stringOnPosition(pdfWriter, pdfAbsoluteText.getContent(), pdfAbsoluteText.getX(), pdfAbsoluteText.getY());
+            stringOnPosition(pdfWriter, absoluteTextPdfElement.getContent(), absoluteTextPdfElement.getX(), absoluteTextPdfElement.getY());
         }
     }
 

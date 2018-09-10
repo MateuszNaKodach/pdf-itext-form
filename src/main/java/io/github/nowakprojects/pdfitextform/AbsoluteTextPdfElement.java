@@ -1,19 +1,16 @@
 package io.github.nowakprojects.pdfitextform;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-class PdfAbsoluteText implements PdfElement {
+class AbsoluteTextPdfElement implements PdfElement {
     private final String tag;
     private final String content;
     private final PdfPosition pdfPosition;
-    private float spaceBetweenLetters;
+    private float characterWidth;
 
-    private PdfAbsoluteText(String tag, String content, PdfPosition pdfPosition) {
+    private AbsoluteTextPdfElement(String tag, String content, PdfPosition pdfPosition) {
         this.tag = tag;
         this.content = content;
         this.pdfPosition = pdfPosition;
@@ -43,15 +40,15 @@ class PdfAbsoluteText implements PdfElement {
         return this.pdfPosition.getY();
     }
 
-    float getSpaceBetweenLetters() {
-        return spaceBetweenLetters;
+    float getCharacterWidth() {
+        return characterWidth;
     }
 
-    PdfAbsoluteText changePosition(PdfPosition pdfPosition) {
-        return new PdfAbsoluteText(this.tag, this.content, pdfPosition);
+    AbsoluteTextPdfElement changePosition(PdfPosition pdfPosition) {
+        return new AbsoluteTextPdfElement(this.tag, this.content, pdfPosition);
     }
 
-    PdfAbsoluteText changeX(float newX) {
+    AbsoluteTextPdfElement changeX(float newX) {
         return changePosition(
                 PdfPositionFactory
                         .getPosition(this.pdfPosition.getPositionType())
@@ -59,7 +56,7 @@ class PdfAbsoluteText implements PdfElement {
         );
     }
 
-    PdfAbsoluteText changeY(float newY) {
+    AbsoluteTextPdfElement changeY(float newY) {
         return changePosition(
                 PdfPositionFactory
                         .getPosition(this.pdfPosition.getPositionType())
@@ -68,15 +65,15 @@ class PdfAbsoluteText implements PdfElement {
     }
 
     //FIXME: Space is from the beggining, not between. How to get font size width? Or leave it and rename!
-    PdfAbsoluteText withSpaceBetweenLetters(float spaceBetweenLetters) {
-        PdfAbsoluteText pdfAbsoluteText = new PdfAbsoluteText(this.tag, this.content, this.pdfPosition);
-        pdfAbsoluteText.spaceBetweenLetters = spaceBetweenLetters;
-        return pdfAbsoluteText;
+    AbsoluteTextPdfElement withCharacterWidth(float spaceBetweenLetters) {
+        AbsoluteTextPdfElement absoluteTextPdfElement = new AbsoluteTextPdfElement(this.tag, this.content, this.pdfPosition);
+        absoluteTextPdfElement.characterWidth = spaceBetweenLetters;
+        return absoluteTextPdfElement;
     }
 
 
     boolean isTextWithSpaceBetweenLetters() {
-        return this.spaceBetweenLetters != 0;
+        return this.characterWidth != 0;
     }
 
     static NeedTag builder() {
@@ -101,7 +98,7 @@ class PdfAbsoluteText implements PdfElement {
         }
 
         @Override
-        public PdfAbsoluteText positionedFromBottomLeft(float x, float y) {
+        public AbsoluteTextPdfElement positionedFromBottomLeft(float x, float y) {
             return this.positionedOn(
                     PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT)
                             .withCoordinates(x, y)
@@ -109,24 +106,24 @@ class PdfAbsoluteText implements PdfElement {
         }
 
         @Override
-        public PdfAbsoluteText positionedFromTopLeft(float x, float y) {
+        public AbsoluteTextPdfElement positionedFromTopLeft(float x, float y) {
             return this.positionedOn(
                     PdfPositionFactory.getPosition(PositionType.FROM_TOP_LEFT)
                             .withCoordinates(x, y)
             );
         }
 
-        private PdfAbsoluteText positionedOn(PdfPosition pdfPosition) {
+        private AbsoluteTextPdfElement positionedOn(PdfPosition pdfPosition) {
             this.pdfPosition = pdfPosition;
-            return new PdfAbsoluteText(this.tag, this.content, this.pdfPosition);
+            return new AbsoluteTextPdfElement(this.tag, this.content, this.pdfPosition);
         }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof PdfAbsoluteText)) return false;
-        PdfAbsoluteText that = (PdfAbsoluteText) o;
+        if (!(o instanceof AbsoluteTextPdfElement)) return false;
+        AbsoluteTextPdfElement that = (AbsoluteTextPdfElement) o;
         return Objects.equals(tag, that.tag);
     }
 
@@ -145,7 +142,7 @@ interface NeedContent {
 }
 
 interface NeedPosition {
-    PdfAbsoluteText positionedFromBottomLeft(float x, float y);
+    AbsoluteTextPdfElement positionedFromBottomLeft(float x, float y);
 
-    PdfAbsoluteText positionedFromTopLeft(float x, float y);
+    AbsoluteTextPdfElement positionedFromTopLeft(float x, float y);
 }
