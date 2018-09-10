@@ -6,12 +6,10 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /*
 Documentation iText:
@@ -32,6 +30,13 @@ public class PdfForm3 {
     private static final String NEW_DOCUMENT = "documents/pdfs/filled/NEW_DOCUMENT3.pdf";
 
     public static void main(String[] args) throws Exception {
+
+        Map<String, String> data = DataReader.readData("src/main/resources/input.xml");
+        System.out.println(data.size());
+        for (String key: data.keySet()) {
+            System.out.println(key + " --||-- " + data.get(key));
+        }
+
         PdfDeclaration pdfDeclaration =
                 PdfDeclaration.
                         withElements(
