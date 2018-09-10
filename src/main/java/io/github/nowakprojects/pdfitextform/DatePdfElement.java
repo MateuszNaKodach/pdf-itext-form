@@ -1,54 +1,52 @@
 package io.github.nowakprojects.pdfitextform;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Marcin
  */
-public class DatePdfElement implements ComplicatedPdfElement {
+public class DatePdfElement implements ComplicatedPdfElement, PdfElement {
+
     private final String tag;
     private final Date date;
     private final float characterWidth;
-    private final float groupSpace;
-    private final float fontSize;
+    private final float spaceBetweenGroup;
     private final PdfPosition pdfPosition;
+    private final float fontSize;
 
-    public DatePdfElement(String tag, Date date, float xTopLeft, float yTopLeft, float fontSize, float characterWidth,
-                   float groupSpace) {
+    DatePdfElement(String tag, Date date, PdfPosition pdfPosition, float characterWidth,
+                          float spaceBetweenGroup, float fontSize) {
         this.tag = tag;
         this.date = date;
-        this.fontSize = fontSize;
         this.characterWidth = characterWidth;
-        this.groupSpace = groupSpace;
-        pdfPosition = PdfPositionFactory.getPosition(PositionType.FROM_TOP_LEFT).withCoordinates(xTopLeft, yTopLeft);
+        this.spaceBetweenGroup = spaceBetweenGroup;
+        this.pdfPosition = pdfPosition;
+        this.fontSize = fontSize;
     }
 
     @Override
-    public List<AbsoluteTextPdfElement> getSimpleTextElements() {
-        List<AbsoluteTextPdfElement> elements = new ArrayList<>();
+    public List<SimpleTextPdfElement> getSimpleTextElements() {
+        List<SimpleTextPdfElement> elements = new ArrayList<>();
 
-        elements.add(createAbsoluteTextPdfElement("_day", getDaySting(), pdfPosition.getX(),
-                pdfPosition.getY()));
+        elements.addAll(createAbsoluteTextPdfElement("_day", getDaySting(), pdfPosition.getX(),
+                pdfPosition.getY()).getSimpleTextElements());
 
-        elements.add(createAbsoluteTextPdfElement("_month", getMonthSting(),
-                pdfPosition.getX() + characterWidth*2 + groupSpace, pdfPosition.getY()));
+        elements.addAll(createAbsoluteTextPdfElement("_month", getMonthSting(),
+                pdfPosition.getX() + characterWidth * 2 + spaceBetweenGroup, pdfPosition.getY())
+                .getSimpleTextElements());
 
-        elements.add(createAbsoluteTextPdfElement("_year", getYearString(),
-                pdfPosition.getX() + characterWidth*4 + groupSpace*2, pdfPosition.getY()));
+        elements.addAll(createAbsoluteTextPdfElement("_year", getYearString(),
+                pdfPosition.getX() + characterWidth * 4 + spaceBetweenGroup * 2, pdfPosition.getY())
+                .getSimpleTextElements());
 
         return elements;
     }
 
-    private AbsoluteTextPdfElement createAbsoluteTextPdfElement(String tagPostfix, String content, float xTopLeft,
-                                                                float yTopLeft) {
-        return AbsoluteTextPdfElement.builder()
-                .withTag(tag + tagPostfix)
-                .andContent(content)
-                .positionedFromTopLeft(xTopLeft, yTopLeft)
-                .withCharacterWidth(characterWidth);
+    private SeparatedTextPdfElement createAbsoluteTextPdfElement(String tagPostfix, String content, float xTopLeft,
+                                                                 float yTopLeft) {
+        return new SeparatedTextPdfElement(tag+tagPostfix, content,
+                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft),
+                fontSize, characterWidth);
     }
 
     private String getDaySting() {
@@ -73,15 +71,38 @@ public class DatePdfElement implements ComplicatedPdfElement {
         return characterWidth;
     }
 
-    public float getGroupSpace() {
-        return groupSpace;
+    public float getSpaceBetweenGroup() {
+        return spaceBetweenGroup;
+    }
+
+    public PdfPosition getPdfPosition() {
+        return pdfPosition;
     }
 
     public float getFontSize() {
         return fontSize;
     }
 
-    public PdfPosition getPdfPosition() {
-        return pdfPosition;
+    static class Configuration {
+
+        private final String tag;
+        private final float characterWidth;
+        private final float spaceBetweenGroup;
+        private final PdfPosition pdfPosition;
+        private final float fontSize;
+
+        Configuration(String tag, PdfPosition pdfPosition, float fontSize, float characterWidth,
+                      float spaceBetweenGroup) {
+            this.fontSize = fontSize;
+            this.pdfPosition = pdfPosition;
+            this.tag = tag;
+            this.characterWidth = characterWidth;
+            this.spaceBetweenGroup = spaceBetweenGroup;
+        }
+
+        DatePdfElement create(Date date) {
+            return new DatePdfElement(tag, date, pdfPosition, characterWidth, spaceBetweenGroup, fontSize);
+        }
+
     }
 }

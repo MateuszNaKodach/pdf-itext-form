@@ -6,5 +6,5 @@ import java.util.List;
  * Created by Marcin
  */
 interface ComplicatedPdfElement {
-    List<AbsoluteTextPdfElement> getSimpleTextElements();
+    List<SimpleTextPdfElement> getSimpleTextElements();
 }
