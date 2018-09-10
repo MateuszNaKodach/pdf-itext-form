@@ -1,5 +1,8 @@
 package io.github.nowakprojects.pdfitextform;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Marcin
  */
@@ -32,6 +35,13 @@ class SimpleTextPdfElement implements PdfElement {
         return fontSize;
     }
 
+    @Override
+    public Set<SimpleTextPdfElement> getSimpleElements() {
+        Set<SimpleTextPdfElement> set = new HashSet<>();
+        set.add(this);
+        return set;
+    }
+
     static class Configuration implements PdfElementCreator {
         private final String tag;
         private final PdfPosition pdfPosition;
@@ -47,6 +57,12 @@ class SimpleTextPdfElement implements PdfElement {
         public SimpleTextPdfElement create(String content) {
             return new SimpleTextPdfElement(tag, content, pdfPosition, fontSize);
         }
+
+        @Override
+        public String getTag() {
+            return tag;
+        }
+
     }
 
 }

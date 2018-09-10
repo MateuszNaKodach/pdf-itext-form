@@ -6,62 +6,54 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by Marcin
  */
 public class PdfFillTool {
 
-    public static void generatePdfFromDeclaration(PdfDeclaration pdfDeclaration) throws Exception {
+    public static byte[] generatePdfBytesFromDeclaration(Set<PdfElementCreator> elementCreators,
+                                                         Map<String, String> values) throws Exception {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
-        PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(Config.NEW_DOCUMENT));
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
         document.open();
-        pdfDeclaration.getElements()
-                .forEach(element -> {
-                    if (element.isAbsoluteText())
-                        renderElementOn(pdfWriter, element);
-                    else if (element instanceof DatePdfElement)
-                        ((DatePdfElement) element).getSimpleTextElements().forEach(el -> renderElementOn(pdfWriter, el));
-                });
+
+        elementCreators.forEach(elementCreator ->
+                {
+                    try {
+                        String value = values.get(elementCreator.getTag());
+                        if (value == null)
+                            throw new Exception("Can't find value for " + elementCreator.getTag());
+                        PdfElement element = elementCreator.create(values.get(elementCreator.getTag()));
+                        element.getSimpleElements().forEach(simpleElement -> printPdfElement(pdfWriter, simpleElement));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+
         document.close();
+
+        return outputStream.toByteArray();
     }
 
-    public static void renderElementOn(PdfWriter pdfWriter, PdfElement pdfElement) {
-        if (pdfElement.isAbsoluteText()) {
-            renderAbsoluteTextOn(pdfWriter, (AbsoluteTextPdfElement) pdfElement);
-        }
-    }
-
-    public static void renderAbsoluteTextOn(PdfWriter pdfWriter, AbsoluteTextPdfElement absoluteTextPdfElement) {
-        if (absoluteTextPdfElement.isTextWithSpaceBetweenLetters()) {
-            List<String> textLetters = absoluteTextPdfElement.getContentLetters();
-            for (int i = 0; i < textLetters.size(); i++) {
-                stringOnPosition(
-                        pdfWriter,
-                        textLetters.get(i),
-                        absoluteTextPdfElement.getX() + (i * absoluteTextPdfElement.getCharacterWidth()),
-                        absoluteTextPdfElement.getY()
-                );
-            }
-        } else {
-            stringOnPosition(pdfWriter, absoluteTextPdfElement.getContent(), absoluteTextPdfElement.getX(),
-                    absoluteTextPdfElement.getY());
-        }
-    }
-
-    private static void stringOnPosition(PdfWriter writer, String text, float x, float y) {
+    private static void printPdfElement(PdfWriter writer, SimpleTextPdfElement simpleTextPdfElement) {
         try {
+            PdfPosition position = simpleTextPdfElement.getPdfPosition();
             PdfContentByte cb = writer.getDirectContent();
             BaseFont bf = BaseFont.createFont(Config.CARDO_REGULAR_FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             cb.saveState();
             cb.beginText();
-            cb.moveText(x, y);
-            cb.setFontAndSize(bf, Config.FONT_SIZE);
-            cb.showText(text);
+            cb.moveText(position.getX(), position.getY());
+            cb.setFontAndSize(bf, simpleTextPdfElement.getFontSize());
+            cb.showText(simpleTextPdfElement.getContent());
             cb.endText();
             cb.restoreState();
         } catch (DocumentException | IOException e) {
@@ -81,6 +73,26 @@ public class PdfFillTool {
         canvas.addTemplate(page, 0, 0);
         stamper.getWriter().freeReader(r);
         r.close();
+
+        stamper.close();
+    }
+
+    public static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
+            throws Exception {
+        PdfReader reader = new PdfReader(bottomFilePath);
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));
+
+        for (Integer pageNumber: pages.keySet()) {
+            PdfContentByte canvas = stamper.getOverContent(pageNumber);
+            PdfReader r;
+            PdfImportedPage page;
+
+            r = new PdfReader(pages.get(pageNumber));
+            page = stamper.getImportedPage(r, 1);
+            canvas.addTemplate(page, 0, 0);
+            stamper.getWriter().freeReader(r);
+            r.close();
+        }
 
         stamper.close();
     }

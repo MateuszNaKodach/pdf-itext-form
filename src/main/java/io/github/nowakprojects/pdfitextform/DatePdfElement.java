@@ -1,11 +1,13 @@
 package io.github.nowakprojects.pdfitextform;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
  * Created by Marcin
  */
-public class DatePdfElement implements ComplicatedPdfElement, PdfElement {
+public class DatePdfElement implements PdfElement {
 
     private final String tag;
     private final Date date;
@@ -15,7 +17,7 @@ public class DatePdfElement implements ComplicatedPdfElement, PdfElement {
     private final float fontSize;
 
     DatePdfElement(String tag, Date date, PdfPosition pdfPosition, float characterWidth,
-                          float spaceBetweenGroup, float fontSize) {
+                   float spaceBetweenGroup, float fontSize) {
         this.tag = tag;
         this.date = date;
         this.characterWidth = characterWidth;
@@ -25,26 +27,27 @@ public class DatePdfElement implements ComplicatedPdfElement, PdfElement {
     }
 
     @Override
-    public List<SimpleTextPdfElement> getSimpleTextElements() {
-        List<SimpleTextPdfElement> elements = new ArrayList<>();
+    public Set<SimpleTextPdfElement> getSimpleElements() {
+
+        Set<SimpleTextPdfElement> elements = new HashSet<>();
 
         elements.addAll(createAbsoluteTextPdfElement("_day", getDaySting(), pdfPosition.getX(),
-                pdfPosition.getY()).getSimpleTextElements());
+                pdfPosition.getY()).getSimpleElements());
 
         elements.addAll(createAbsoluteTextPdfElement("_month", getMonthSting(),
                 pdfPosition.getX() + characterWidth * 2 + spaceBetweenGroup, pdfPosition.getY())
-                .getSimpleTextElements());
+                .getSimpleElements());
 
         elements.addAll(createAbsoluteTextPdfElement("_year", getYearString(),
                 pdfPosition.getX() + characterWidth * 4 + spaceBetweenGroup * 2, pdfPosition.getY())
-                .getSimpleTextElements());
+                .getSimpleElements());
 
         return elements;
     }
 
     private SeparatedTextPdfElement createAbsoluteTextPdfElement(String tagPostfix, String content, float xTopLeft,
                                                                  float yTopLeft) {
-        return new SeparatedTextPdfElement(tag+tagPostfix, content,
+        return new SeparatedTextPdfElement(tag + tagPostfix, content,
                 PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft),
                 fontSize, characterWidth);
     }
@@ -83,7 +86,7 @@ public class DatePdfElement implements ComplicatedPdfElement, PdfElement {
         return fontSize;
     }
 
-    static class Configuration {
+    static class Configuration implements PdfElementCreator {
 
         private final String tag;
         private final float characterWidth;
@@ -100,8 +103,17 @@ public class DatePdfElement implements ComplicatedPdfElement, PdfElement {
             this.spaceBetweenGroup = spaceBetweenGroup;
         }
 
-        DatePdfElement create(Date date) {
+        @Override
+        public DatePdfElement create(String dateString) throws ParseException {
+            String pattern = "yyyy-MM-dd";
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+            Date date = simpleDateFormat.parse(dateString);
             return new DatePdfElement(tag, date, pdfPosition, characterWidth, spaceBetweenGroup, fontSize);
+        }
+
+        @Override
+        public String getTag() {
+            return tag;
         }
 
     }

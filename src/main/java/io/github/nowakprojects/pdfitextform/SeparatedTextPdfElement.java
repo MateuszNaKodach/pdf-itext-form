@@ -1,12 +1,14 @@
 package io.github.nowakprojects.pdfitextform;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Marcin
  */
-public class SeparatedTextPdfElement implements PdfElement, ComplicatedPdfElement {
+public class SeparatedTextPdfElement implements PdfElement {
     private final String tag;
     private final String content;
     private final PdfPosition pdfPosition;
@@ -42,9 +44,9 @@ public class SeparatedTextPdfElement implements PdfElement, ComplicatedPdfElemen
     }
 
     @Override
-    public List<SimpleTextPdfElement> getSimpleTextElements() {
+    public Set<SimpleTextPdfElement> getSimpleElements() {
 
-        List<SimpleTextPdfElement> elements = new ArrayList<>();
+        Set<SimpleTextPdfElement> elements = new HashSet<>();
         float shift = 0;
 
         char[] array = content.toCharArray();
@@ -79,6 +81,11 @@ public class SeparatedTextPdfElement implements PdfElement, ComplicatedPdfElemen
         @Override
         public SeparatedTextPdfElement create(String content) {
             return new SeparatedTextPdfElement(tag, content, pdfPosition, fontSize, characterWidth);
+        }
+
+        @Override
+        public String getTag() {
+            return tag;
         }
     }
 }

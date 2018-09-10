@@ -8,17 +8,18 @@ import java.util.Date;
 public class ExampleDataFill {
 
     public static void main(String[] args) throws Exception {
-//        PdfDeclaration pdfDeclaration =
-//                PdfDeclaration.
-//                        withElements(
-//                                new DatePdfElement("data", new Date(), 96, 247, 20,
-//                                        15f, 5)
-//                        );
-//
+        PdfDeclaration pdfDeclaration =
+                PdfDeclaration.
+                        withElements(
+                                new DatePdfElement("data", new Date(),
+                                        PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT)
+                                                .withCoordinates(96, 247),
+                                        20, 15f, 5)
+                        );
+
 //        PdfFillTool.generatePdfFromDeclaration(pdfDeclaration);
 //        PdfFillTool.mergePdfsLayers(Config.SRC, Config.NEW_DOCUMENT, Config.DEST);
 
-        DataReader.readFillSchema("src/main/resources/config.xml");
     }
 
 }

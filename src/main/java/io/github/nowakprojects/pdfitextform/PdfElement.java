@@ -1,9 +1,9 @@
 package io.github.nowakprojects.pdfitextform;
 
+import java.util.Set;
+
 interface PdfElement {
 
-    default boolean isAbsoluteText() {
-        return this instanceof AbsoluteTextPdfElement;
-    }
+    Set<SimpleTextPdfElement> getSimpleElements();
 
 }

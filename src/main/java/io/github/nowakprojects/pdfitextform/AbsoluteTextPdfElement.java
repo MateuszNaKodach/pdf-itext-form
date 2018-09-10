@@ -2,6 +2,7 @@ package io.github.nowakprojects.pdfitextform;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 class AbsoluteTextPdfElement implements PdfElement {
@@ -78,6 +79,11 @@ class AbsoluteTextPdfElement implements PdfElement {
 
     static NeedTag builder() {
         return new Builder();
+    }
+
+    @Override
+    public Set<SimpleTextPdfElement> getSimpleElements() {
+        return null;
     }
 
     static class Builder implements NeedTag, NeedContent, NeedPosition {
