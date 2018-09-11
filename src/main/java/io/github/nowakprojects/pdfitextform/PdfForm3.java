@@ -41,7 +41,9 @@ public class PdfForm3 {
         map.put(2, page2);
         PdfToFill pdfToFill = new PdfToFill(Config.SRC, map);
 
-        pdfToFill.preparePdf(data, Config.DEST);
+//        pdfToFill.preparePdf(data, Config.DEST);
+
+        pdfToFill.showTemplate(Config.DEST);
 
     }
 

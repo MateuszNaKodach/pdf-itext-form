@@ -1,8 +1,6 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -58,17 +56,14 @@ public class MultilineTextPdfElement implements PdfElement {
     @Override
     public void print(PdfWriter writer) {
         boolean printed = false;
-        for (float fs = fontSize; fs > 6 && !printed; fs -= 1) {
-            System.out.println("loop");
+        for (float fs = fontSize; fs > 2 && !printed; fs -= 1) {
             if (isOkForFontSize(fs, writer)) {
-                System.out.println("inIf");
                 printForSize(fs, writer);
-                System.out.println("printed");
                 printed = true;
             }
         }
         if (!printed) {
-            System.out.println("Za dużo tekstu na pole");
+            System.out.println("Too more text for field " + tag);
         }
     }
 
@@ -83,7 +78,7 @@ public class MultilineTextPdfElement implements PdfElement {
             columnText.setSimpleColumn(rectangle);
             // TODO: 11.09.2018 analyse what exactly is leading
             columnText.setLeading(fontSize);
-            columnText.addText(new Phrase(content));
+            columnText.addText(new Phrase(content, new Font(new Config().baseFont, fontSize)));
             return columnText.go(simulate);
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
@@ -127,9 +122,18 @@ public class MultilineTextPdfElement implements PdfElement {
 
         @Override
         public void printTemplate(PdfWriter writer) {
-            new MultilineTextPdfElement(tag, "1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 " +
-                    "6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 ",
+            Rectangle rectangle = new Rectangle(pdfPosition.getX(), pdfPosition.getY() - maxHeight,
+                    pdfPosition.getX() + maxWidth, pdfPosition.getY());
+            rectangle.setBorderWidth(2);
+            rectangle.setBorder(Rectangle.BOX);
+            rectangle.setBorderColor(BaseColor.RED);
+
+            String text = "Test test, halo raz dwa trzy, raz dwa, dwa śćńżł... ";
+
+            new MultilineTextPdfElement(tag, text + text + text + text + text + text + text + text,
                     pdfPosition, fontSize, maxHeight, maxWidth).print(writer);
+            PdfContentByte cb = writer.getDirectContent();
+            cb.rectangle(rectangle);
         }
     }
 
