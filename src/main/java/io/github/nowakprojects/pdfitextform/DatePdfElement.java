@@ -4,7 +4,10 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Marcin
@@ -120,6 +123,11 @@ public class DatePdfElement implements PdfElement {
         @Override
         public String getTag() {
             return tag;
+        }
+
+        @Override
+        public void printTemplate(PdfWriter writer) {
+            new DatePdfElement(tag, new Date(), pdfPosition, characterWidth, spaceBetweenGroup, fontSize).print(writer);
         }
 
     }

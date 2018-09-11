@@ -44,21 +44,26 @@ class PdfFillTool {
         return outputStream.toByteArray();
     }
 
-    private static void printPdfElement(PdfWriter writer, SimpleTextPdfElement simpleTextPdfElement) {
-        try {
-            PdfPosition position = simpleTextPdfElement.getPdfPosition();
-            PdfContentByte cb = writer.getDirectContent();
-            BaseFont bf = new Config().baseFont;
-            cb.saveState();
-            cb.beginText();
-            cb.moveText(position.getX(), position.getY());
-            cb.setFontAndSize(bf, simpleTextPdfElement.getFontSize());
-            cb.showText(simpleTextPdfElement.getContent());
-            cb.endText();
-            cb.restoreState();
-        } catch (DocumentException | IOException e) {
-            e.printStackTrace();
-        }
+    static byte[] generatePdfBytesTemplateFromDeclaration(Set<PdfElementCreator> elementCreators) throws Exception {
+        final Rectangle a4PageSize = PageSize.A4;
+        Document document = new Document(a4PageSize);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
+        document.open();
+
+        elementCreators.forEach(elementCreator ->
+                {
+                    try {
+                        elementCreator.printTemplate(pdfWriter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+        );
+
+        document.close();
+
+        return outputStream.toByteArray();
     }
 
     static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)

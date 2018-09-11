@@ -6,8 +6,6 @@ import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by Marcin
@@ -79,6 +77,11 @@ class SimpleTextPdfElement implements PdfElement {
         @Override
         public String getTag() {
             return tag;
+        }
+
+        @Override
+        public void printTemplate(PdfWriter writer) {
+            create(tag + "_example").print(writer);
         }
 
     }

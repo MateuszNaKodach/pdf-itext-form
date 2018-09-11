@@ -91,5 +91,11 @@ public class SeparatedTextPdfElement implements PdfElement {
         public String getTag() {
             return tag;
         }
+
+        @Override
+        public void printTemplate(PdfWriter writer) {
+            create("12345678901").print(writer);
+        }
+
     }
 }

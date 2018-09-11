@@ -1,5 +1,7 @@
 package io.github.nowakprojects.pdfitextform;
 
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.text.ParseException;
 
 /**
@@ -10,4 +12,6 @@ interface PdfElementCreator {
     PdfElement create(String content) throws ParseException;
 
     String getTag();
+
+    void printTemplate(PdfWriter writer);
 }

@@ -29,4 +29,15 @@ class PdfToFill {
 
     }
 
+    void showTemplate(String outputFilePath) throws Exception {
+
+        Map<Integer, byte[]> topPages = new HashMap<>();
+
+        for (Integer pageNumber : schemaPages.keySet()) {
+            topPages.put(pageNumber, PdfFillTool.generatePdfBytesTemplateFromDeclaration(schemaPages.get(pageNumber)));
+        }
+
+        PdfFillTool.mergePdfsLayers(pdfPath, topPages, outputFilePath);
+    }
+
 }

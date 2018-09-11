@@ -1,6 +1,5 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.Chunk;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -126,5 +125,12 @@ public class MultilineTextPdfElement implements PdfElement {
             return tag;
         }
 
+        @Override
+        public void printTemplate(PdfWriter writer) {
+            new MultilineTextPdfElement(tag, "1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 " +
+                    "6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 1 2 3 4 5 6 7 8 9 ",
+                    pdfPosition, fontSize, maxHeight, maxWidth).print(writer);
+        }
     }
+
 }
