@@ -1,5 +1,7 @@
 package io.github.nowakprojects.pdfitextform;
 
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,8 +43,7 @@ public class SeparatedTextPdfElement implements PdfElement {
         return characterWidth;
     }
 
-    @Override
-    public Set<SimpleTextPdfElement> getSimpleElements() {
+    Set<SimpleTextPdfElement> getSimpleElements() {
 
         Set<SimpleTextPdfElement> elements = new HashSet<>();
         float shift = 0;
@@ -60,6 +61,11 @@ public class SeparatedTextPdfElement implements PdfElement {
     private PdfPosition getShiftedPosition(float shift) {
         return PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT)
                 .withCoordinates(pdfPosition.getX() + shift, pdfPosition.getY());
+    }
+
+    @Override
+    public void print(PdfWriter writer) {
+        getSimpleElements().forEach(element -> element.print(writer));
     }
 
     static class Configuration implements PdfElementCreator {

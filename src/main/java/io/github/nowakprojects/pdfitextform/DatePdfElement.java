@@ -1,5 +1,7 @@
 package io.github.nowakprojects.pdfitextform;
 
+import com.itextpdf.text.pdf.PdfWriter;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -26,7 +28,6 @@ public class DatePdfElement implements PdfElement {
         this.fontSize = fontSize;
     }
 
-    @Override
     public Set<SimpleTextPdfElement> getSimpleElements() {
 
         Set<SimpleTextPdfElement> elements = new HashSet<>();
@@ -68,6 +69,11 @@ public class DatePdfElement implements PdfElement {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         return String.valueOf(calendar.get(Calendar.YEAR));
+    }
+
+    @Override
+    public void print(PdfWriter writer) {
+        getSimpleElements().forEach(element -> element.print(writer));
     }
 
     public float getCharacterWidth() {

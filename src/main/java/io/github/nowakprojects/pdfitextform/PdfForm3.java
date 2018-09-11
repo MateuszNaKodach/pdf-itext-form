@@ -31,6 +31,10 @@ public class PdfForm3 {
         page2.add(new DatePdfElement.Configuration("data",
                 PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(63, 495),
                 Config.FONT_SIZE, 15, 5));
+        page2.add(new MultilineTextPdfElement.Configuration("test",
+                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(330, 795),
+                Config.FONT_SIZE, 100, 100));
+
 
         Map<Integer, Set<PdfElementCreator>> map = new HashMap<>();
         map.put(1, page1);

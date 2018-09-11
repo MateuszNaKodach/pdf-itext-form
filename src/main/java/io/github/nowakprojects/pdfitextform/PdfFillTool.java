@@ -15,10 +15,10 @@ import java.util.Set;
 /**
  * Created by Marcin
  */
-public class PdfFillTool {
+class PdfFillTool {
 
-    public static byte[] generatePdfBytesFromDeclaration(Set<PdfElementCreator> elementCreators,
-                                                         Map<String, String> values) throws Exception {
+    static byte[] generatePdfBytesFromDeclaration(Set<PdfElementCreator> elementCreators,
+                                                  Map<String, String> values) throws Exception {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -32,7 +32,7 @@ public class PdfFillTool {
                         if (value == null)
                             throw new Exception("Can't find value for " + elementCreator.getTag());
                         PdfElement element = elementCreator.create(values.get(elementCreator.getTag()));
-                        element.getSimpleElements().forEach(simpleElement -> printPdfElement(pdfWriter, simpleElement));
+                        element.print(pdfWriter);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -48,7 +48,7 @@ public class PdfFillTool {
         try {
             PdfPosition position = simpleTextPdfElement.getPdfPosition();
             PdfContentByte cb = writer.getDirectContent();
-            BaseFont bf = BaseFont.createFont(Config.CARDO_REGULAR_FONT, BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            BaseFont bf = new Config().baseFont;
             cb.saveState();
             cb.beginText();
             cb.moveText(position.getX(), position.getY());
@@ -61,7 +61,7 @@ public class PdfFillTool {
         }
     }
 
-    public static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
+    static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
             throws Exception {
         PdfReader reader = new PdfReader(bottomFilePath);
         PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));

@@ -1,5 +1,11 @@
 package io.github.nowakprojects.pdfitextform;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,13 +42,25 @@ class SimpleTextPdfElement implements PdfElement {
     }
 
     @Override
-    public Set<SimpleTextPdfElement> getSimpleElements() {
-        Set<SimpleTextPdfElement> set = new HashSet<>();
-        set.add(this);
-        return set;
+    public void print(PdfWriter writer) {
+        try {
+            PdfPosition position = pdfPosition;
+            PdfContentByte cb = writer.getDirectContent();
+            BaseFont bf = new Config().baseFont;
+            cb.saveState();
+            cb.beginText();
+            cb.moveText(position.getX(), position.getY());
+            cb.setFontAndSize(bf, fontSize);
+            cb.showText(content);
+            cb.endText();
+            cb.restoreState();
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     static class Configuration implements PdfElementCreator {
+
         private final String tag;
         private final PdfPosition pdfPosition;
         private final float fontSize;

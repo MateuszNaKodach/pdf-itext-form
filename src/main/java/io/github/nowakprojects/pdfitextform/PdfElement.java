@@ -1,9 +1,8 @@
 package io.github.nowakprojects.pdfitextform;
 
-import java.util.Set;
+import com.itextpdf.text.pdf.PdfWriter;
 
 interface PdfElement {
 
-    Set<SimpleTextPdfElement> getSimpleElements();
-
+    void print(PdfWriter writer);
 }
