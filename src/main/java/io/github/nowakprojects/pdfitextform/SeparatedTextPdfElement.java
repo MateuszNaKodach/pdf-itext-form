@@ -8,17 +8,14 @@ import java.util.Set;
 /**
  * Created by Marcin
  */
-public class SeparatedTextPdfElement implements PdfElement {
-    private final String tag;
+public class SeparatedTextPdfElement extends AbstractPdfElement {
     private final String content;
-    private final PdfPosition pdfPosition;
     private final float fontSize;
     private final float characterWidth;
 
     SeparatedTextPdfElement(String tag, String content, PdfPosition pdfPosition, float fontSize, float characterWidth) {
-        this.tag = tag;
+        super(tag, pdfPosition);
         this.content = content;
-        this.pdfPosition = pdfPosition;
         this.fontSize = fontSize;
         this.characterWidth = characterWidth;
     }
@@ -31,10 +28,6 @@ public class SeparatedTextPdfElement implements PdfElement {
         return content;
     }
 
-    public PdfPosition getPdfPosition() {
-        return pdfPosition;
-    }
-
     public float getFontSize() {
         return fontSize;
     }
@@ -43,14 +36,14 @@ public class SeparatedTextPdfElement implements PdfElement {
         return characterWidth;
     }
 
-    Set<SimpleTextPdfElement> getSimpleElements() {
+    Set<AbsoluteTextPdfElement> getSimpleElements() {
 
-        Set<SimpleTextPdfElement> elements = new HashSet<>();
+        Set<AbsoluteTextPdfElement> elements = new HashSet<>();
         float shift = 0;
 
         char[] array = content.toCharArray();
         for (int i = 0; i < array.length; i++) {
-            elements.add(new SimpleTextPdfElement(tag + "_" + i, String.valueOf(array[i]),
+            elements.add(new AbsoluteTextPdfElement(tag + "_" + i, String.valueOf(array[i]),
                     getShiftedPosition(shift), fontSize));
             shift += characterWidth;
         }
@@ -64,8 +57,8 @@ public class SeparatedTextPdfElement implements PdfElement {
     }
 
     @Override
-    public void print(PdfWriter writer) {
-        getSimpleElements().forEach(element -> element.print(writer));
+    public void writePdfElement(PdfWriter writer) {
+        getSimpleElements().forEach(element -> element.writePdfElement(writer));
     }
 
     static class Configuration implements PdfElementCreator {
@@ -94,7 +87,7 @@ public class SeparatedTextPdfElement implements PdfElement {
 
         @Override
         public void printTemplate(PdfWriter writer) {
-            create("12345678901").print(writer);
+            create("12345678901").writePdfElement(writer);
         }
 
     }

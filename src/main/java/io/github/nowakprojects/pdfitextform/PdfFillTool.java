@@ -1,14 +1,12 @@
 package io.github.nowakprojects.pdfitextform;
 
 import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,8 +29,8 @@ class PdfFillTool {
                         String value = values.get(elementCreator.getTag());
                         if (value == null)
                             throw new Exception("Can't find value for " + elementCreator.getTag());
-                        PdfElement element = elementCreator.create(values.get(elementCreator.getTag()));
-                        element.print(pdfWriter);
+                        AbstractPdfElement element = elementCreator.create(values.get(elementCreator.getTag()));
+                        element.writePdfElement(pdfWriter);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

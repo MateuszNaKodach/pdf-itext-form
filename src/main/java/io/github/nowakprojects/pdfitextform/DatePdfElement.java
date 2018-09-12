@@ -12,28 +12,30 @@ import java.util.Set;
 /**
  * Created by Marcin
  */
-public class DatePdfElement implements PdfElement {
+public class DatePdfElement extends AbstractPdfElement implements PdfElementWriter<DatePdfElement> {
 
-    private final String tag;
     private final Date date;
     private final float characterWidth;
     private final float spaceBetweenGroup;
-    private final PdfPosition pdfPosition;
     private final float fontSize;
 
-    private DatePdfElement(String tag, Date date, PdfPosition pdfPosition, float characterWidth,
-                           float spaceBetweenGroup, float fontSize) {
-        this.tag = tag;
+    private DatePdfElement(
+            String tag,
+            Date date,
+            PdfPosition pdfPosition,
+            float characterWidth,
+            float spaceBetweenGroup,
+            float fontSize) {
+        super(tag, pdfPosition);
         this.date = date;
         this.characterWidth = characterWidth;
         this.spaceBetweenGroup = spaceBetweenGroup;
-        this.pdfPosition = pdfPosition;
         this.fontSize = fontSize;
     }
 
-    public Set<SimpleTextPdfElement> getSimpleElements() {
+    public Set<AbsoluteTextPdfElement> getSimpleElements() {
 
-        Set<SimpleTextPdfElement> elements = new HashSet<>();
+        Set<AbsoluteTextPdfElement> elements = new HashSet<>();
 
         elements.addAll(createAbsoluteTextPdfElement("_day", getDaySting(), pdfPosition.getX(),
                 pdfPosition.getY()).getSimpleElements());
@@ -49,8 +51,11 @@ public class DatePdfElement implements PdfElement {
         return elements;
     }
 
-    private SeparatedTextPdfElement createAbsoluteTextPdfElement(String tagPostfix, String content, float xTopLeft,
-                                                                 float yTopLeft) {
+    private SeparatedTextPdfElement createAbsoluteTextPdfElement(
+            String tagPostfix,
+            String content,
+            float xTopLeft,
+            float yTopLeft) {
         return new SeparatedTextPdfElement(tag + tagPostfix, content,
                 PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft),
                 fontSize, characterWidth);
@@ -75,8 +80,13 @@ public class DatePdfElement implements PdfElement {
     }
 
     @Override
-    public void print(PdfWriter writer) {
-        getSimpleElements().forEach(element -> element.print(writer));
+    public void writePdfElement(PdfWriter writer) {
+        this.writePdfElement(writer, this);
+    }
+
+    @Override
+    public void writePdfElement(PdfWriter pdfWriter, DatePdfElement pdfElement) {
+        getSimpleElements().forEach(element -> element.writePdfElement(pdfWriter));
     }
 
     public float getCharacterWidth() {
@@ -127,7 +137,7 @@ public class DatePdfElement implements PdfElement {
 
         @Override
         public void printTemplate(PdfWriter writer) {
-            new DatePdfElement(tag, new Date(), pdfPosition, characterWidth, spaceBetweenGroup, fontSize).print(writer);
+            new DatePdfElement(tag, new Date(), pdfPosition, characterWidth, spaceBetweenGroup, fontSize).writePdfElement(writer);
         }
 
     }

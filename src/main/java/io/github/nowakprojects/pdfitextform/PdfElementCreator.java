@@ -9,7 +9,7 @@ import java.text.ParseException;
  */
 interface PdfElementCreator {
 
-    PdfElement create(String content) throws ParseException;
+    AbstractPdfElement create(String content) throws ParseException;
 
     String getTag();
 

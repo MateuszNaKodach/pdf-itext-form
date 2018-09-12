@@ -1,6 +1,6 @@
-package io.github.nowakprojects.pdfitextform;
+package io.github.nowakprojects.pdfitextform.v1;
 
-import static io.github.nowakprojects.pdfitextform.PositionType.FROM_TOP_LEFT;
+import static io.github.nowakprojects.pdfitextform.v1.PositionType.FROM_TOP_LEFT;
 
 class TopLeftPdfPosition implements PdfPosition {
 
@@ -27,5 +27,4 @@ class TopLeftPdfPosition implements PdfPosition {
     public PositionType getPositionType() {
         return positionType;
     }
-
 }

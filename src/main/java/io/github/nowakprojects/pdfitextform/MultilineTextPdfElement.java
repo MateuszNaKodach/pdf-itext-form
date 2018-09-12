@@ -11,54 +11,48 @@ import java.io.IOException;
 /**
  * Created by Marcin
  */
-public class MultilineTextPdfElement implements PdfElement {
-    private final String tag;
+class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWriter<MultilineTextPdfElement> {
     private final String content;
-    private final PdfPosition pdfPosition;
     private final float fontSize;
     private final float maxHeight;
     private final float maxWidth;
 
     MultilineTextPdfElement(String tag, String content, PdfPosition pdfPosition, float fontSize, float maxHeight,
                             float maxWidth) {
-        this.tag = tag;
+        super(tag, pdfPosition);
         this.content = content;
-        this.pdfPosition = pdfPosition;
         this.fontSize = fontSize;
         this.maxHeight = maxHeight;
         this.maxWidth = maxWidth;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public String getContent() {
+    String getContent() {
         return content;
     }
 
-    public PdfPosition getPdfPosition() {
-        return pdfPosition;
-    }
-
-    public float getFontSize() {
+    float getFontSize() {
         return fontSize;
     }
 
-    public float getMaxHeight() {
+    float getMaxHeight() {
         return maxHeight;
     }
 
-    public float getMaxWidth() {
+    float getMaxWidth() {
         return maxWidth;
     }
 
     @Override
-    public void print(PdfWriter writer) {
+    public void writePdfElement(PdfWriter writer) {
+        this.writePdfElement(writer, this);
+    }
+
+    @Override
+    public void writePdfElement(PdfWriter pdfWriter, MultilineTextPdfElement pdfElement) {
         boolean printed = false;
         for (float fs = fontSize; fs > 2 && !printed; fs -= 1) {
-            if (isOkForFontSize(fs, writer)) {
-                printForSize(fs, writer);
+            if (isOkForFontSize(fs, pdfWriter)) {
+                printForSize(fs, pdfWriter);
                 printed = true;
             }
         }
@@ -131,7 +125,7 @@ public class MultilineTextPdfElement implements PdfElement {
             String text = "Test test, halo raz dwa trzy, raz dwa, dwa śćńżł... ";
 
             new MultilineTextPdfElement(tag, text + text + text + text + text + text + text + text,
-                    pdfPosition, fontSize, maxHeight, maxWidth).print(writer);
+                    pdfPosition, fontSize, maxHeight, maxWidth).writePdfElement(writer);
             PdfContentByte cb = writer.getDirectContent();
             cb.rectangle(rectangle);
         }

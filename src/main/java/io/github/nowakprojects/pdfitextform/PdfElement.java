@@ -1,8 +1,16 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.pdf.PdfWriter;
-
 interface PdfElement {
 
-    void print(PdfWriter writer);
+    String getTag();
+
+    PdfPosition getPdfPosition();
+
+    default float getX() {
+        return getPdfPosition().getX();
+    }
+
+    default float getY() {
+        return getPdfPosition().getY();
+    }
 }
