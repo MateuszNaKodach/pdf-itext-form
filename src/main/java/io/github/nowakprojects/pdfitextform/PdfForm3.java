@@ -45,7 +45,7 @@ public class PdfForm3 {
         page1.add(simpleTextPdfElementConfiguration("miejscowosc", getPosition(63, 400)));
         page1.add(simpleTextPdfElementConfiguration("kodPocztowy", getPosition(330, 400)));
         page1.add(simpleTextPdfElementConfiguration("poczta", getPosition(400, 400)));
-
+        page1.add((new MultilineTextPdfElement.Configuration("multi", getPosition(10, 400), Config.FONT_SIZE, 50, 100)));
         page2.add(new DatePdfElement.Configuration("data", getPosition(110, 476), Config.FONT_SIZE,
                 15, 5));
 

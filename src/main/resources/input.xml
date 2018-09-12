@@ -2,16 +2,21 @@
 <data>
     <pesel>96032002778</pesel>
     <naczelnikUrzeduSkarbowego>Naczelnik urzędu skarbowego</naczelnikUrzeduSkarbowego>
-    <naczelnikUrzeduSkarbowego>Naczelnik urzędu skarbowego</naczelnikUrzeduSkarbowego>
     <imie>Marcin</imie>
     <nazwisko>Wątroba</nazwisko>
-    <kraj>Polska</kraj>
-    <wojewodztwo>śląskie</wojewodztwo>
-    <powiat>Cieszyński</powiat>
-    <gmina>Zebrzydowice</gmina>
-    <nrDomu>33b</nrDomu>
-    <miejscowosc>Kaczyce</miejscowosc>
-    <kodPocztowy>43-417</kodPocztowy>
-    <poczta>Kaczyce</poczta>
+    <adres>
+        <kraj>Polska</kraj>
+        <wojewodztwo>śląskie</wojewodztwo>
+        <powiat>Cieszyński</powiat>
+        <gmina>Zebrzydowice</gmina>
+        <nrDomu>33b</nrDomu>
+        <miejscowosc>Kaczyce</miejscowosc>
+        <kodPocztowy>43-417</kodPocztowy>
+        <poczta>Kaczyce</poczta>
+    </adres>
     <data>2018-05-20</data>
+    <multi>ahfuesh fasf fdasf gfs gfes g fesgfds few t rte tyreyrty trew6tre tyreyer trwe6y53et fgeasg gfesg grstgs
+        rtfewtygfsu gfghdf gdfh tgraetyg hgfhj dstyrey jrtsjur yhteuhhrg gtret tgre trety tyrewy ytrty tyrety tyreyrt
+        tyrte 5rtye
+    </multi>
 </data>
