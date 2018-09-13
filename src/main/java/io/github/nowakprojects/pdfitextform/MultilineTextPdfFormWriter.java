@@ -8,8 +8,7 @@ import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.IOException;
+import io.github.nowakprojects.Config;
 
 class MultilineTextPdfFormWriter extends PdfFormWriter<MultilineTextPdfElement, String> {
 
@@ -20,22 +19,26 @@ class MultilineTextPdfFormWriter extends PdfFormWriter<MultilineTextPdfElement, 
     @Override
     void writeOn(PdfWriter pdfWriter) {
         boolean printed = false;
-        for (float fs = pdfElement.getFontSize().get().getValue(); fs > 2 && !printed; fs -= 1) {
-            if (isOkForFontSize(content, fs, pdfWriter)) {
-                printForSize(content, fs, pdfWriter);
+        for (float fontSize = pdfElement.getFontSize().get().getValue(); fontSize > FontSize.MIN_FONT_SIZE && !printed; fontSize -= 1) {
+            if (isEnoughSpaceFor(content, fontSize, pdfWriter)) {
+                print(content, fontSize, pdfWriter);
                 printed = true;
             }
         }
         if (!printed) {
-            System.out.println("Too more text for field " + pdfElement.getTag());
+            throw new PdfFillingException("Too more text for field with tag" + pdfElement.getTag());
         }
     }
 
-    private int printForFontSize(String content, float fontSize, PdfWriter writer, boolean simulate) {
+    private boolean isEnoughSpaceFor(String content, float size, PdfWriter writer) {
+        return print(content, size, writer, true) == ColumnText.NO_MORE_TEXT;
+    }
+
+    private int print(String content, float fontSize, PdfWriter writer, boolean simulate) {
         try {
             PdfContentByte cb = writer.getDirectContent();
-            BaseFont bf = new Config().baseFont;
-            cb.setFontAndSize(bf, fontSize);
+            BaseFont baseFont = Config.baseFont;
+            cb.setFontAndSize(baseFont, fontSize);
             ColumnText columnText = new ColumnText(cb);
             Rectangle rectangle = new Rectangle(
                     pdfElement.getPdfPosition().getX(),
@@ -46,19 +49,15 @@ class MultilineTextPdfFormWriter extends PdfFormWriter<MultilineTextPdfElement, 
             columnText.setSimpleColumn(rectangle);
             // TODO: 11.09.2018 analyse what exactly is leading
             columnText.setLeading(fontSize);
-            columnText.addText(new Phrase(content, new Font(new Config().baseFont, fontSize)));
+            columnText.addText(new Phrase(content, new Font(Config.baseFont, fontSize)));
             return columnText.go(simulate);
-        } catch (DocumentException | IOException e) {
+        } catch (DocumentException e) {
             e.printStackTrace();
         }
         return -1;
     }
 
-    private boolean isOkForFontSize(String content, float size, PdfWriter writer) {
-        return printForFontSize(content, size, writer, true) == ColumnText.NO_MORE_TEXT;
-    }
-
-    private void printForSize(String content, float size, PdfWriter writer) {
-        printForFontSize(content, size, writer, false);
+    private void print(String content, float size, PdfWriter writer) {
+        print(content, size, writer, false);
     }
 }

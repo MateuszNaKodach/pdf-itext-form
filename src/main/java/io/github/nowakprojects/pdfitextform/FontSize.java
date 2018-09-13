@@ -2,6 +2,8 @@ package io.github.nowakprojects.pdfitextform;
 
 class FontSize {
 
+    static final float MIN_FONT_SIZE = 2;
+
     private final float value;
 
     static FontSize withValue(float value) {
@@ -9,8 +11,8 @@ class FontSize {
     }
 
     private FontSize(float value) {
-        if (value <= 0) {
-            throw new IllegalArgumentException("Passed value for font size: " + value + ", but value grater than 0 is expected!");
+        if (value < MIN_FONT_SIZE) {
+            throw new IllegalArgumentException("Passed value for font size: " + value + ", but value equal or grater than" + MIN_FONT_SIZE + "is expected!");
         }
         this.value = value;
     }

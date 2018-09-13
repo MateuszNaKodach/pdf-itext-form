@@ -1,5 +1,7 @@
 package io.github.nowakprojects.pdfitextform;
 
+import io.github.nowakprojects.Config;
+
 import static io.github.nowakprojects.pdfitextform.PdfElements.elements;
 
 /*
@@ -80,7 +82,7 @@ public class PdfForm3 {
         final PdfFormValues pdfFormValues = pdfFormValuesReader.readFromFile("src/main/resources/input.xml");
 
         final PdfFillTool pdfFillTool = PdfFillTool.withDefinedOutputDirectory(Config.DEST_DIRECTORY);
-        pdfFillTool.fillPdfForm(new PdfForm(Config.FORM_SOURCE, pdfFormSchema, pdfFormValues),"filledPdf.pdf");
+        pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValues),"filledPdf.pdf");
     }
 
 }
