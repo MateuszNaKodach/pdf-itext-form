@@ -7,16 +7,16 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.IOException;
 
-class AbsoluteTextPdfFormWriter extends PdfFormWriter<AbsoluteTextPdfElement> {
+class SimplePdfFormWriter extends PdfFormWriter<PdfElement, String> {
 
-    AbsoluteTextPdfFormWriter(AbsoluteTextPdfElement pdfElement, PdfWriter pdfWriter) {
-        super(pdfElement, pdfWriter);
+    SimplePdfFormWriter(PdfElement pdfElement, String content) {
+        super(pdfElement, content);
     }
 
     @Override
-    void writeWithContent(String content) {
+    void writeOn(PdfWriter pdfWriter) {
         if (!pdfElement.getFontSize().isPresent()) {
-            throw new IllegalStateException("Pdf element have to have font size!");
+            throw new IllegalStateException("Pdf element have to have declared font size!");
         }
         try {
             PdfPosition position = pdfElement.getPdfPosition();
@@ -25,7 +25,7 @@ class AbsoluteTextPdfFormWriter extends PdfFormWriter<AbsoluteTextPdfElement> {
             cb.saveState();
             cb.beginText();
             cb.moveText(position.getX(), position.getY());
-            cb.setFontAndSize(bf, pdfElement.getFontSize().get().getValue());
+            cb.setFontAndSize(bf, ((FontSize) pdfElement.getFontSize().get()).getValue()); //FIXME: Weird behaviour after Optional.get() call.
             cb.showText(content);
             cb.endText();
             cb.restoreState();
@@ -33,4 +33,6 @@ class AbsoluteTextPdfFormWriter extends PdfFormWriter<AbsoluteTextPdfElement> {
             e.printStackTrace();
         }
     }
+
+
 }

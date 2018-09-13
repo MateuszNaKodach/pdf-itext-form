@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 /*
-public class DatePdfElement extends AbstractPdfElement implements PdfElementWriter<DatePdfElement> {
+public class DatePdfElement extends AbstractPdfElement {
 
     private final Date date;
     private final float characterWidth;
@@ -26,61 +26,6 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
         this.date = date;
         this.characterWidth = characterWidth;
         this.spaceBetweenGroup = spaceBetweenGroup;
-    }
-
-    public Set<AbsoluteTextPdfElement> getSimpleElements() {
-
-        Set<AbsoluteTextPdfElement> elements = new HashSet<>();
-
-        elements.addAll(createAbsoluteTextPdfElement("_day", getDaySting(), pdfPosition.getX(),
-                pdfPosition.getY()).getSimpleElements());
-
-        elements.addAll(createAbsoluteTextPdfElement("_month", getMonthSting(),
-                pdfPosition.getX() + characterWidth * 2 + spaceBetweenGroup, pdfPosition.getY())
-                .getSimpleElements());
-
-        elements.addAll(createAbsoluteTextPdfElement("_year", getYearString(),
-                pdfPosition.getX() + characterWidth * 4 + spaceBetweenGroup * 2, pdfPosition.getY())
-                .getSimpleElements());
-
-        return elements;
-    }
-
-    private SeparatedTextPdfElement createAbsoluteTextPdfElement(
-            String tagPostfix,
-            String content,
-            float xTopLeft,
-            float yTopLeft) {
-        return new SeparatedTextPdfElement(tag + tagPostfix, content,
-                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft), fontSize, characterWidth);
-    }
-
-    private String getDaySting() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH));
-    }
-
-    private String getMonthSting() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return String.format("%02d", calendar.get(Calendar.MONTH) + 1);
-    }
-
-    private String getYearString() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return String.valueOf(calendar.get(Calendar.YEAR));
-    }
-
-    @Override
-    public void writePdfElement(PdfWriter writer) {
-        this.writePdfElement(writer, this);
-    }
-
-    @Override
-    public void writePdfElement(PdfWriter pdfWriter, DatePdfElement pdfElement) {
-        getSimpleElements().forEach(element -> element.writePdfElement(pdfWriter));
     }
 
     public float getCharacterWidth() {

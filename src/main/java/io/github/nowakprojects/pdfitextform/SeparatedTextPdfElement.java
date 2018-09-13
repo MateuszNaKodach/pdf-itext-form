@@ -1,15 +1,13 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.pdf.PdfWriter;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Objects;
 
 public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdfElement> {
     private final float characterWidth;
 
-    SeparatedTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, float characterWidth) {
-        super(tag, pdfPosition, customFontSize);
+    private SeparatedTextPdfElement(String tag, PdfPosition pdfPosition, float characterWidth, FontSize fontSize) {
+        super(tag, pdfPosition, fontSize);
         this.characterWidth = characterWidth;
     }
 
@@ -23,68 +21,63 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
 
     @Override
     public SeparatedTextPdfElement withFontSize(FontSize fontSize) {
-        return new SeparatedTextPdfElement(tag, pdfPosition, fontSize, characterWidth);
+        return new SeparatedTextPdfElement(tag, pdfPosition, characterWidth, fontSize);
     }
 
-    public void writePdfElement(String content, PdfWriter pdfWriter) {
-
+    static SeparatedTextPdfElement.NeedTag builder() {
+        return new SeparatedTextPdfElement.Builder();
     }
 
-    //FIXME: Fix it!
-    /*
-    Set<AbsoluteTextPdfElement> getSimpleElementsForContent(String content) {
+    static class Builder implements NeedTag, NeedCharacterWidth, NeedPosition {
+        private String tag;
+        private PdfPosition pdfPosition;
+        private float characterWidth;
 
-        Set<AbsoluteTextPdfElement> elements = new HashSet<>();
-        float shift = 0;
-
-        char[] array = content.toCharArray();
-        for (int i = 0; i < array.length; i++) {
-            elements.add(new AbsoluteTextPdfElement(tag + "_" + i, String.valueOf(array[i]),
-                    getShiftedPosition(shift), fontSize));
-            shift += characterWidth;
-        }
-
-        return elements;
-    }
-
-    private PdfPosition getShiftedPosition(float shift) {
-        return PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT)
-                .withCoordinates(pdfPosition.getX() + shift, pdfPosition.getY());
-    }*/
-
-    public void writePdfElement(PdfWriter writer) {
-        //getSimpleElements().forEach(element -> element.writePdfElement(writer));
-    }
-
-    /*
-    static class Configuration implements PdfElementCreator {
-
-        private final String tag;
-        private final PdfPosition pdfPosition;
-        private final float fontSize;
-        private final float characterWidth;
-
-        Configuration(String tag, PdfPosition pdfPosition, float fontSize, float characterWidth) {
-            this.fontSize = fontSize;
-            this.pdfPosition = pdfPosition;
+        @Override
+        public NeedCharacterWidth withTag(String tag) {
             this.tag = tag;
+            return this;
+        }
+
+        @Override
+        public NeedPosition withCharacterWidth(float characterWidth) {
             this.characterWidth = characterWidth;
+            return this;
         }
 
         @Override
-        public SeparatedTextPdfElement create(String content) {
-            return new SeparatedTextPdfElement(tag, content, pdfPosition, fontSize, characterWidth);
+        public SeparatedTextPdfElement positionedFromBottomLeft(float x, float y) {
+            return this.positionedOn(PdfPositionFactory.getBottomLeftPdfPosition(x, y));
         }
 
-        @Override
-        public String getTag() {
-            return tag;
+        private SeparatedTextPdfElement positionedOn(PdfPosition pdfPosition) {
+            this.pdfPosition = pdfPosition;
+            return new SeparatedTextPdfElement(this.tag, this.pdfPosition, this.characterWidth, null);
         }
+    }
 
-        @Override
-        public void printTemplate(PdfWriter writer) {
-            create("12345678901").writePdfElement(writer);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof SeparatedTextPdfElement)) return false;
+        SeparatedTextPdfElement that = (SeparatedTextPdfElement) o;
+        return Objects.equals(tag, that.tag);
+    }
 
-    }*/
+    @Override
+    public int hashCode() {
+        return Objects.hash(tag);
+    }
+
+    interface NeedTag {
+        NeedCharacterWidth withTag(String tag);
+    }
+
+    interface NeedCharacterWidth {
+        NeedPosition withCharacterWidth(float characterWidth);
+    }
+
+    interface NeedPosition {
+        SeparatedTextPdfElement positionedFromBottomLeft(float x, float y);
+    }
 }

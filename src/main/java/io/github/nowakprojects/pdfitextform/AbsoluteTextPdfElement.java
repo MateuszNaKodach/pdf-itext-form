@@ -50,7 +50,6 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
 
     static class Builder implements NeedTag, NeedPosition {
         private String tag;
-        private String content;
         private PdfPosition pdfPosition;
 
         @Override
@@ -61,10 +60,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
 
         @Override
         public AbsoluteTextPdfElement positionedFromBottomLeft(float x, float y) {
-            return this.positionedOn(
-                    PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT)
-                            .withCoordinates(x, y)
-            );
+            return this.positionedOn(PdfPositionFactory.getBottomLeftPdfPosition(x,y));
         }
 
         private AbsoluteTextPdfElement positionedOn(PdfPosition pdfPosition) {
@@ -85,15 +81,17 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
     public int hashCode() {
         return Objects.hash(tag);
     }
+
+    interface NeedTag {
+        NeedPosition withTag(String tag);
+    }
+
+    interface NeedPosition {
+        AbsoluteTextPdfElement positionedFromBottomLeft(float x, float y);
+    }
 }
 
-interface NeedTag {
-    NeedPosition withTag(String tag);
-}
 
-interface NeedPosition {
-    AbsoluteTextPdfElement positionedFromBottomLeft(float x, float y);
-}
 
 
 

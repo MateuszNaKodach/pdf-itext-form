@@ -1,16 +1,18 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.pdf.PdfWriter;
+class PdfElementWriterFactory {
 
-public class PdfElementWriterFactory {
-
-    public static PdfFormWriter getPdfElementWriterFor(PdfElement pdfElement, PdfWriter pdfWriter) {
-        if (pdfElement instanceof AbsoluteTextPdfElement) {
-            return new AbsoluteTextPdfFormWriter((AbsoluteTextPdfElement) pdfElement, pdfWriter);
+    static PdfFormWriter getPdfElementWriterFor(PdfElement pdfElement, Object content) {
+        if (pdfElement instanceof MultilineTextPdfElement) {
+            return new MultilineTextPdfFormWriter((MultilineTextPdfElement) pdfElement, (String) content);
+        } else if (pdfElement instanceof SeparatedTextPdfElement) {
+            return new SeparatedTextPdfFormWriter((SeparatedTextPdfElement) pdfElement, (String) content);
+        } else if (content instanceof String) {
+            return new SimplePdfFormWriter(pdfElement, (String) content);
+        } else {
+            throw new IllegalArgumentException("Passed values cannot be printed!");
         }
-        return null;
     }
-
 
 }
 

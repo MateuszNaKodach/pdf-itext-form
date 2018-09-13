@@ -21,6 +21,10 @@ public class PdfForm3 {
                 .addPageElements(
                         PdfPageNumber.from(1),
                         elements(
+                                SeparatedTextPdfElement.builder()
+                                        .withTag("pesel")
+                                        .withCharacterWidth(15)
+                                        .positionedFromBottomLeft(63, 785),
                                 AbsoluteTextPdfElement.builder()
                                         .withTag("naczelnikUrzeduSkarbowego")
                                         .positionedFromBottomLeft(63, 568),
@@ -53,7 +57,11 @@ public class PdfForm3 {
                                         .positionedFromBottomLeft(330, 400),
                                 AbsoluteTextPdfElement.builder()
                                         .withTag("poczta")
-                                        .positionedFromBottomLeft(400, 400)
+                                        .positionedFromBottomLeft(400, 400),
+                                MultilineTextPdfElement.builder()
+                                        .withTag("multi")
+                                        .withMaxSize(50, 100)
+                                        .positionedFromBottomLeft(50, 100)
                         )
                 ).addPageElements(
                         PdfPageNumber.from(2),
