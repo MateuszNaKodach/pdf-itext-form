@@ -2,16 +2,15 @@ package io.github.nowakprojects.pdfitextform;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 class PdfToFill {
 
     private final String pdfPath;
-    private final PdfFormDeclaration schemaPages;
+    private final PdfFormSchema schemaPages;
 
-    PdfToFill(String pdfPath, PdfFormDeclaration pdfFormDeclaration) {
+    PdfToFill(String pdfPath, PdfFormSchema pdfFormSchema) {
         this.pdfPath = pdfPath;
-        this.schemaPages = pdfFormDeclaration;
+        this.schemaPages = pdfFormSchema;
     }
 
     void preparePdf(PdfFormValues pdfFormValues, String outputFilePath) throws Exception {
@@ -19,7 +18,7 @@ class PdfToFill {
         Map<Integer, byte[]> topPages = new HashMap<>();
 
         for (PdfPageNumber pageNumber : schemaPages.getPages()) {
-            topPages.put(pageNumber, PdfFillTool.generatePdfBytesFromDeclaration(schemaPages.getElementsByPage(pageNumber), pdfFormValues));
+            topPages.put(pageNumber.getValue(), PdfFillTool.generatePdfBytesFromDeclaration(schemaPages.getElementsByPage(pageNumber), pdfFormValues));
         }
 
         PdfFillTool.mergePdfsLayers(pdfPath, topPages, outputFilePath);

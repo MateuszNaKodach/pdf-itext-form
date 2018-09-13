@@ -20,14 +20,13 @@ class PdfFillTool {
         PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
         document.open();
 
-        pdfElements.forEach(elementCreator ->
+        pdfElements.forEach(pdfElement ->
                 {
                     try {
-                        String value = pdfFormValues.getValueByTag(elementCreator.getTag());
+                        String value = pdfFormValues.getValueByTag(pdfElement.getTag());
                         if (value == null)
-                            throw new Exception("Can't find value for " + elementCreator.getTag());
-                        AbstractPdfElement element = elementCreator.create(pdfFormValues.getValueByTag(elementCreator.getTag()));
-                        element.writePdfElement(pdfWriter);
+                            throw new Exception("Can't find value for " + pdfElement.getTag());
+                        pdfElement.writePdfElement(value, pdfWriter);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

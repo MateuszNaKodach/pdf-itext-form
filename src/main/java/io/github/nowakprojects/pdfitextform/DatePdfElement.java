@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
+/*
 public class DatePdfElement extends AbstractPdfElement implements PdfElementWriter<DatePdfElement> {
 
     private final Date date;
@@ -131,4 +131,4 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
         }
 
     }
-}
+}*/

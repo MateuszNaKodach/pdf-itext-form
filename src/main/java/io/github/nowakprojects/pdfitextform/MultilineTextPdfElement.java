@@ -8,21 +8,20 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.IOException;
 
-class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWriter<MultilineTextPdfElement> {
-    private final String content;
+class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement> implements PdfElementWriter<MultilineTextPdfElement> {
     private final float maxHeight;
     private final float maxWidth;
 
-    MultilineTextPdfElement(String tag, String content, PdfPosition pdfPosition, float customFontSize, float maxHeight,
-                            float maxWidth) {
+    MultilineTextPdfElement(
+            String tag,
+            PdfPosition pdfPosition,
+            float maxHeight,
+            float maxWidth,
+            float customFontSize)
+    {
         super(tag, pdfPosition, customFontSize);
-        this.content = content;
         this.maxHeight = maxHeight;
         this.maxWidth = maxWidth;
-    }
-
-    String getContent() {
-        return content;
     }
 
     float getMaxHeight() {
@@ -34,13 +33,18 @@ class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWr
     }
 
     @Override
+    public MultilineTextPdfElement withCustomFontSize(float customFontSize) {
+        return new MultilineTextPdfElement(tag, pdfPosition, maxHeight, maxWidth, customFontSize);
+    }
+
+    @Override
     public void writePdfElement(PdfWriter writer) {
         this.writePdfElement(writer, this);
     }
 
     @Override
     public void writePdfElement(PdfWriter pdfWriter, MultilineTextPdfElement pdfElement) {
-        boolean printed = false;
+        /*boolean printed = false;
         for (float fs = customFontSize; fs > 2 && !printed; fs -= 1) {
             if (isOkForFontSize(fs, pdfWriter)) {
                 printForSize(fs, pdfWriter);
@@ -49,10 +53,25 @@ class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWr
         }
         if (!printed) {
             System.out.println("Too more text for field " + tag);
+        }*/
+    }
+
+
+    @Override
+    public void writePdfElement(String content, PdfWriter pdfWriter) {
+        boolean printed = false;
+        for (float fs = customFontSize; fs > 2 && !printed; fs -= 1) {
+            if (isOkForFontSize(content, fs, pdfWriter)) {
+                printForSize(content, fs, pdfWriter);
+                printed = true;
+            }
+        }
+        if (!printed) {
+            System.out.println("Too more text for field " + tag);
         }
     }
 
-    private int printForFontSize(float fontSize, PdfWriter writer, boolean simulate) {
+    private int printForFontSize(String content, float fontSize, PdfWriter writer, boolean simulate) {
         try {
             PdfContentByte cb = writer.getDirectContent();
             BaseFont bf = new Config().baseFont;
@@ -71,15 +90,15 @@ class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWr
         return -1;
     }
 
-    private boolean isOkForFontSize(float size, PdfWriter writer) {
-        return printForFontSize(size, writer, true) == ColumnText.NO_MORE_TEXT;
+    private boolean isOkForFontSize(String content, float size, PdfWriter writer) {
+        return printForFontSize(content, size, writer, true) == ColumnText.NO_MORE_TEXT;
     }
 
-    private void printForSize(float size, PdfWriter writer) {
-        printForFontSize(size, writer, false);
+    private void printForSize(String content, float size, PdfWriter writer) {
+        printForFontSize(content, size, writer, false);
     }
 
-    static class Configuration implements PdfElementCreator {
+    /*static class Configuration implements PdfElementCreator {
 
         private final String tag;
         private final PdfPosition pdfPosition;
@@ -120,6 +139,6 @@ class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWr
             PdfContentByte cb = writer.getDirectContent();
             cb.rectangle(rectangle);
         }
-    }
+    }*/
 
 }

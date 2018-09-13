@@ -3,21 +3,20 @@ package io.github.nowakprojects.pdfitextform;
 import java.util.*;
 
 import static io.github.nowakprojects.pdfitextform.PdfElements.elements;
-import static io.github.nowakprojects.pdfitextform.PdfPositionFactory.getBottomLeftPdfPosition;
 
 /*
 Documentation iText:
 https://developers.itextpdf.com/sites/default/files/attachments/PR%20-%20iText%20in%20Action%20-%20Second%20edition%20e-book.pdf
 
 TODO:
-Definicje pliku, np. PdfFormDeclaration - który może z XML odczytać dane i stworzyć PdfFormDeclaration
-Taki PdfFormDeclaration musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
+Definicje pliku, np. PdfFormSchema - który może z XML odczytać dane i stworzyć PdfFormSchema
+Taki PdfFormSchema musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
  */
 public class PdfForm3 {
 
     public static void main(String[] args) throws Exception {
 
-        PdfFormDeclaration pdfFormDeclaration = PdfFormDeclaration
+        PdfFormSchema pdfFormSchema = PdfFormSchema
                 .withDefaultFontSize(Config.FONT_SIZE)
                 .addPageElements(
                         PdfPageNumber.from(1),
@@ -26,10 +25,14 @@ public class PdfForm3 {
                                         .withTag("naczelnikUrzeduSkarbowego")
                                         .positionedFromBottomLeft(63, 568)
                         )
+                ).addPageElements(
+                        PdfPageNumber.from(2),
+                        elements(
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("naczelnikUrzeduSkarbowego")
+                                        .positionedFromBottomLeft(63, 568)
+                        )
                 );
-
-
-
 
 
         final PdfFormValuesReader pdfFormValuesReader = new XmlPdfFormValuesReader();
@@ -39,6 +42,7 @@ public class PdfForm3 {
 
         Set<PdfElementCreator> page1 = new HashSet<>(), page2 = new HashSet<>();
 
+        /*
         page1.add(separatedTextPdfElementConfiguration("pesel", getBottomLeftPdfPosition(63, 785), 15));
         page1.add(simpleTextPdfElementConfiguration("naczelnikUrzeduSkarbowego", getBottomLeftPdfPosition(63, 568)));
         page1.add(simpleTextPdfElementConfiguration("imie", getBottomLeftPdfPosition(330, 495)));
@@ -54,28 +58,19 @@ public class PdfForm3 {
         page1.add((new MultilineTextPdfElement.Configuration("multi", getBottomLeftPdfPosition(10, 400), Config.FONT_SIZE, 50, 100)));
         page2.add(new DatePdfElement.Configuration("data", getBottomLeftPdfPosition(110, 476), Config.FONT_SIZE,
                 15, 5));
-
+*/
 
         Map<Integer, Set<PdfElementCreator>> map = new HashMap<>();
         map.put(1, page1);
         map.put(2, page2);
-        PdfToFill pdfToFill = new PdfToFill(Config.SRC, map);
+
+
+        PdfToFill pdfToFill = new PdfToFill(Config.SRC, pdfFormSchema);
 
         pdfToFill.preparePdf(pdfFormValues, Config.DEST);
 
 //        pdfToFill.showTemplate(Config.DEST);
 
-    }
-
-    private static AbsoluteTextPdfElement.Configuration simpleTextPdfElementConfiguration(String tag,
-                                                                                          PdfPosition position) {
-        return new AbsoluteTextPdfElement.Configuration(tag, position, Config.FONT_SIZE);
-    }
-
-    private static SeparatedTextPdfElement.Configuration separatedTextPdfElementConfiguration(String tag,
-                                                                                              PdfPosition position,
-                                                                                              float width) {
-        return new SeparatedTextPdfElement.Configuration(tag, position, Config.FONT_SIZE, width);
     }
 
 

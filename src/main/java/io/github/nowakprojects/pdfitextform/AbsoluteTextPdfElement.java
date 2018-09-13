@@ -1,9 +1,14 @@
 package io.github.nowakprojects.pdfitextform;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.IOException;
 import java.util.Objects;
 
-class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWriter<AbsoluteTextPdfElement> {
+class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> implements PdfElementWriter<AbsoluteTextPdfElement> {
 
     private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition) {
         super(tag, pdfPosition);
@@ -21,7 +26,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
         return pdfPosition;
     }
 
-    AbsoluteTextPdfElement withCustomFontSize(float customFontSize) {
+    public AbsoluteTextPdfElement withCustomFontSize(float customFontSize) {
         return new AbsoluteTextPdfElement(this.tag, this.pdfPosition, customFontSize);
     }
 
@@ -62,6 +67,23 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }*/ //FIXME: Wrtier to another file!
+    }
+
+    public void writePdfElement(String content, PdfWriter pdfWriter) {
+        try {
+            PdfPosition position = pdfPosition;
+            PdfContentByte cb = pdfWriter.getDirectContent();
+            BaseFont bf = new Config().baseFont;
+            cb.saveState();
+            cb.beginText();
+            cb.moveText(position.getX(), position.getY());
+            cb.setFontAndSize(bf, customFontSize);
+            cb.showText(content);
+            cb.endText();
+            cb.restoreState();
+        } catch (DocumentException | IOException e) {
+            e.printStackTrace();
+        } //FIXME: Wrtier to another file!
     }
 
     public void writePdfElement(PdfWriter writer) {

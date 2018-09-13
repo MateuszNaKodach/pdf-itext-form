@@ -5,13 +5,11 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SeparatedTextPdfElement extends AbstractPdfElement {
-    private final String content;
+public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdfElement> {
     private final float characterWidth;
 
-    SeparatedTextPdfElement(String tag, String content, PdfPosition pdfPosition, float customFontSize, float characterWidth) {
+    SeparatedTextPdfElement(String tag, PdfPosition pdfPosition, float customFontSize, float characterWidth) {
         super(tag, pdfPosition, customFontSize);
-        this.content = content;
         this.characterWidth = characterWidth;
     }
 
@@ -19,19 +17,23 @@ public class SeparatedTextPdfElement extends AbstractPdfElement {
         return tag;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public float getCustomFontSize() {
-        return customFontSize;
-    }
-
     public float getCharacterWidth() {
         return characterWidth;
     }
 
-    Set<AbsoluteTextPdfElement> getSimpleElements() {
+    @Override
+    public SeparatedTextPdfElement withCustomFontSize(float customFontSize) {
+        return new SeparatedTextPdfElement(tag, pdfPosition, customFontSize, characterWidth);
+    }
+
+    @Override
+    public void writePdfElement(String content, PdfWriter pdfWriter) {
+
+    }
+
+    //FIXME: Fix it!
+    /*
+    Set<AbsoluteTextPdfElement> getSimpleElementsForContent(String content) {
 
         Set<AbsoluteTextPdfElement> elements = new HashSet<>();
         float shift = 0;
@@ -49,13 +51,14 @@ public class SeparatedTextPdfElement extends AbstractPdfElement {
     private PdfPosition getShiftedPosition(float shift) {
         return PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT)
                 .withCoordinates(pdfPosition.getX() + shift, pdfPosition.getY());
-    }
+    }*/
 
     @Override
     public void writePdfElement(PdfWriter writer) {
-        getSimpleElements().forEach(element -> element.writePdfElement(writer));
+        //getSimpleElements().forEach(element -> element.writePdfElement(writer));
     }
 
+    /*
     static class Configuration implements PdfElementCreator {
 
         private final String tag;
@@ -85,5 +88,5 @@ public class SeparatedTextPdfElement extends AbstractPdfElement {
             create("12345678901").writePdfElement(writer);
         }
 
-    }
+    }*/
 }

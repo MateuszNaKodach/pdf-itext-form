@@ -4,7 +4,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.util.Optional;
 
-abstract class AbstractPdfElement implements PdfElement {
+abstract class AbstractPdfElement<T> implements PdfElement<T> {
 
     protected final String tag;
     protected final PdfPosition pdfPosition;
