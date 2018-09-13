@@ -1,6 +1,6 @@
 package io.github.nowakprojects.pdfitextform;
 
-interface PdfPosition {
+public interface PdfPosition {
 
     float getX();
 

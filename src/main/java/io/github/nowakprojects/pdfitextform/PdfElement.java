@@ -4,15 +4,15 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.util.Optional;
 
-interface PdfElement<T> {
+public interface PdfElement<T> {
 
     String getTag();
 
     PdfPosition getPdfPosition();
 
-    Optional<FontSize> getCustomFontSize();
+    Optional<FontSize> getFontSize();
 
-    T withCustomFontSize(FontSize customFontSize);
+    T withFontSize(FontSize fontSize);
 
     default float getX() {
         return getPdfPosition().getX();
@@ -21,6 +21,4 @@ interface PdfElement<T> {
     default float getY() {
         return getPdfPosition().getY();
     }
-
-    void writePdfElement(String content, PdfWriter pdfWriter);
 }

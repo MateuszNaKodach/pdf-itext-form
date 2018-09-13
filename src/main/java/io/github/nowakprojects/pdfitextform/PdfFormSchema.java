@@ -33,8 +33,8 @@ class PdfFormSchema {
     PdfFormSchema addPageElements(PdfPageNumber pdfPageNumber, PdfElements pdfElements) {
         final Set<PdfElement> elementsWithFontSize = pdfElements.getElements()
                 .stream()
-                .filter(element -> !overrideElementsCustomFontSize && !element.getCustomFontSize().isPresent())
-                .map(element -> (PdfElement) element.withCustomFontSize(defaultFontSize))
+                .filter(element -> !overrideElementsCustomFontSize && !element.getFontSize().isPresent())
+                .map(element -> (PdfElement) element.withFontSize(defaultFontSize))
                 .collect(Collectors.toSet());
 
         final HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages = new HashMap<PdfPageNumber, Set<PdfElement>>(this.elementsByPages) {

@@ -26,7 +26,9 @@ class PdfFillTool {
                         String value = pdfFormValues.getValueByTag(pdfElement.getTag());
                         if (value == null)
                             throw new Exception("Can't find value for " + pdfElement.getTag());
-                        pdfElement.writePdfElement(value, pdfWriter);
+                        PdfElementWriterFactory
+                                .getPdfElementWriterFor(pdfElement, pdfWriter)
+                                .writeWithContent(value);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

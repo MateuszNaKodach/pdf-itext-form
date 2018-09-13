@@ -23,7 +23,37 @@ public class PdfForm3 {
                         elements(
                                 AbsoluteTextPdfElement.builder()
                                         .withTag("naczelnikUrzeduSkarbowego")
-                                        .positionedFromBottomLeft(63, 568)
+                                        .positionedFromBottomLeft(63, 568),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("imie")
+                                        .positionedFromBottomLeft(330, 496),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("nazwisko")
+                                        .positionedFromBottomLeft(63, 495),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("kraj")
+                                        .positionedFromBottomLeft(63, 450),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("wojewodztwo")
+                                        .positionedFromBottomLeft(170, 450),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("powiat")
+                                        .positionedFromBottomLeft(390, 450),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("gmina")
+                                        .positionedFromBottomLeft(63, 425),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("nrDomu")
+                                        .positionedFromBottomLeft(460, 425),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("miejscowosc")
+                                        .positionedFromBottomLeft(63, 400),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("kodPocztowy")
+                                        .positionedFromBottomLeft(330, 400),
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("poczta")
+                                        .positionedFromBottomLeft(400, 400)
                         )
                 ).addPageElements(
                         PdfPageNumber.from(2),
@@ -37,10 +67,6 @@ public class PdfForm3 {
 
         final PdfFormValuesReader pdfFormValuesReader = new XmlPdfFormValuesReader();
         final PdfFormValues pdfFormValues = pdfFormValuesReader.readFromFile("src/main/resources/input.xml");
-
-        //Map<String, String> data = DataReader.readData("src/main/resources/input.xml");
-
-        Set<PdfElementCreator> page1 = new HashSet<>(), page2 = new HashSet<>();
 
         /*
         page1.add(separatedTextPdfElementConfiguration("pesel", getBottomLeftPdfPosition(63, 785), 15));
@@ -59,10 +85,6 @@ public class PdfForm3 {
         page2.add(new DatePdfElement.Configuration("data", getBottomLeftPdfPosition(110, 476), Config.FONT_SIZE,
                 15, 5));
 */
-
-        Map<Integer, Set<PdfElementCreator>> map = new HashMap<>();
-        map.put(1, page1);
-        map.put(2, page2);
 
 
         PdfToFill pdfToFill = new PdfToFill(Config.SRC, pdfFormSchema);

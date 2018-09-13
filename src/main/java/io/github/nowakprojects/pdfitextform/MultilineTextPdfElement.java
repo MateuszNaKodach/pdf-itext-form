@@ -33,11 +33,10 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     }
 
     @Override
-    public MultilineTextPdfElement withCustomFontSize(FontSize customFontSize) {
-        return new MultilineTextPdfElement(tag, pdfPosition, maxHeight, maxWidth, customFontSize);
+    public MultilineTextPdfElement withFontSize(FontSize fontSize) {
+        return new MultilineTextPdfElement(tag, pdfPosition, maxHeight, maxWidth, fontSize);
     }
 
-    @Override
     public void writePdfElement(PdfWriter writer) {
         this.writePdfElement(writer, this);
     }
@@ -45,7 +44,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     @Override
     public void writePdfElement(PdfWriter pdfWriter, MultilineTextPdfElement pdfElement) {
         /*boolean printed = false;
-        for (float fs = customFontSize; fs > 2 && !printed; fs -= 1) {
+        for (float fs = fontSize; fs > 2 && !printed; fs -= 1) {
             if (isOkForFontSize(fs, pdfWriter)) {
                 printForSize(fs, pdfWriter);
                 printed = true;
@@ -57,10 +56,9 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     }
 
 
-    @Override
     public void writePdfElement(String content, PdfWriter pdfWriter) {
         boolean printed = false;
-        for (float fs = customFontSize.getValue(); fs > 2 && !printed; fs -= 1) {
+        for (float fs = fontSize.getValue(); fs > 2 && !printed; fs -= 1) {
             if (isOkForFontSize(content, fs, pdfWriter)) {
                 printForSize(content, fs, pdfWriter);
                 printed = true;

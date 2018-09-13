@@ -21,8 +21,8 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
             PdfPosition pdfPosition,
             float characterWidth,
             float spaceBetweenGroup,
-            float customFontSize) {
-        super(tag, pdfPosition, customFontSize);
+            float fontSize) {
+        super(tag, pdfPosition, fontSize);
         this.date = date;
         this.characterWidth = characterWidth;
         this.spaceBetweenGroup = spaceBetweenGroup;
@@ -52,7 +52,7 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
             float xTopLeft,
             float yTopLeft) {
         return new SeparatedTextPdfElement(tag + tagPostfix, content,
-                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft), customFontSize, characterWidth);
+                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft), fontSize, characterWidth);
     }
 
     private String getDaySting() {

@@ -22,11 +22,10 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
     }
 
     @Override
-    public SeparatedTextPdfElement withCustomFontSize(FontSize customFontSize) {
-        return new SeparatedTextPdfElement(tag, pdfPosition, customFontSize, characterWidth);
+    public SeparatedTextPdfElement withFontSize(FontSize fontSize) {
+        return new SeparatedTextPdfElement(tag, pdfPosition, fontSize, characterWidth);
     }
 
-    @Override
     public void writePdfElement(String content, PdfWriter pdfWriter) {
 
     }
@@ -41,7 +40,7 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
         char[] array = content.toCharArray();
         for (int i = 0; i < array.length; i++) {
             elements.add(new AbsoluteTextPdfElement(tag + "_" + i, String.valueOf(array[i]),
-                    getShiftedPosition(shift), customFontSize));
+                    getShiftedPosition(shift), fontSize));
             shift += characterWidth;
         }
 
@@ -53,7 +52,6 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
                 .withCoordinates(pdfPosition.getX() + shift, pdfPosition.getY());
     }*/
 
-    @Override
     public void writePdfElement(PdfWriter writer) {
         //getSimpleElements().forEach(element -> element.writePdfElement(writer));
     }

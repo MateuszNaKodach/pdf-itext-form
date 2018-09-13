@@ -1,25 +1,23 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.pdf.PdfWriter;
-
 import java.util.Optional;
 
 abstract class AbstractPdfElement<T> implements PdfElement<T> {
 
     protected final String tag;
     protected final PdfPosition pdfPosition;
-    protected final FontSize customFontSize;
+    protected final FontSize fontSize;
 
     protected AbstractPdfElement(String tag, PdfPosition pdfPosition) {
         this.tag = tag;
         this.pdfPosition = pdfPosition;
-        this.customFontSize = null;
+        this.fontSize = null;
     }
 
-    protected AbstractPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize) {
+    protected AbstractPdfElement(String tag, PdfPosition pdfPosition, FontSize fontSize) {
         this.tag = tag;
         this.pdfPosition = pdfPosition;
-        this.customFontSize = customFontSize;
+        this.fontSize = fontSize;
     }
 
     @Override
@@ -33,11 +31,9 @@ abstract class AbstractPdfElement<T> implements PdfElement<T> {
     }
 
     @Override
-    public Optional<FontSize> getCustomFontSize() {
-        return Optional.ofNullable(customFontSize);
+    public Optional<FontSize> getFontSize() {
+        return Optional.ofNullable(fontSize);
     }
-
-    abstract void writePdfElement(PdfWriter writer);
 
 }
 
