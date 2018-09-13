@@ -4,9 +4,6 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.text.ParseException;
 
-/**
- * Created by Marcin
- */
 interface PdfElementCreator {
 
     AbstractPdfElement create(String content) throws ParseException;

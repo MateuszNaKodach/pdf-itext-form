@@ -5,9 +5,6 @@ import com.itextpdf.text.pdf.BaseFont;
 
 import java.io.IOException;
 
-/**
- * Created by Marcin
- */
 class Config {
 
     static final String CARDO_REGULAR_FONT = "src/main/resources/fonts/Cardo-Regular.ttf";

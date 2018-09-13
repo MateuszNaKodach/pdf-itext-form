@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
-/**
- * Created by Marcin
- */
 class DataReader {
 
     static Map<String, String> readData(String filePath)

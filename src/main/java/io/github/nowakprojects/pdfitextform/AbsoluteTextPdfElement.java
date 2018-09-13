@@ -1,51 +1,28 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
 import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 
-/**
- * Created by Marcin
- */
 class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWriter<AbsoluteTextPdfElement> {
-    private final String content;
-    private final Float customFontSize;
 
-    private AbsoluteTextPdfElement(String tag, String content, PdfPosition pdfPosition) {
+    private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition) {
         super(tag, pdfPosition);
-        this.content = content;
-        this.customFontSize = null;
     }
 
-    AbsoluteTextPdfElement(String tag, String content, PdfPosition pdfPosition, float customFontSize) {
-        super(tag, pdfPosition);
-        this.content = content;
-        this.customFontSize = customFontSize;
+    AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, float customFontSize) {
+        super(tag, pdfPosition, customFontSize);
     }
 
     public String getTag() {
         return tag;
     }
 
-    String getContent() {
-        return content;
-    }
-
     public PdfPosition getPdfPosition() {
         return pdfPosition;
     }
 
-    Optional<Float> getCustomFontSize() {
-        return Optional.ofNullable(customFontSize);
-    }
-
     AbsoluteTextPdfElement withCustomFontSize(float customFontSize) {
-        return new AbsoluteTextPdfElement(this.tag, this.content, this.pdfPosition, customFontSize);
+        return new AbsoluteTextPdfElement(this.tag, this.pdfPosition, customFontSize);
     }
 
     AbsoluteTextPdfElement changeX(float newX) {
@@ -65,13 +42,13 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
     }
 
     private AbsoluteTextPdfElement changePosition(PdfPosition pdfPosition) {
-        return new AbsoluteTextPdfElement(this.tag, this.content, pdfPosition);
+        return new AbsoluteTextPdfElement(this.tag, pdfPosition);
     }
 
 
     @Override
     public void writePdfElement(PdfWriter pdfWriter, AbsoluteTextPdfElement pdfElement) {
-        try {
+        /*try {
             PdfPosition position = pdfPosition;
             PdfContentByte cb = pdfWriter.getDirectContent();
             BaseFont bf = new Config().baseFont;
@@ -84,7 +61,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
             cb.restoreState();
         } catch (DocumentException | IOException e) {
             e.printStackTrace();
-        }
+        }*/ //FIXME: Wrtier to another file!
     }
 
     public void writePdfElement(PdfWriter writer) {
@@ -95,20 +72,14 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
         return new Builder();
     }
 
-    static class Builder implements NeedTag, NeedContent, NeedPosition {
+    static class Builder implements NeedTag, NeedPosition {
         private String tag;
         private String content;
         private PdfPosition pdfPosition;
 
         @Override
-        public NeedContent withTag(String tag) {
+        public NeedPosition withTag(String tag) {
             this.tag = tag;
-            return this;
-        }
-
-        @Override
-        public NeedPosition andContent(String content) {
-            this.content = content;
             return this;
         }
 
@@ -122,7 +93,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
 
         private AbsoluteTextPdfElement positionedOn(PdfPosition pdfPosition) {
             this.pdfPosition = pdfPosition;
-            return new AbsoluteTextPdfElement(this.tag, this.content, this.pdfPosition);
+            return new AbsoluteTextPdfElement(this.tag, this.pdfPosition);
         }
     }
 
@@ -154,7 +125,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
 
         @Override
         public AbsoluteTextPdfElement create(String content) {
-            return new AbsoluteTextPdfElement(tag, content, pdfPosition, fontSize);
+            return new AbsoluteTextPdfElement(tag, pdfPosition, fontSize);
         }
 
         @Override
@@ -171,11 +142,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement implements PdfElementWri
 }
 
 interface NeedTag {
-    NeedContent withTag(String tag);
-}
-
-interface NeedContent {
-    NeedPosition andContent(String content);
+    NeedPosition withTag(String tag);
 }
 
 interface NeedPosition {

@@ -5,18 +5,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Marcin
- */
 public class SeparatedTextPdfElement extends AbstractPdfElement {
     private final String content;
-    private final float fontSize;
     private final float characterWidth;
 
-    SeparatedTextPdfElement(String tag, String content, PdfPosition pdfPosition, float fontSize, float characterWidth) {
-        super(tag, pdfPosition);
+    SeparatedTextPdfElement(String tag, String content, PdfPosition pdfPosition, float customFontSize, float characterWidth) {
+        super(tag, pdfPosition, customFontSize);
         this.content = content;
-        this.fontSize = fontSize;
         this.characterWidth = characterWidth;
     }
 
@@ -28,8 +23,8 @@ public class SeparatedTextPdfElement extends AbstractPdfElement {
         return content;
     }
 
-    public float getFontSize() {
-        return fontSize;
+    public float getCustomFontSize() {
+        return customFontSize;
     }
 
     public float getCharacterWidth() {
@@ -44,7 +39,7 @@ public class SeparatedTextPdfElement extends AbstractPdfElement {
         char[] array = content.toCharArray();
         for (int i = 0; i < array.length; i++) {
             elements.add(new AbsoluteTextPdfElement(tag + "_" + i, String.valueOf(array[i]),
-                    getShiftedPosition(shift), fontSize));
+                    getShiftedPosition(shift), customFontSize));
             shift += characterWidth;
         }
 

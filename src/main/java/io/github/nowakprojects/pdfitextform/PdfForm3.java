@@ -10,7 +10,7 @@ Documentation iText:
 https://developers.itextpdf.com/sites/default/files/attachments/PR%20-%20iText%20in%20Action%20-%20Second%20edition%20e-book.pdf
 
 TODO:
-Definicje pliku, np. PdfFormDeclaration - który może z XML odczytać dane i stworzyć PdfDeclaration
+Definicje pliku, np. PdfFormDeclaration - który może z XML odczytać dane i stworzyć PdfFormDeclaration
 Taki PdfFormDeclaration musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
  */
 public class PdfForm3 {
@@ -28,23 +28,25 @@ public class PdfForm3 {
 
     public static void main(String[] args) throws Exception {
 
-        PdfDeclaration pdfDeclaration = PdfDeclaration
+        PdfFormDeclaration pdfFormDeclaration = PdfFormDeclaration
                 .withDefaultFontSize(Config.FONT_SIZE)
                 .addPageElements(
                         PdfPage.withNumber(1),
                         elements(
-
-                        )
-                )
-                .addPageElements(
-                        PdfPage.withNumber(2),
-                        elements(
-
+                                AbsoluteTextPdfElement.builder()
+                                        .withTag("naczelnikUrzeduSkarbowego")
+                                        .positionedFromBottomLeft(63, 568)
                         )
                 );
 
 
-        Map<String, String> data = DataReader.readData("src/main/resources/input.xml");
+
+
+
+        final PdfFormValuesReader pdfFormValuesReader = new XmlPdfFormValuesReader();
+        final PdfFormValues pdfFormValues = pdfFormValuesReader.readFromFile("src/main/resources/input.xml");
+
+        //Map<String, String> data = DataReader.readData("src/main/resources/input.xml");
 
         Set<PdfElementCreator> page1 = new HashSet<>(), page2 = new HashSet<>();
 
@@ -70,7 +72,7 @@ public class PdfForm3 {
         map.put(2, page2);
         PdfToFill pdfToFill = new PdfToFill(Config.SRC, map);
 
-        pdfToFill.preparePdf(data, Config.DEST);
+        pdfToFill.preparePdf(pdfFormValues, Config.DEST);
 
 //        pdfToFill.showTemplate(Config.DEST);
 

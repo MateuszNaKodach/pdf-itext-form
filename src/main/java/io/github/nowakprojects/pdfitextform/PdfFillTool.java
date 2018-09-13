@@ -10,13 +10,10 @@ import java.io.FileOutputStream;
 import java.util.Map;
 import java.util.Set;
 
-/**
- * Created by Marcin
- */
 class PdfFillTool {
 
     static byte[] generatePdfBytesFromDeclaration(Set<PdfElementCreator> elementCreators,
-                                                  Map<String, String> values) throws Exception {
+                                                  PdfFormValues pdfFormValues) throws Exception {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -26,10 +23,10 @@ class PdfFillTool {
         elementCreators.forEach(elementCreator ->
                 {
                     try {
-                        String value = values.get(elementCreator.getTag());
+                        String value = pdfFormValues.getValueByTag(elementCreator.getTag());
                         if (value == null)
                             throw new Exception("Can't find value for " + elementCreator.getTag());
-                        AbstractPdfElement element = elementCreator.create(values.get(elementCreator.getTag()));
+                        AbstractPdfElement element = elementCreator.create(pdfFormValues.getValueByTag(elementCreator.getTag()));
                         element.writePdfElement(pdfWriter);
                     } catch (Exception e) {
                         e.printStackTrace();

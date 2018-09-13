@@ -8,30 +8,21 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.IOException;
 
-/**
- * Created by Marcin
- */
 class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWriter<MultilineTextPdfElement> {
     private final String content;
-    private final float fontSize;
     private final float maxHeight;
     private final float maxWidth;
 
-    MultilineTextPdfElement(String tag, String content, PdfPosition pdfPosition, float fontSize, float maxHeight,
+    MultilineTextPdfElement(String tag, String content, PdfPosition pdfPosition, float customFontSize, float maxHeight,
                             float maxWidth) {
-        super(tag, pdfPosition);
+        super(tag, pdfPosition, customFontSize);
         this.content = content;
-        this.fontSize = fontSize;
         this.maxHeight = maxHeight;
         this.maxWidth = maxWidth;
     }
 
     String getContent() {
         return content;
-    }
-
-    float getFontSize() {
-        return fontSize;
     }
 
     float getMaxHeight() {
@@ -50,7 +41,7 @@ class MultilineTextPdfElement extends AbstractPdfElement implements PdfElementWr
     @Override
     public void writePdfElement(PdfWriter pdfWriter, MultilineTextPdfElement pdfElement) {
         boolean printed = false;
-        for (float fs = fontSize; fs > 2 && !printed; fs -= 1) {
+        for (float fs = customFontSize; fs > 2 && !printed; fs -= 1) {
             if (isOkForFontSize(fs, pdfWriter)) {
                 printForSize(fs, pdfWriter);
                 printed = true;

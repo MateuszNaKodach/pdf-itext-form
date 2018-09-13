@@ -9,15 +9,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Marcin
- */
 public class DatePdfElement extends AbstractPdfElement implements PdfElementWriter<DatePdfElement> {
 
     private final Date date;
     private final float characterWidth;
     private final float spaceBetweenGroup;
-    private final float fontSize;
 
     private DatePdfElement(
             String tag,
@@ -25,12 +21,11 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
             PdfPosition pdfPosition,
             float characterWidth,
             float spaceBetweenGroup,
-            float fontSize) {
-        super(tag, pdfPosition);
+            float customFontSize) {
+        super(tag, pdfPosition, customFontSize);
         this.date = date;
         this.characterWidth = characterWidth;
         this.spaceBetweenGroup = spaceBetweenGroup;
-        this.fontSize = fontSize;
     }
 
     public Set<AbsoluteTextPdfElement> getSimpleElements() {
@@ -57,8 +52,7 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
             float xTopLeft,
             float yTopLeft) {
         return new SeparatedTextPdfElement(tag + tagPostfix, content,
-                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft),
-                fontSize, characterWidth);
+                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft), customFontSize, characterWidth);
     }
 
     private String getDaySting() {
@@ -99,10 +93,6 @@ public class DatePdfElement extends AbstractPdfElement implements PdfElementWrit
 
     public PdfPosition getPdfPosition() {
         return pdfPosition;
-    }
-
-    public float getFontSize() {
-        return fontSize;
     }
 
     static class Configuration implements PdfElementCreator {
