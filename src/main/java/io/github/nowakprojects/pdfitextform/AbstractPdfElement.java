@@ -8,7 +8,7 @@ abstract class AbstractPdfElement<T> implements PdfElement<T> {
 
     protected final String tag;
     protected final PdfPosition pdfPosition;
-    protected final Float customFontSize;
+    protected final FontSize customFontSize;
 
     protected AbstractPdfElement(String tag, PdfPosition pdfPosition) {
         this.tag = tag;
@@ -16,7 +16,7 @@ abstract class AbstractPdfElement<T> implements PdfElement<T> {
         this.customFontSize = null;
     }
 
-    protected AbstractPdfElement(String tag, PdfPosition pdfPosition, float customFontSize) {
+    protected AbstractPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize) {
         this.tag = tag;
         this.pdfPosition = pdfPosition;
         this.customFontSize = customFontSize;
@@ -33,7 +33,7 @@ abstract class AbstractPdfElement<T> implements PdfElement<T> {
     }
 
     @Override
-    public Optional<Float> getCustomFontSize() {
+    public Optional<FontSize> getCustomFontSize() {
         return Optional.ofNullable(customFontSize);
     }
 

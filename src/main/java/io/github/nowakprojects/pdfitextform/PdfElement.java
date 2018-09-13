@@ -10,9 +10,9 @@ interface PdfElement<T> {
 
     PdfPosition getPdfPosition();
 
-    Optional<Float> getCustomFontSize();
+    Optional<FontSize> getCustomFontSize();
 
-    T withCustomFontSize(float customFontSize);
+    T withCustomFontSize(FontSize customFontSize);
 
     default float getX() {
         return getPdfPosition().getX();

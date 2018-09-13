@@ -14,7 +14,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
         super(tag, pdfPosition);
     }
 
-    AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, float customFontSize) {
+    AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize) {
         super(tag, pdfPosition, customFontSize);
     }
 
@@ -26,7 +26,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
         return pdfPosition;
     }
 
-    public AbsoluteTextPdfElement withCustomFontSize(float customFontSize) {
+    public AbsoluteTextPdfElement withCustomFontSize(FontSize customFontSize) {
         return new AbsoluteTextPdfElement(this.tag, this.pdfPosition, customFontSize);
     }
 
@@ -77,7 +77,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
             cb.saveState();
             cb.beginText();
             cb.moveText(position.getX(), position.getY());
-            cb.setFontAndSize(bf, customFontSize);
+            cb.setFontAndSize(bf, customFontSize.getValue());
             cb.showText(content);
             cb.endText();
             cb.restoreState();
@@ -147,7 +147,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
 
         @Override
         public AbsoluteTextPdfElement create(String content) {
-            return new AbsoluteTextPdfElement(tag, pdfPosition, fontSize);
+            return new AbsoluteTextPdfElement(tag, pdfPosition, FontSize.withValue(fontSize));
         }
 
         @Override

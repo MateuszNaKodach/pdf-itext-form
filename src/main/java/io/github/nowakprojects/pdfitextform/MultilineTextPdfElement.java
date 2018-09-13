@@ -17,7 +17,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
             PdfPosition pdfPosition,
             float maxHeight,
             float maxWidth,
-            float customFontSize)
+            FontSize customFontSize)
     {
         super(tag, pdfPosition, customFontSize);
         this.maxHeight = maxHeight;
@@ -33,7 +33,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     }
 
     @Override
-    public MultilineTextPdfElement withCustomFontSize(float customFontSize) {
+    public MultilineTextPdfElement withCustomFontSize(FontSize customFontSize) {
         return new MultilineTextPdfElement(tag, pdfPosition, maxHeight, maxWidth, customFontSize);
     }
 
@@ -60,7 +60,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     @Override
     public void writePdfElement(String content, PdfWriter pdfWriter) {
         boolean printed = false;
-        for (float fs = customFontSize; fs > 2 && !printed; fs -= 1) {
+        for (float fs = customFontSize.getValue(); fs > 2 && !printed; fs -= 1) {
             if (isOkForFontSize(content, fs, pdfWriter)) {
                 printForSize(content, fs, pdfWriter);
                 printed = true;

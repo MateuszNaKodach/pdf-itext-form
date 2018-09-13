@@ -8,7 +8,7 @@ import java.util.Set;
 public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdfElement> {
     private final float characterWidth;
 
-    SeparatedTextPdfElement(String tag, PdfPosition pdfPosition, float customFontSize, float characterWidth) {
+    SeparatedTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, float characterWidth) {
         super(tag, pdfPosition, customFontSize);
         this.characterWidth = characterWidth;
     }
@@ -22,7 +22,7 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
     }
 
     @Override
-    public SeparatedTextPdfElement withCustomFontSize(float customFontSize) {
+    public SeparatedTextPdfElement withCustomFontSize(FontSize customFontSize) {
         return new SeparatedTextPdfElement(tag, pdfPosition, customFontSize, characterWidth);
     }
 

@@ -17,7 +17,7 @@ public class PdfForm3 {
     public static void main(String[] args) throws Exception {
 
         PdfFormSchema pdfFormSchema = PdfFormSchema
-                .withDefaultFontSize(Config.FONT_SIZE)
+                .withDefaultFontSize(FontSize.withValue(Config.FONT_SIZE))
                 .addPageElements(
                         PdfPageNumber.from(1),
                         elements(

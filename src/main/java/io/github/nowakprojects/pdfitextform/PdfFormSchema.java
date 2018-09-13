@@ -6,27 +6,27 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptySet;
 
 class PdfFormSchema {
-    private final float defaultFontSize;
+    private final FontSize defaultFontSize;
     private final boolean overrideElementsCustomFontSize;
     private final HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages;
 
-    private PdfFormSchema(float defaultFontSize, boolean overrideElementsCustomFontSize) {
+    private PdfFormSchema(FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
         this.defaultFontSize = defaultFontSize;
         this.overrideElementsCustomFontSize = overrideElementsCustomFontSize;
         this.elementsByPages = new HashMap<>();
     }
 
-    private PdfFormSchema(float defaultFontSize, boolean overrideElementsCustomFontSize, HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
+    private PdfFormSchema(FontSize defaultFontSize, boolean overrideElementsCustomFontSize, HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
         this.defaultFontSize = defaultFontSize;
         this.overrideElementsCustomFontSize = overrideElementsCustomFontSize;
         this.elementsByPages = elementsByPages;
     }
 
-    static PdfFormSchema withDefaultFontSize(float defaultFontSize) {
+    static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize) {
         return new PdfFormSchema(defaultFontSize, false);
     }
 
-    static PdfFormSchema withDefaultFontSize(float defaultFontSize, boolean overrideElementsCustomFontSize) {
+    static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
         return new PdfFormSchema(defaultFontSize, overrideElementsCustomFontSize);
     }
 
