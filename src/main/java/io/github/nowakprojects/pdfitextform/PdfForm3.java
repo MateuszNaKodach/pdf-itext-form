@@ -15,23 +15,12 @@ Taki PdfFormDeclaration musi zawierać to w jakim miejscu jest dany tag i jaka m
  */
 public class PdfForm3 {
 
-    private static AbsoluteTextPdfElement.Configuration simpleTextPdfElementConfiguration(String tag,
-                                                                                          PdfPosition position) {
-        return new AbsoluteTextPdfElement.Configuration(tag, position, Config.FONT_SIZE);
-    }
-
-    private static SeparatedTextPdfElement.Configuration separatedTextPdfElementConfiguration(String tag,
-                                                                                              PdfPosition position,
-                                                                                              float width) {
-        return new SeparatedTextPdfElement.Configuration(tag, position, Config.FONT_SIZE, width);
-    }
-
     public static void main(String[] args) throws Exception {
 
         PdfFormDeclaration pdfFormDeclaration = PdfFormDeclaration
                 .withDefaultFontSize(Config.FONT_SIZE)
                 .addPageElements(
-                        PdfPage.withNumber(1),
+                        PdfPageNumber.from(1),
                         elements(
                                 AbsoluteTextPdfElement.builder()
                                         .withTag("naczelnikUrzeduSkarbowego")
@@ -77,5 +66,17 @@ public class PdfForm3 {
 //        pdfToFill.showTemplate(Config.DEST);
 
     }
+
+    private static AbsoluteTextPdfElement.Configuration simpleTextPdfElementConfiguration(String tag,
+                                                                                          PdfPosition position) {
+        return new AbsoluteTextPdfElement.Configuration(tag, position, Config.FONT_SIZE);
+    }
+
+    private static SeparatedTextPdfElement.Configuration separatedTextPdfElementConfiguration(String tag,
+                                                                                              PdfPosition position,
+                                                                                              float width) {
+        return new SeparatedTextPdfElement.Configuration(tag, position, Config.FONT_SIZE, width);
+    }
+
 
 }

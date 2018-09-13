@@ -12,7 +12,7 @@ import java.util.Set;
 
 class PdfFillTool {
 
-    static byte[] generatePdfBytesFromDeclaration(Set<PdfElementCreator> elementCreators,
+    static byte[] generatePdfBytesFromDeclaration(Set<PdfElement> pdfElements,
                                                   PdfFormValues pdfFormValues) throws Exception {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
@@ -20,7 +20,7 @@ class PdfFillTool {
         PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
         document.open();
 
-        elementCreators.forEach(elementCreator ->
+        pdfElements.forEach(elementCreator ->
                 {
                     try {
                         String value = pdfFormValues.getValueByTag(elementCreator.getTag());
@@ -39,7 +39,28 @@ class PdfFillTool {
         return outputStream.toByteArray();
     }
 
-    static byte[] generatePdfBytesTemplateFromDeclaration(Set<PdfElementCreator> elementCreators) throws Exception {
+    static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
+            throws Exception {
+        PdfReader reader = new PdfReader(bottomFilePath);
+        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));
+
+        for (Integer pageNumber : pages.keySet()) {
+            PdfContentByte canvas = stamper.getOverContent(pageNumber);
+            PdfReader r;
+            PdfImportedPage page;
+
+            r = new PdfReader(pages.get(pageNumber));
+            page = stamper.getImportedPage(r, 1);
+            canvas.addTemplate(page, 0, 0);
+            stamper.getWriter().freeReader(r);
+            r.close();
+        }
+
+        stamper.close();
+    }
+
+
+   /* static byte[] generatePdfBytesTemplateFromDeclaration(Set<PdfElementCreator> elementCreators) throws Exception {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -60,24 +81,5 @@ class PdfFillTool {
 
         return outputStream.toByteArray();
     }
-
-    static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
-            throws Exception {
-        PdfReader reader = new PdfReader(bottomFilePath);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));
-
-        for (Integer pageNumber: pages.keySet()) {
-            PdfContentByte canvas = stamper.getOverContent(pageNumber);
-            PdfReader r;
-            PdfImportedPage page;
-
-            r = new PdfReader(pages.get(pageNumber));
-            page = stamper.getImportedPage(r, 1);
-            canvas.addTemplate(page, 0, 0);
-            stamper.getWriter().freeReader(r);
-            r.close();
-        }
-
-        stamper.close();
-    }
+*/
 }

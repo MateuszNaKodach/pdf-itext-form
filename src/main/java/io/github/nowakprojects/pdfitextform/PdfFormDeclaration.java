@@ -9,26 +9,26 @@ import static java.util.Collections.emptySet;
  */
 class PdfFormDeclaration {
     private final float defaultFontSize;
-    private final HashMap<PdfPage, Set<PdfElement>> elementsByPages;
+    private final HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages;
 
     PdfFormDeclaration(float defaultFontSize) {
         this.defaultFontSize = defaultFontSize;
         this.elementsByPages = new HashMap<>();
     }
 
-    PdfFormDeclaration(float defaultFontSize, HashMap<PdfPage, Set<PdfElement>> elementsByPages) {
+    PdfFormDeclaration(float defaultFontSize, HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
         this.defaultFontSize = defaultFontSize;
         this.elementsByPages = elementsByPages;
     }
 
     /*
-    private PdfFormDeclaration(HashMap<PdfPage, Set<PdfElement>> elementsByPages) {
+    private PdfFormDeclaration(HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
         this.elementsByPages = elementsByPages;
     }
 
-    static PdfFormDeclaration withPageElements(PdfPage pdfPage, PdfElements pdfElements) {
-        final HashMap<PdfPage, Set<PdfElement>> elementsByPages =
-                new HashMap<PdfPage, Set<PdfElement>>() {{
+    static PdfFormDeclaration withPageElements(PdfPageNumber pdfPage, PdfElements pdfElements) {
+        final HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages =
+                new HashMap<PdfPageNumber, Set<PdfElement>>() {{
                     put(pdfPage, pdfElements.getElements());
                 }};
         return new PdfFormDeclaration(elementsByPages);
@@ -38,17 +38,25 @@ class PdfFormDeclaration {
         return new PdfFormDeclaration(defaultFontSize);
     }
 
-    PdfFormDeclaration addPageElements(PdfPage pdfPage, PdfElements pdfElements) {
-        final HashMap<PdfPage, Set<PdfElement>> elementsByPages = new HashMap<PdfPage, Set<PdfElement>>(this.elementsByPages) {
+    PdfFormDeclaration addPageElements(PdfPageNumber pdfPageNumber, PdfElements pdfElements) {
+        final HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages = new HashMap<PdfPageNumber, Set<PdfElement>>(this.elementsByPages) {
             {
-                put(pdfPage, pdfElements.getElements());
+                put(pdfPageNumber, pdfElements.getElements());
             }
         };
         return new PdfFormDeclaration(this.defaultFontSize, elementsByPages);
     }
 
-    public Set<PdfElement> getElementsByPage(PdfPage pdfPage) {
-        return elementsByPages.getOrDefault(pdfPage, emptySet());
+    public Set<PdfElement> getElementsByPage(PdfPageNumber pdfPageNumber) {
+        return elementsByPages.getOrDefault(pdfPageNumber, emptySet());
+    }
+
+    public Set<PdfPageNumber> getPages() {
+        return elementsByPages.keySet();
+    }
+
+    public Integer countPages() {
+        return elementsByPages.keySet().size();
     }
 }
 
