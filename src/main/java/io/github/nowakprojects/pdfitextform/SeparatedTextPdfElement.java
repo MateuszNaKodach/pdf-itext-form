@@ -21,7 +21,7 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
 
     @Override
     public SeparatedTextPdfElement withFontSize(FontSize fontSize) {
-        return new SeparatedTextPdfElement(tag, pdfPosition, characterWidth, fontSize);
+        return new SeparatedTextPdfElement(tag, getPdfPosition(), characterWidth, fontSize);
     }
 
     static SeparatedTextPdfElement.NeedTag builder() {

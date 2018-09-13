@@ -5,8 +5,6 @@ public interface PdfPosition {
     float getX();
 
     float getY();
-
-    PositionType getPositionType();
 }
 
 

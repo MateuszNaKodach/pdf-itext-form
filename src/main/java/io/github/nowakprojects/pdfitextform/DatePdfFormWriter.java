@@ -2,49 +2,54 @@ package io.github.nowakprojects.pdfitextform;
 
 import com.itextpdf.text.pdf.PdfWriter;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-/*
-public class DatePdfFormWriter extends PdfFormWriter<DatePdfElement, Date> {
+import java.util.*;
 
+class DatePdfFormWriter extends PdfFormWriter<DatePdfElement, Date> {
 
-    public DatePdfFormWriter(DatePdfElement pdfElement, Date content) {
+    DatePdfFormWriter(DatePdfElement pdfElement, Date content) {
         super(pdfElement, content);
+    }
+
+    DatePdfFormWriter(DatePdfElement pdfElement, String content) {
+        super(pdfElement, DateUtils.getDateFrom(content));
     }
 
     @Override
     void writeOn(PdfWriter pdfWriter) {
+        final float characterWidth = pdfElement.getCharacterWidth();
+        final float spaceBetweenGroup = pdfElement.getSpaceBetweenGroup();
+        final FontSize fontSize = pdfElement.getFontSize().get();
+        final float x = pdfElement.getX();
+        final float y = pdfElement.getY();
 
-    }*/
-/*
 
-    public Set<AbsoluteTextPdfElement> getSimpleElements() {
+        SeparatedTextPdfElement dayElement = SeparatedTextPdfElement.builder()
+                .withTag(pdfElement.getTag() + "_day")
+                .withCharacterWidth(characterWidth)
+                .positionedFromBottomLeft(x, y)
+                .withFontSize(fontSize);
 
-        Set<AbsoluteTextPdfElement> elements = new HashSet<>();
+        new SeparatedTextPdfFormWriter(dayElement, getDaySting(content))
+                .writeOn(pdfWriter);
 
-        elements.addAll(createAbsoluteTextPdfElement("_day", getDaySting(), pdfPosition.getX(),
-                pdfPosition.getY()).getSimpleElements());
+        SeparatedTextPdfElement monthElement = SeparatedTextPdfElement.builder()
+                .withTag(pdfElement.getTag() + "_month")
+                .withCharacterWidth(characterWidth)
+                .positionedFromBottomLeft(x + characterWidth * 2 + spaceBetweenGroup, y)
+                .withFontSize(fontSize);
 
-        elements.addAll(createAbsoluteTextPdfElement("_month", getMonthSting(),
-                pdfPosition.getX() + characterWidth * 2 + spaceBetweenGroup, pdfPosition.getY())
-                .getSimpleElements());
+        new SeparatedTextPdfFormWriter(monthElement, getMonthSting(content))
+                .writeOn(pdfWriter);
 
-        elements.addAll(createAbsoluteTextPdfElement("_year", getYearString(),
-                pdfPosition.getX() + characterWidth * 4 + spaceBetweenGroup * 2, pdfPosition.getY())
-                .getSimpleElements());
+        SeparatedTextPdfElement yearElement = SeparatedTextPdfElement.builder()
+                .withTag(pdfElement.getTag() + "_year")
+                .withCharacterWidth(characterWidth)
+                .positionedFromBottomLeft(x + characterWidth * 4 + spaceBetweenGroup * 2, y)
+                .withFontSize(fontSize);
 
-        return elements;
-    }
+        new SeparatedTextPdfFormWriter(yearElement, getYearString(content))
+                .writeOn(pdfWriter);
 
-    private SeparatedTextPdfElement createAbsoluteTextPdfElement(
-            String tagPostfix,
-            String content,
-            float xTopLeft,
-            float yTopLeft) {
-        return new SeparatedTextPdfElement(tag + tagPostfix, content,
-                PdfPositionFactory.getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(xTopLeft, yTopLeft), fontSize, characterWidth);
     }
 
     private String getDaySting(Date date) {
@@ -64,9 +69,4 @@ public class DatePdfFormWriter extends PdfFormWriter<DatePdfElement, Date> {
         calendar.setTime(date);
         return String.valueOf(calendar.get(Calendar.YEAR));
     }
-
-    @Override
-    public void writePdfElement(PdfWriter pdfWriter, DatePdfElement pdfElement) {
-        getSimpleElements().forEach(element -> element.writePdfElement(pdfWriter));
-    }*/
-//}
+}

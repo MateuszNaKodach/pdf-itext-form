@@ -1,12 +1,5 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.ColumnText;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfWriter;
-
-import java.io.IOException;
 import java.util.Objects;
 
 class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement> {
@@ -34,7 +27,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
 
     @Override
     public MultilineTextPdfElement withFontSize(FontSize fontSize) {
-        return new MultilineTextPdfElement(tag, pdfPosition, maxHeight, maxWidth, fontSize);
+        return new MultilineTextPdfElement(tag, getPdfPosition(), maxHeight, maxWidth, fontSize);
     }
 
     static NeedTag builder() {

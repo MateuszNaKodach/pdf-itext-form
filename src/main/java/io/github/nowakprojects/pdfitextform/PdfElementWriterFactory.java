@@ -1,18 +1,23 @@
 package io.github.nowakprojects.pdfitextform;
 
+
+/*
+TODO: Better solution will be cerate PdfWriterRegister and register them for certain types.
+FOR EXAMPLE: https://stackoverflow.com/questions/34291714/how-to-implement-factory-pattern-with-generics-in-java
+ */
+
 class PdfElementWriterFactory {
 
-    static PdfFormWriter getPdfElementWriterFor(PdfElement pdfElement, Object content) {
+    static PdfFormWriter getPdfElementWriterFor(PdfElement pdfElement, String content) {
         if (pdfElement instanceof MultilineTextPdfElement) {
-            return new MultilineTextPdfFormWriter((MultilineTextPdfElement) pdfElement, (String) content);
+            return new MultilineTextPdfFormWriter((MultilineTextPdfElement) pdfElement, content);
         } else if (pdfElement instanceof SeparatedTextPdfElement) {
-            return new SeparatedTextPdfFormWriter((SeparatedTextPdfElement) pdfElement, (String) content);
-        } else if (content instanceof String) {
-            return new SimplePdfFormWriter(pdfElement, (String) content);
+            return new SeparatedTextPdfFormWriter((SeparatedTextPdfElement) pdfElement, content);
+        } else if (pdfElement instanceof DatePdfElement) {
+            return new DatePdfFormWriter((DatePdfElement) pdfElement, content);
         } else {
-            throw new IllegalArgumentException("Passed values cannot be printed!");
+            return new SimplePdfFormWriter(pdfElement, content);
         }
     }
-
 }
 

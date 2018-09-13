@@ -12,32 +12,16 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
         super(tag, pdfPosition, customFontSize);
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public PdfPosition getPdfPosition() {
-        return pdfPosition;
-    }
-
     public AbsoluteTextPdfElement withFontSize(FontSize fontSize) {
-        return new AbsoluteTextPdfElement(this.tag, this.pdfPosition, fontSize);
+        return new AbsoluteTextPdfElement(getTag(), getPdfPosition(), fontSize);
     }
 
     AbsoluteTextPdfElement changeX(float newX) {
-        return changePosition(
-                PdfPositionFactory
-                        .getPosition(this.pdfPosition.getPositionType())
-                        .withCoordinates(newX, getY())
-        );
+        return changePosition(PdfPositionFactory.getBottomLeftPdfPosition(newX,getY()));
     }
 
     AbsoluteTextPdfElement changeY(float newY) {
-        return changePosition(
-                PdfPositionFactory
-                        .getPosition(this.pdfPosition.getPositionType())
-                        .withCoordinates(getX(), newY)
-        );
+        return changePosition(PdfPositionFactory.getBottomLeftPdfPosition(getX(),newY));
     }
 
     private AbsoluteTextPdfElement changePosition(PdfPosition pdfPosition) {

@@ -2,19 +2,20 @@ package io.github.nowakprojects.pdfitextform;
 
 import java.util.Optional;
 
+
 abstract class AbstractPdfElement<T> implements PdfElement<T> {
 
     protected final String tag;
-    protected final PdfPosition pdfPosition;
-    protected final FontSize fontSize;
+    private final PdfPosition pdfPosition;
+    private final FontSize fontSize;
 
-    protected AbstractPdfElement(String tag, PdfPosition pdfPosition) {
+    AbstractPdfElement(String tag, PdfPosition pdfPosition) {
         this.tag = tag;
         this.pdfPosition = pdfPosition;
         this.fontSize = null;
     }
 
-    protected AbstractPdfElement(String tag, PdfPosition pdfPosition, FontSize fontSize) {
+    AbstractPdfElement(String tag, PdfPosition pdfPosition, FontSize fontSize) {
         this.tag = tag;
         this.pdfPosition = pdfPosition;
         this.fontSize = fontSize;

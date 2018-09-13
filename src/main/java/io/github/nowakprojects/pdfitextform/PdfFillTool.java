@@ -1,86 +1,99 @@
 package io.github.nowakprojects.pdfitextform;
 
 import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 class PdfFillTool {
 
-    static byte[] generatePdfBytesFromDeclaration(Set<PdfElement> pdfElements,
-                                                  PdfFormValues pdfFormValues) throws Exception {
+    private final String pdfOutputDirectoryPath;
+    private boolean ignoreLackOfElementValue = true;
+
+    private PdfFillTool(String pdfOutputDirectoryPath) {
+        this.pdfOutputDirectoryPath = pdfOutputDirectoryPath;
+    }
+
+    static PdfFillTool withDefinedOutputDirectory(String pdfOutputDirectoryPath) {
+        return new PdfFillTool(pdfOutputDirectoryPath);
+    }
+
+    void fillPdfForm(PdfForm pdfForm, String pdfOutputFileName) {
+        final PdfFormSchema formSchema = pdfForm.getSchema();
+        final PdfFormValues formValues = pdfForm.getValues();
+        final Map<Integer, byte[]> topPages = new HashMap<Integer, byte[]>() {
+            {
+                formSchema.getPages()
+                        .forEach(pdfPageNumber -> put(
+                                pdfPageNumber.getValue(),
+                                generatePdfBytesFrom(formSchema.getElementsByPage(pdfPageNumber), formValues))
+                        );
+            }
+        };
+        try {
+            mergePdfsLayers(pdfForm.getFormFilePath(), topPages, pdfOutputDirectoryPath + pdfOutputFileName);
+        } catch (IOException | DocumentException e) {
+            e.printStackTrace();
+            throw new PdfFillingException(e);
+        }
+    }
+
+    public void setIgnoreLackOfElementValue(boolean ignoreLackOfElementValue) {
+        this.ignoreLackOfElementValue = ignoreLackOfElementValue;
+    }
+
+    private byte[] generatePdfBytesFrom(Set<PdfElement> pdfElements, PdfFormValues pdfFormValues) {
         final Rectangle a4PageSize = PageSize.A4;
         Document document = new Document(a4PageSize);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
-        document.open();
+        try {
+            PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
+            document.open();
 
-        pdfElements.forEach(pdfElement ->
-                {
-                    try {
-                        String value = pdfFormValues.getValueByTag(pdfElement.getTag());
-                        if (value == null)
-                            throw new Exception("Can't find value for " + pdfElement.getTag());
-                        PdfElementWriterFactory
-                                .getPdfElementWriterFor(pdfElement, value)
-                                .writeOn(pdfWriter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            pdfElements.forEach(pdfElement ->
+                    {
+                        try {
+                            String value = pdfFormValues.getValueByTag(pdfElement.getTag());
+                            if (value == null && !ignoreLackOfElementValue)
+                                throw new PdfFillingException("Can't find value for " + pdfElement.getTag());
+                            PdfElementWriterFactory
+                                    .getPdfElementWriterFor(pdfElement, value)
+                                    .writeOn(pdfWriter);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-        );
-
+            );
+        } catch (DocumentException e) {
+            e.printStackTrace();
+            throw new PdfFillingException(e);
+        }
         document.close();
 
         return outputStream.toByteArray();
     }
 
-    static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath)
-            throws Exception {
-        PdfReader reader = new PdfReader(bottomFilePath);
-        PdfStamper stamper = new PdfStamper(reader, new FileOutputStream(destinationPath));
+    private static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath) throws IOException, DocumentException {
+        PdfReader bottomFileReader = new PdfReader(bottomFilePath);
+        PdfStamper stamper = new PdfStamper(bottomFileReader, new FileOutputStream(destinationPath));
 
         for (Integer pageNumber : pages.keySet()) {
             PdfContentByte canvas = stamper.getOverContent(pageNumber);
-            PdfReader r;
-            PdfImportedPage page;
-
-            r = new PdfReader(pages.get(pageNumber));
-            page = stamper.getImportedPage(r, 1);
+            PdfReader pageReader = new PdfReader(pages.get(pageNumber));
+            PdfImportedPage page = stamper.getImportedPage(pageReader, 1);
             canvas.addTemplate(page, 0, 0);
-            stamper.getWriter().freeReader(r);
-            r.close();
+            stamper.getWriter().freeReader(pageReader);
+            pageReader.close();
         }
 
         stamper.close();
     }
-
-
-   /* static byte[] generatePdfBytesTemplateFromDeclaration(Set<PdfElementCreator> elementCreators) throws Exception {
-        final Rectangle a4PageSize = PageSize.A4;
-        Document document = new Document(a4PageSize);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PdfWriter pdfWriter = PdfWriter.getInstance(document, outputStream);
-        document.open();
-
-        elementCreators.forEach(elementCreator ->
-                {
-                    try {
-                        elementCreator.printTemplate(pdfWriter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-        );
-
-        document.close();
-
-        return outputStream.toByteArray();
-    }
-*/
 }

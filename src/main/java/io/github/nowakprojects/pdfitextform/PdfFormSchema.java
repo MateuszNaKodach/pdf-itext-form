@@ -7,27 +7,34 @@ import static java.util.Collections.emptySet;
 
 class PdfFormSchema {
     private final FontSize defaultFontSize;
+    private final String defaultFontName;
     private final boolean overrideElementsCustomFontSize;
     private final HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages;
 
-    private PdfFormSchema(FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
+    private PdfFormSchema(FontSize defaultFontSize, boolean overrideElementsCustomFontSize, String defaultFontName) {
         this.defaultFontSize = defaultFontSize;
         this.overrideElementsCustomFontSize = overrideElementsCustomFontSize;
+        this.defaultFontName = defaultFontName;
         this.elementsByPages = new HashMap<>();
     }
 
-    private PdfFormSchema(FontSize defaultFontSize, boolean overrideElementsCustomFontSize, HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
+    private PdfFormSchema(FontSize defaultFontSize, boolean overrideElementsCustomFontSize, String defaultFontName, HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
         this.defaultFontSize = defaultFontSize;
         this.overrideElementsCustomFontSize = overrideElementsCustomFontSize;
+        this.defaultFontName = defaultFontName;
         this.elementsByPages = elementsByPages;
     }
 
-    static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize) {
-        return new PdfFormSchema(defaultFontSize, false);
+    static PdfFormSchema withDefaultFont(String defaultFontName, FontSize defaultFontSize) {
+        return new PdfFormSchema(defaultFontSize, false, defaultFontName);
+    }
+
+    static PdfFormSchema withDefaultFontSize(String defaultFontName, FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
+        return new PdfFormSchema(defaultFontSize, overrideElementsCustomFontSize, defaultFontName);
     }
 
     static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
-        return new PdfFormSchema(defaultFontSize, overrideElementsCustomFontSize);
+        return new PdfFormSchema(defaultFontSize, overrideElementsCustomFontSize, null);
     }
 
     PdfFormSchema addPageElements(PdfPageNumber pdfPageNumber, PdfElements pdfElements) {
@@ -45,7 +52,7 @@ class PdfFormSchema {
                 );
             }
         };
-        return new PdfFormSchema(this.defaultFontSize, this.overrideElementsCustomFontSize, elementsByPages);
+        return new PdfFormSchema(this.defaultFontSize, this.overrideElementsCustomFontSize, this.defaultFontName, elementsByPages);
     }
 
     Set<PdfElement> getElementsByPage(PdfPageNumber pdfPageNumber) {
