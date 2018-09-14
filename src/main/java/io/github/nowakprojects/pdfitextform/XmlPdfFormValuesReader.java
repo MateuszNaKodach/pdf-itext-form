@@ -37,9 +37,9 @@ class XmlPdfFormValuesReader implements PdfFormValuesReader {
     }
 
     private void addNodeWithChildrenToMap(Node node, Map<String, String> map, String nodePrefix) {
-        String nodeValue = node.getFirstChild().getNodeValue();
-        if (nodeValue != null) {
-            map.put(nodePrefix == null ? "" : (nodePrefix + "." + node.getNodeName()), node.getFirstChild().getNodeValue());
+        final Node firstChild = node.getFirstChild();
+        if (firstChild != null && firstChild.getNodeValue() != null) {
+            map.put(nodePrefix == null ? "" : (nodePrefix + "." + node.getNodeName()), firstChild.getNodeValue());
         }
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {

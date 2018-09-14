@@ -63,8 +63,12 @@ class PdfFormSchema {
         return elementsByPages.keySet();
     }
 
-    Integer countPages() {
+    int countPages() {
         return elementsByPages.keySet().size();
+    }
+
+    int countElementsOnPage(PdfPageNumber pageNumber){
+        return elementsByPages.getOrDefault(pageNumber,emptySet()).size();
     }
 }
 

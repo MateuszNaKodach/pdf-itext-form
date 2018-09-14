@@ -16,7 +16,7 @@ import java.util.Set;
 class PdfFillTool {
 
     private final String pdfOutputDirectoryPath;
-    private boolean ignoreLackOfElementValue = true;
+    private boolean ignoreLackOfElementValue = false;
 
     private PdfFillTool(String pdfOutputDirectoryPath) {
         this.pdfOutputDirectoryPath = pdfOutputDirectoryPath;
@@ -32,6 +32,8 @@ class PdfFillTool {
         final Map<Integer, byte[]> topPages = new HashMap<Integer, byte[]>() {
             {
                 formSchema.getPages()
+                        .stream()
+                        .filter(page -> formSchema.countElementsOnPage(page) > 0)
                         .forEach(pdfPageNumber -> put(
                                 pdfPageNumber.getValue(),
                                 generatePdfBytesFrom(formSchema.getElementsByPage(pdfPageNumber), formValues))
@@ -60,15 +62,13 @@ class PdfFillTool {
 
             pdfElements.forEach(pdfElement ->
                     {
-                        try {
-                            String value = pdfFormValues.getValueByTag(pdfElement.getTag());
-                            if (value == null && !ignoreLackOfElementValue)
-                                throw new PdfFillingException("Can't find value for " + pdfElement.getTag());
+                        String value = pdfFormValues.getValueByTag(pdfElement.getTag());
+                        if (value == null && !ignoreLackOfElementValue) {
+                            throw new PdfFillingException("Can't find value for " + pdfElement.getTag());
+                        } else if (value != null) {
                             PdfElementWriterFactory
                                     .getPdfElementWriterFor(pdfElement, value)
                                     .writeOn(pdfWriter);
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
                     }
             );
