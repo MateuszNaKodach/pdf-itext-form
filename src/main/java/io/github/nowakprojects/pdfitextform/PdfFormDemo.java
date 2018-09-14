@@ -12,7 +12,7 @@ TODO:
 Definicje pliku, np. PdfFormSchema - który może z XML odczytać dane i stworzyć PdfFormSchema
 Taki PdfFormSchema musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
  */
-public class PdfForm3 {
+public class PdfFormDemo {
 
     public static void main(String[] args) throws Exception {
 
@@ -22,10 +22,10 @@ public class PdfForm3 {
                         PdfPageNumber.from(1),
                         elements(
                                 SeparatedTextPdfElement.builder()
-                                        .withTag("pesel")
+                                        .withTag("Document.ACADR00001PrintData.C.RepresentativePersonPESEL")
                                         .withCharacterWidth(15)
-                                        .positionedFromBottomLeft(63, 785),
-                                AbsoluteTextPdfElement.builder()
+                                        .positionedFromBottomLeft(63, 785)
+                                /*AbsoluteTextPdfElement.builder()
                                         .withTag("naczelnikUrzeduSkarbowego")
                                         .positionedFromBottomLeft(63, 568),
                                 AbsoluteTextPdfElement.builder()
@@ -61,25 +61,25 @@ public class PdfForm3 {
                                 MultilineTextPdfElement.builder()
                                         .withTag("multi")
                                         .withMaxSize(50, 100)
-                                        .positionedFromBottomLeft(50, 100)
+                                        .positionedFromBottomLeft(50, 100)*/
                         )
                 ).addPageElements(
                         PdfPageNumber.from(2),
                         elements(
-                                AbsoluteTextPdfElement.builder()
+                                /*AbsoluteTextPdfElement.builder()
                                         .withTag("naczelnikUrzeduSkarbowego")
                                         .positionedFromBottomLeft(63, 568),
                                 DatePdfElement.builder()
                                         .withTag("data")
                                         .withCharacterWidth(15)
                                         .withSpaceBetweenGroup(5)
-                                        .positionedFromBottomLeft(110, 476)
+                                        .positionedFromBottomLeft(110, 476)*/
                         )
                 );
 
 
         final PdfFormValuesReader pdfFormValuesReader = new XmlPdfFormValuesReader();
-        final PdfFormValues pdfFormValues = pdfFormValuesReader.readFromFile("src/main/resources/input.xml");
+        final PdfFormValues pdfFormValues = pdfFormValuesReader.readFromFile("src/main/resources/input-test.xml");
 
         final PdfFillTool pdfFillTool = PdfFillTool.withDefinedOutputDirectory(Config.DEST_DIRECTORY);
         pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValues),"filledPdf.pdf");
