@@ -26,6 +26,7 @@ class PdfFillTool {
         return new PdfFillTool(pdfOutputDirectoryPath);
     }
 
+    //TODO: Funkcja zwracajaca byte array pliku!
     void fillPdfForm(PdfForm pdfForm, String pdfOutputFileName) {
         final PdfFormSchema formSchema = pdfForm.getSchema();
         final PdfFormValues formValues = pdfForm.getValues();

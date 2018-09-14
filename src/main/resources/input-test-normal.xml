@@ -51,7 +51,7 @@
                 <Commune>Testowa Gmina</Commune>
             </SubmitterAddress>
             <ReturnOnPersonalAccount>true</ReturnOnPersonalAccount>
-            <ResignationFromReturnToAccount>true</ResignationFromReturnToAccount>
+            <ResignationFromReturnToAccount>false</ResignationFromReturnToAccount>
             <Fax>865-934-1234</Fax>
             <SubmitterName>
                 <FirstName>Katarzyna</FirstName>

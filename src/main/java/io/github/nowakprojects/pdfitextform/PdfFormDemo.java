@@ -21,6 +21,10 @@ TODO: Jaka czcionka i rozmiar?
 16. Brak pola!
 17. Brak miejsca na CellPhone/ MobilePhone!? Co jesli beda dwa
 18. Brak FAX w XML
+
+34. Posiadacz rachunku!!! W jaki sposob zapisac? 2 imiona czy jak?
+
+Brak: 34,40,16!
  */
 public class PdfFormDemo {
 
@@ -96,6 +100,9 @@ public class PdfFormDemo {
                                         .withTag(getBSectionTag("ElectronicAddress"))
                                         .withMaxSize(15, 360)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE, 238),
+                                CheckBoxPdfElement.builder()
+                                        .withTag(getBSectionTag("ElectronicAddressResignation"))
+                                        .positionedFromBottomLeft(488.5f, 226.5f),
 
                                 MultilineTextPdfElement.builder()
                                         .withTag(getBSectionTag("SubmitterCorrAddress.Country"))
@@ -150,6 +157,17 @@ public class PdfFormDemo {
                                         .withTag(getBSectionTag("PersonalAccountData.BankName"))
                                         .withMaxSize(15, 530)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE, 700),
+                                CheckBoxPdfElement.builder()
+                                        .withTag(getBSectionTag("ResignationFromReturnToAccount"))
+                                        .positionedFromBottomLeft(528.5f, 640.5f),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("PersonalAccountData.IBAN"))
+                                        .withMaxSize(15, 250)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 60, 648),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("PersonalAccountData.SWIFT"))
+                                        .withMaxSize(15, 65)
+                                        .positionedFromBottomLeft(430, 648),
 
                                 MultilineTextPdfElement.builder()
                                         .withTag(getCSectionTag("RepresentativePersonName.FirstName"))
