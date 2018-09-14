@@ -30,7 +30,7 @@ public class PdfFormDemo {
 
 
         PdfFormSchema pdfFormSchema = PdfFormSchema
-                .withDefaultFontSize(FontSize.withValue(Config.FONT_SIZE), false)
+                .withDefaultFontSize(FontSize.withValue(Config.FONT_SIZE))
                 .addPageElements(
                         PdfPageNumber.from(1),
                         elements(
@@ -38,6 +38,7 @@ public class PdfFormDemo {
                                         .withTag(getASectionTag("PlaceOfSubmission"))
                                         .withMaxSize(15, 524)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE, 579),
+
                                 MultilineTextPdfElement.builder()
                                         .withTag(getBSectionTag("SubmitterName.FirstName"))
                                         .withMaxSize(15, 250)
@@ -82,6 +83,7 @@ public class PdfFormDemo {
                                         .withTag(getBSectionTag("SubmitterAddress.ZipCode"))
                                         .withMaxSize(15, 70)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE + 272, 410),
+
                                 SeparatedTextPdfElement.builder()
                                         .withTag(getBSectionTag("ContactData.CellPhone"))
                                         .withCharacterWidth(15)
@@ -94,49 +96,61 @@ public class PdfFormDemo {
                                         .withTag(getBSectionTag("ElectronicAddress"))
                                         .withMaxSize(15, 360)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE, 238),
+
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.Country"))
+                                        .withMaxSize(15, 105)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE, 460 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.Voivodenship"))
+                                        .withMaxSize(15, 215)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 110, 460 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.County"))
+                                        .withMaxSize(15, 170)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 340, 460 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.Commune"))
+                                        .withMaxSize(15, 120)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE, 435 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.Street"))
+                                        .withMaxSize(15, 305)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 135, 435 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.HouseNumber"))
+                                        .withMaxSize(15, 55)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 405, 435 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.FlatNumber"))
+                                        .withMaxSize(15, 55)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 460, 435 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.City"))
+                                        .withMaxSize(15, 265)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE, 410 - 267),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("SubmitterCorrAddress.ZipCode"))
+                                        .withMaxSize(15, 70)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 272, 410 - 267),
+
                                 SeparatedTextPdfElement.builder()
                                         .withTag(getCSectionTag("RepresentativePersonPESEL"))
                                         .withCharacterWidth(15)
                                         .positionedFromBottomLeft(63, 785)
-                                /*
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("imie")
-                                        .positionedFromBottomLeft(330, 496),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("nazwisko")
-                                        .positionedFromBottomLeft(63, 495),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("kraj")
-                                        .positionedFromBottomLeft(63, 450),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("wojewodztwo")
-                                        .positionedFromBottomLeft(170, 450),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("powiat")
-                                        .positionedFromBottomLeft(390, 450),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("gmina")
-                                        .positionedFromBottomLeft(63, 425),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("nrDomu")
-                                        .positionedFromBottomLeft(460, 425),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("miejscowosc")
-                                        .positionedFromBottomLeft(63, 400),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("kodPocztowy")
-                                        .positionedFromBottomLeft(330, 400),
-                                AbsoluteTextPdfElement.builder()
-                                        .withTag("poczta")
-                                        .positionedFromBottomLeft(400, 400),
-                                MultilineTextPdfElement.builder()
-                                        .withTag("multi")
-                                        .withMaxSize(50, 100)
-                                        .positionedFromBottomLeft(50, 100)*/
                         )
                 ).addPageElements(
                         PdfPageNumber.from(2),
                         elements(
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("PersonalAccountData.BankCountry"))
+                                        .withMaxSize(15, 530)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE, 725),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("PersonalAccountData.BankName"))
+                                        .withMaxSize(15, 530)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE, 700),
+
                                 MultilineTextPdfElement.builder()
                                         .withTag(getCSectionTag("RepresentativePersonName.FirstName"))
                                         .withMaxSize(15, 250)
@@ -163,15 +177,14 @@ public class PdfFormDemo {
 
 
         final PdfFormValuesReader pdfFormValuesReader = new XmlPdfFormValuesReader();
-        final PdfFormValues pdfFormValuesMax = pdfFormValuesReader.readFromFile("src/main/resources/input-test-max.xml");
         final PdfFillTool pdfFillTool = PdfFillTool.withDefinedOutputDirectory(Config.DEST_DIRECTORY);
         pdfFillTool.setIgnoreLackOfElementValue(true);
 
         final PdfFormValues pdfFormValuesNormal = pdfFormValuesReader.readFromFile("src/main/resources/input-test-normal.xml");
-
-
-        pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValuesMax), "filledPdf-max.pdf");
         pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValuesNormal), "filledPdf-normal.pdf");
+
+        final PdfFormValues pdfFormValuesMax = pdfFormValuesReader.readFromFile("src/main/resources/input-test-max.xml");
+        pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValuesMax), "filledPdf-max.pdf");
     }
 
     private static String getASectionTag(String tag) {

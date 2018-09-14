@@ -25,16 +25,23 @@ class PdfFormSchema {
         this.elementsByPages = elementsByPages;
     }
 
+    /*
     static PdfFormSchema withDefaultFont(String defaultFontName, FontSize defaultFontSize) {
         return new PdfFormSchema(defaultFontSize, false, defaultFontName);
     }
 
-    static PdfFormSchema withDefaultFontSize(String defaultFontName, FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
+    static PdfFormSchema withDefaultFont(String defaultFontName, FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
         return new PdfFormSchema(defaultFontSize, overrideElementsCustomFontSize, defaultFontName);
     }
 
-    static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
+     static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize, boolean overrideElementsCustomFontSize) {
         return new PdfFormSchema(defaultFontSize, overrideElementsCustomFontSize, null);
+    }
+
+    */
+
+    static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize) {
+        return new PdfFormSchema(defaultFontSize, false, null);
     }
 
     PdfFormSchema addPageElements(PdfPageNumber pdfPageNumber, PdfElements pdfElements) {
@@ -67,8 +74,8 @@ class PdfFormSchema {
         return elementsByPages.keySet().size();
     }
 
-    int countElementsOnPage(PdfPageNumber pageNumber){
-        return elementsByPages.getOrDefault(pageNumber,emptySet()).size();
+    int countElementsOnPage(PdfPageNumber pageNumber) {
+        return elementsByPages.getOrDefault(pageNumber, emptySet()).size();
     }
 }
 

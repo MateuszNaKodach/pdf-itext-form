@@ -1,6 +1,7 @@
 package io.github.nowakprojects.pdfitextform;
 
 import java.util.Objects;
+import java.util.Set;
 
 class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement> {
     private final float maxHeight;
@@ -79,6 +80,8 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
 
     interface NeedTag {
         NeedMaxSize withTag(String tag);
+
+       // NeedMaxSize withTags(Set<String> tags);
     }
 
     interface NeedMaxSize {
