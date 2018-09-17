@@ -4,5 +4,8 @@ import java.util.List;
 
 interface PdfGroup {
 
-    List<PdfElement> getSelectedGroupElements();
+    List<PdfElement> getAllGroupElements();
+
+    List<PdfElement> getSelectedGroupElementsBy(PdfFormValues pdfFormValues);
+
 }

@@ -65,5 +65,9 @@ class PdfFormValues {
         return valuesByTag.get(tag);
     }
 
+    boolean containsValueForTag(String tag) {
+        return valuesByTag.containsKey(tag);
+    }
+
 
 }

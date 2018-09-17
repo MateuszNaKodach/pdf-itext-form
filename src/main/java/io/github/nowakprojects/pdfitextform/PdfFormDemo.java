@@ -2,7 +2,9 @@ package io.github.nowakprojects.pdfitextform;
 
 import io.github.nowakprojects.Config;
 
+import static io.github.nowakprojects.pdfitextform.AlternativePdfGroup.orderedOr;
 import static io.github.nowakprojects.pdfitextform.PdfElements.elements;
+import static io.github.nowakprojects.pdfitextform.PdfGroups.groups;
 
 /*
 Documentation iText:
@@ -30,7 +32,7 @@ public class PdfFormDemo {
 
     private static final int LEFT_PDF_SIDE = 54;
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         PdfFormSchema pdfFormSchema = PdfFormSchema
                 .withDefaultFontSize(FontSize.withValue(Config.FONT_SIZE))
@@ -147,7 +149,7 @@ public class PdfFormDemo {
                         )
                 ).addPageElements(
                         PdfPageNumber.from(2),
-                        elements(
+                        groups(
                                 MultilineTextPdfElement.builder()
                                         .withTag(getBSectionTag("PersonalAccountData.BankCountry"))
                                         .withMaxSize(15, 530)
@@ -177,15 +179,18 @@ public class PdfFormDemo {
                                         .withMaxSize(15, 250)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE + 260, 584),
 
-                                SeparatedTextPdfElement.builder()
-                                        .withTag(getCSectionTag("RepresentativePersonPESEL"))
-                                        .withCharacterWidth(15)
-                                        .positionedFromBottomLeft(228, 550),
+                                orderedOr
+                                        (
+                                                SeparatedTextPdfElement.builder()
+                                                        .withTag(getCSectionTag("RepresentativePersonPESEL"))
+                                                        .withCharacterWidth(15)
+                                                        .positionedFromBottomLeft(228, 550),
+                                                SeparatedTextPdfElement.builder()
+                                                        .withTag(getCSectionTag("RepresentativePersonNIP"))
+                                                        .withCharacterWidth(15)
+                                                        .positionedFromBottomLeft(228, 550)
+                                        ),
 
-                                SeparatedTextPdfElement.builder()
-                                        .withTag(getCSectionTag("RepresentativePersonNIP"))
-                                        .withCharacterWidth(15)
-                                        .positionedFromBottomLeft(228, 550),
                                 DatePdfElement.builder()
                                         .withTag(getCSectionTag("OperationDate"))
                                         .withCharacterWidth(15)

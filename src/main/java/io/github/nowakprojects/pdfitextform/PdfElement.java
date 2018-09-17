@@ -3,7 +3,7 @@ package io.github.nowakprojects.pdfitextform;
 
 import java.util.Optional;
 
-public interface PdfElement<T> {
+public interface PdfElement<T> extends PdfGroup {
 
     String getTag();
 
@@ -12,6 +12,8 @@ public interface PdfElement<T> {
     Optional<FontSize> getFontSize();
 
     T withFontSize(FontSize fontSize);
+
+    void setFontSize(FontSize fontSize);
 
     default float getX() {
         return getPdfPosition().getX();

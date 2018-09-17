@@ -37,7 +37,7 @@ class PdfFillTool {
                         .filter(page -> formSchema.countElementsOnPage(page) > 0)
                         .forEach(pdfPageNumber -> put(
                                 pdfPageNumber.getValue(),
-                                generatePdfBytesFrom(formSchema.getElementsByPage(pdfPageNumber), formValues))
+                                generatePdfBytesFrom(formSchema.getAllElementsByPageBy(pdfPageNumber, formValues), formValues))
                         );
             }
         };
