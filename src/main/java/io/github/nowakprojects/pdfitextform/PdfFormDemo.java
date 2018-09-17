@@ -30,8 +30,7 @@ public class PdfFormDemo {
 
     private static final int LEFT_PDF_SIDE = 54;
 
-    public static void main(String[] args) throws Exception {
-
+    public static void main(String[] args)  {
 
         PdfFormSchema pdfFormSchema = PdfFormSchema
                 .withDefaultFontSize(FontSize.withValue(Config.FONT_SIZE))
@@ -177,10 +176,12 @@ public class PdfFormDemo {
                                         .withTag(getCSectionTag("RepresentativePersonName.LastName"))
                                         .withMaxSize(15, 250)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE + 260, 584),
+
                                 SeparatedTextPdfElement.builder()
                                         .withTag(getCSectionTag("RepresentativePersonPESEL"))
                                         .withCharacterWidth(15)
                                         .positionedFromBottomLeft(228, 550),
+
                                 SeparatedTextPdfElement.builder()
                                         .withTag(getCSectionTag("RepresentativePersonNIP"))
                                         .withCharacterWidth(15)

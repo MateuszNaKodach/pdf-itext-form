@@ -6,8 +6,8 @@ import java.util.Optional;
 abstract class AbstractPdfElement<T> implements PdfElement<T> {
 
     protected final String tag;
-    private final PdfPosition pdfPosition;
-    private final FontSize fontSize;
+    protected final PdfPosition pdfPosition;
+    protected final FontSize fontSize;
 
     AbstractPdfElement(String tag, PdfPosition pdfPosition) {
         this.tag = tag;

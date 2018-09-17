@@ -4,28 +4,41 @@ import java.util.Objects;
 
 class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> {
 
+    private final String defaultContent;
+
     private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition) {
         super(tag, pdfPosition);
+        this.defaultContent = null;
     }
 
     AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize) {
         super(tag, pdfPosition, customFontSize);
+        this.defaultContent = null;
+    }
+
+    private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, String defaultContent) {
+        super(tag, pdfPosition, customFontSize);
+        this.defaultContent = defaultContent;
     }
 
     public AbsoluteTextPdfElement withFontSize(FontSize fontSize) {
-        return new AbsoluteTextPdfElement(getTag(), getPdfPosition(), fontSize);
+        return new AbsoluteTextPdfElement(getTag(), getPdfPosition(), fontSize, this.defaultContent);
     }
 
     AbsoluteTextPdfElement changeX(float newX) {
-        return changePosition(PdfPositionFactory.getBottomLeftPdfPosition(newX,getY()));
+        return changePosition(PdfPositionFactory.getBottomLeftPdfPosition(newX, getY()));
     }
 
     AbsoluteTextPdfElement changeY(float newY) {
-        return changePosition(PdfPositionFactory.getBottomLeftPdfPosition(getX(),newY));
+        return changePosition(PdfPositionFactory.getBottomLeftPdfPosition(getX(), newY));
     }
 
     private AbsoluteTextPdfElement changePosition(PdfPosition pdfPosition) {
-        return new AbsoluteTextPdfElement(this.tag, pdfPosition);
+        return new AbsoluteTextPdfElement(this.tag, pdfPosition, this.fontSize, this.defaultContent);
+    }
+
+    private AbsoluteTextPdfElement withDefaultContent(String defaultContent) {
+        return new AbsoluteTextPdfElement(this.tag, getPdfPosition(), this.fontSize, this.defaultContent);
     }
 
     static NeedTag builder() {
@@ -44,7 +57,7 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
 
         @Override
         public AbsoluteTextPdfElement positionedFromBottomLeft(float x, float y) {
-            return this.positionedOn(PdfPositionFactory.getBottomLeftPdfPosition(x,y));
+            return this.positionedOn(PdfPositionFactory.getBottomLeftPdfPosition(x, y));
         }
 
         private AbsoluteTextPdfElement positionedOn(PdfPosition pdfPosition) {
