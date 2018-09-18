@@ -3,7 +3,7 @@ package io.github.nowakprojects.pdfitextform;
 class Template {
     private final TemplatePart[] content;
 
-    private Template(TemplatePart[] content) {
+    protected Template(TemplatePart[] content) {
         this.content = content;
     }
 
@@ -16,11 +16,26 @@ class Template {
     }
 }
 
+class IfTagValueTemplate extends TemplatePart {
+
+    private final String showOnlyIfThisTagHasValue;
+
+    IfTagValueTemplate(TemplateType templateType, String content, String tag) {
+        super(templateType, content);
+        this.showOnlyIfThisTagHasValue = tag;
+    }
+
+    @Override
+    boolean shouldBeShowWith(PdfFormValues pdfFormValues) {
+        return pdfFormValues.getValueByTag(showOnlyIfThisTagHasValue) != null;
+    }
+}
+
 class TemplatePart {
     private final TemplateType templateType;
     private final String content;
 
-    private TemplatePart(TemplateType templateType, String content) {
+    TemplatePart(TemplateType templateType, String content) {
         this.templateType = templateType;
         this.content = content;
     }
@@ -43,6 +58,15 @@ class TemplatePart {
 
     boolean isTagPart() {
         return this.templateType == TemplateType.TAG;
+    }
+
+
+    boolean shouldBeShowWith(PdfFormValues pdfFormValues) {
+        return true;
+    }
+
+    TemplatePart showOnlyIfTagHasValue(String tag) {
+        return new IfTagValueTemplate(this.templateType, this.content, tag);
     }
 }
 

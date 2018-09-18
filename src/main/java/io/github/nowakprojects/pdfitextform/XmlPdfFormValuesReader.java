@@ -64,7 +64,7 @@ class PdfFormValues {
     }
 
     String getValueByTag(String tag) {
-        return valuesByTag.get(tag);
+        return valuesByTag.getOrDefault(tag,null);
     }
 
     boolean containsValueForTag(String tag) {

@@ -3,14 +3,14 @@ package io.github.nowakprojects.pdfitextform;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 class SingleElementPdfGroup implements PdfGroup {
 
-    private List<PdfElement> groupElements;
+    private PdfElement pdfElement;
 
-    private SingleElementPdfGroup(PdfElement groupElements) {
-        ArrayList<PdfElement> elementsList = new ArrayList<>();
-        elementsList.add(groupElements);
-        this.groupElements = elementsList;
+    private SingleElementPdfGroup(PdfElement pdfElement) {
+        this.pdfElement = pdfElement;
     }
 
     static SingleElementPdfGroup of(PdfElement pdfElement) {
@@ -18,7 +18,7 @@ class SingleElementPdfGroup implements PdfGroup {
     }
 
     public List<PdfElement> getAllGroupElements() {
-        return groupElements;
+        return new ArrayList<>(asList(this.pdfElement));
     }
 
     @Override

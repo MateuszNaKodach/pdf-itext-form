@@ -223,7 +223,7 @@ public class PdfFormDemo {
                                                 tagPart(getCSectionTag("RepresentativeCorrAddress/StreetKind")),
                                                 tagPart(getCSectionTag("RepresentativeCorrAddress/Street")),
                                                 tagPart(getCSectionTag("RepresentativeCorrAddress/HouseNumber")),
-                                                staticPart("/"),
+                                                staticPart("/").showOnlyIfTagHasValue(getCSectionTag("RepresentativeCorrAddress/FlatNumber")),
                                                 tagPart(getCSectionTag("RepresentativeCorrAddress/FlatNumber"))
                                         )
                                         .withMaxSize(15, 530)

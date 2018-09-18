@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static java.util.Arrays.asList;
+import static java.util.Objects.isNull;
 
 class PdfFillTool {
 
@@ -101,7 +102,9 @@ class PdfFillTool {
 
     private String getTemplatePdfElementValueWith(PdfElement pdfElement, PdfFormValues pdfFormValues) {
         return Arrays.stream(pdfElement.getTemplate().getContent())
+                .filter(templatePart -> templatePart.shouldBeShowWith(pdfFormValues))
                 .map(templatePart -> templatePart.isTagPart() ? pdfFormValues.getValueByTag(templatePart.getContent()) : templatePart.getContent())
+                .map(value -> isNull(value) ? "" : value)
                 .reduce((s, acc) -> s + PdfFormValues.VALUE_SEPARATOR + acc)
                 .orElse("");
     }
