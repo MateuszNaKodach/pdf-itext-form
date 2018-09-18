@@ -39,13 +39,13 @@ class XmlPdfFormValuesReader implements PdfFormValuesReader {
     private void addNodeWithChildrenToMap(Node node, Map<String, String> map, String nodePrefix) {
         final Node firstChild = node.getFirstChild();
         if (firstChild != null && firstChild.getNodeValue() != null) {
-            map.put(nodePrefix == null ? "" : (nodePrefix + "." + node.getNodeName()), firstChild.getNodeValue());
+            map.put(nodePrefix == null ? "" : (nodePrefix + "/" + node.getNodeName()), firstChild.getNodeValue());
         }
         NodeList nodeList = node.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node currentNode = nodeList.item(i);
             if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
-                addNodeWithChildrenToMap(currentNode, map, nodePrefix == null ? node.getNodeName() : (nodePrefix + "." + node.getNodeName()));
+                addNodeWithChildrenToMap(currentNode, map, nodePrefix == null ? node.getNodeName() : (nodePrefix + "/" + node.getNodeName()));
             }
         }
     }
@@ -54,6 +54,8 @@ class XmlPdfFormValuesReader implements PdfFormValuesReader {
 }
 
 class PdfFormValues {
+
+    static String VALUE_SEPARATOR = " ";
 
     private final Map<String, String> valuesByTag;
 

@@ -9,14 +9,17 @@ import com.itextpdf.text.pdf.*;
 import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
+
 class PdfFillTool {
 
     private final String pdfOutputDirectoryPath;
-    private boolean ignoreLackOfElementValue = false;
+    private boolean ignoreLackOfElementValue = true;
 
     private PdfFillTool(String pdfOutputDirectoryPath) {
         this.pdfOutputDirectoryPath = pdfOutputDirectoryPath;
@@ -26,7 +29,7 @@ class PdfFillTool {
         return new PdfFillTool(pdfOutputDirectoryPath);
     }
 
-    //TODO: Funkcja zwracajaca byte array pliku!
+    //TODO: Funkcja zwracajaca byte array pliku! ma na wejsci input stream in, i outptstream out
     void fillPdfForm(PdfForm pdfForm, String pdfOutputFileName) {
         final PdfFormSchema formSchema = pdfForm.getSchema();
         final PdfFormValues formValues = pdfForm.getValues();
@@ -63,7 +66,13 @@ class PdfFillTool {
 
             pdfElements.forEach(pdfElement ->
                     {
-                        String value = pdfFormValues.getValueByTag(pdfElement.getTag());
+                        String value = pdfElement.hasMultipleTags()
+                                ? Arrays.stream(pdfElement.getTagsArray())
+                                .map(pdfFormValues::getValueByTag)
+                                .reduce((s, acc) -> s + PdfFormValues.VALUE_SEPARATOR + acc)
+                                .orElse(null)
+                                : pdfFormValues.getValueByTag(pdfElement.getTag());
+
                         if (value == null && pdfElement.getDefaultContent().isPresent()) {
                             value = (String) pdfElement.getDefaultContent().get();
                         }

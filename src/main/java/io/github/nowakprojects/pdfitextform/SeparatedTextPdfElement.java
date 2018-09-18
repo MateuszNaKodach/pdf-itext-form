@@ -16,10 +16,6 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
         this.characterWidth = characterWidth;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
     public float getCharacterWidth() {
         return characterWidth;
     }

@@ -39,8 +39,8 @@
             </SubmitterCorrAddress>
             <ElectronicAddressResignation>true</ElectronicAddressResignation>
             <SubmitterAddress>
-                <StreetKind>pl</StreetKind>
-                <Street>Grunwaldzka</Street>
+                <StreetKind>pl.</StreetKind>
+                <Street>Grunwaldzki</Street>
                 <HouseNumber>999</HouseNumber>
                 <FlatNumber>12</FlatNumber>
                 <ZipCode>12-345</ZipCode>
@@ -70,10 +70,10 @@
             </RepresentativePersonName>
             <RepresentativeCorrAddress>
                 <City>Mała Wieś Wrocławska</City>
-                <FlatNumber></FlatNumber>
+                <FlatNumber>2</FlatNumber>
                 <HouseNumber>13a</HouseNumber>
-                <Street></Street>
-                <StreetKind></StreetKind>
+                <Street>Wiejska</Street>
+                <StreetKind>ul.</StreetKind>
                 <ZipCode>12-345</ZipCode>
                 <EqMainAddress>true</EqMainAddress>
                 <Commune>wrocławski</Commune>

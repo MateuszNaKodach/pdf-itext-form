@@ -65,6 +65,16 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
         }
 
         @Override
+        public NeedMaxSize withTags(String... tags) {
+            StringBuilder sb = new StringBuilder();
+            for (String t : tags) {
+                sb.append(TAG_SEPARATOR).append(t);
+            }
+            this.tag = sb.toString();
+            return this;
+        }
+
+        @Override
         public NeedPosition withMaxSize(float maxHeight, float maxWidth) {
             this.maxHeight = maxHeight;
             this.maxWidth = maxWidth;
@@ -98,7 +108,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     interface NeedTag {
         NeedMaxSize withTag(String tag);
 
-        // NeedMaxSize withTags(Set<String> tags);
+        NeedMaxSize withTags(String... tag);
     }
 
     interface NeedMaxSize {
