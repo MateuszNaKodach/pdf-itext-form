@@ -18,6 +18,18 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
         this.maxWidth = maxWidth;
     }
 
+    private MultilineTextPdfElement(
+            String tag,
+            PdfPosition pdfPosition,
+            float maxHeight,
+            float maxWidth,
+            FontSize customFontSize,
+            String defaultContent) {
+        super(tag, pdfPosition, customFontSize, defaultContent);
+        this.maxHeight = maxHeight;
+        this.maxWidth = maxWidth;
+    }
+
     float getMaxHeight() {
         return maxHeight;
     }
@@ -28,7 +40,12 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
 
     @Override
     public MultilineTextPdfElement withFontSize(FontSize fontSize) {
-        return new MultilineTextPdfElement(tag, getPdfPosition(), maxHeight, maxWidth, fontSize);
+        return new MultilineTextPdfElement(tag, getPdfPosition(), maxHeight, maxWidth, fontSize, this.defaultContent);
+    }
+
+    @Override
+    public MultilineTextPdfElement withDefaultContent(String defaultContent) {
+        return new MultilineTextPdfElement(this.tag, this.pdfPosition, this.maxHeight, this.maxWidth, this.fontSize, defaultContent);
     }
 
     static NeedTag builder() {
@@ -81,7 +98,7 @@ class MultilineTextPdfElement extends AbstractPdfElement<MultilineTextPdfElement
     interface NeedTag {
         NeedMaxSize withTag(String tag);
 
-       // NeedMaxSize withTags(Set<String> tags);
+        // NeedMaxSize withTags(Set<String> tags);
     }
 
     interface NeedMaxSize {

@@ -3,9 +3,8 @@ package io.github.nowakprojects.pdfitextform;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static io.github.nowakprojects.pdfitextform.PdfFormSchema.getElementsFromGroups;
+import static io.github.nowakprojects.pdfitextform.PdfGroupHelper.getSelectedElementsFromGroups;
 import static java.util.Collections.emptySet;
-import static java.util.Objects.isNull;
 
 class PdfFormSchema {
     private final FontSize defaultFontSize;
@@ -25,7 +24,7 @@ class PdfFormSchema {
                 defaultFontSize,
                 overrideElementsCustomFontSize,
                 defaultFontName,
-                getPdfGroupMapFrom(elementsByPages)
+                PdfGroupHelper.getPdfGroupMapFrom(elementsByPages)
         );
     }
 
@@ -35,23 +34,6 @@ class PdfFormSchema {
         this.overrideElementsCustomFontSize = overrideElementsCustomFontSize;
         this.defaultFontName = defaultFontName;
         this.elementsByPages = elementsByPages;
-    }
-
-    private static HashMap<PdfPageNumber, Set<PdfGroup>> getPdfGroupMapFrom(HashMap<PdfPageNumber, Set<PdfElement>> elementsByPages) {
-        final HashMap<PdfPageNumber, Set<PdfGroup>> result = new HashMap<>();
-        for (Map.Entry<PdfPageNumber, Set<PdfElement>> pageWithElements : elementsByPages.entrySet()) {
-            result.put(
-                    pageWithElements.getKey(),
-                    pageWithElements.getValue().stream().map(SingleElementPdfGroup::of).collect(Collectors.toSet())
-            );
-        }
-        return result;
-    }
-
-    private static Set<PdfGroup> getSinglePdfGroupSetFrom(Set<PdfElement> pdfElements) {
-        return pdfElements.stream()
-                .map(SingleElementPdfGroup::of)
-                .collect(Collectors.toSet());
     }
 
     static PdfFormSchema withDefaultFontSize(FontSize defaultFontSize) {
@@ -80,7 +62,7 @@ class PdfFormSchema {
 
     PdfFormSchema addPageElements(PdfPageNumber pdfPageNumber, PdfGroups pdfGroups) {
         pdfGroups.getElements()
-                .forEach(element -> ((PdfElement) element).setFontSize(defaultFontSize));
+                .forEach(element -> element.setFontSize(defaultFontSize));
 
         final HashMap<PdfPageNumber, Set<PdfGroup>> elementsByPages = new HashMap<PdfPageNumber, Set<PdfGroup>>(this.elementsByPages) {
             {
@@ -94,25 +76,13 @@ class PdfFormSchema {
     }
 
 
-    Set<PdfElement> getAllElementsByPageBy(PdfPageNumber pdfPageNumber, PdfFormValues pdfFormValues) {
-        return getElementsFromGroups(elementsByPages.getOrDefault(pdfPageNumber, emptySet()), pdfFormValues);
-    }
-
-    static Set<PdfElement> getElementsFromGroups(Set<PdfGroup> groups, PdfFormValues pdfFormValues) {
-        return groups
-                .stream()
-                .map(pdfGroup -> isNull(pdfFormValues) ? pdfGroup.getAllGroupElements() : pdfGroup.getSelectedGroupElementsBy(pdfFormValues))
-                .reduce((elements, acc) -> {
-                    acc.addAll(elements);
-                    return acc;
-                })
-                .map(HashSet::new)
-                .orElseGet(HashSet::new);
+    Set<PdfElement> getSelectedElementsByPageAndValues(PdfPageNumber pdfPageNumber, PdfFormValues pdfFormValues) {
+        return getSelectedElementsFromGroups(elementsByPages.getOrDefault(pdfPageNumber, emptySet()), pdfFormValues);
     }
 
 
     Set<PdfElement> getAllElementsByPage(PdfPageNumber pdfPageNumber) {
-        return getElementsFromGroups(elementsByPages.getOrDefault(pdfPageNumber, emptySet()), null);
+        return getSelectedElementsFromGroups(elementsByPages.getOrDefault(pdfPageNumber, emptySet()), null);
     }
 
 
@@ -165,6 +135,6 @@ class PdfGroups {
     }
 
     Set<PdfElement> getElements() {
-        return getElementsFromGroups(groups,null);
+        return getSelectedElementsFromGroups(groups,null);
     }
 }

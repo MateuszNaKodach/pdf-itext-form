@@ -189,13 +189,19 @@ public class PdfFormDemo {
                                                         .withTag(getCSectionTag("RepresentativePersonNIP"))
                                                         .withCharacterWidth(15)
                                                         .positionedFromBottomLeft(228, 550)
-                                        ),
-
-                                DatePdfElement.builder()
-                                        .withTag(getCSectionTag("OperationDate"))
-                                        .withCharacterWidth(15)
-                                        .withSpaceBetweenGroup(5)
-                                        .positionedFromBottomLeft(110, 476)
+                                        ).attachToPrioritized
+                                        (
+                                                AbsoluteTextPdfElement.builder()
+                                                        .withTag("NIP_ERASURE")
+                                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 10, 564)
+                                                        .withDefaultContent("________________")
+                                        )
+                                        .attachToAlternative(
+                                                AbsoluteTextPdfElement.builder()
+                                                        .withTag("PESEL_ERASURE")
+                                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 105, 564)
+                                                        .withDefaultContent("________-")
+                                        )
                         )
                 );
 

@@ -8,4 +8,8 @@ interface PdfGroup {
 
     List<PdfElement> getSelectedGroupElementsBy(PdfFormValues pdfFormValues);
 
+    default boolean isEmpty() {
+        return getAllGroupElements().isEmpty();
+    }
+
 }

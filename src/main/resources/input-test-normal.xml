@@ -60,7 +60,8 @@
             </SubmitterName>
         </B>
         <C>
-            <RepresentativePersonPESEL>28092079636</RepresentativePersonPESEL>
+            <RepresentativePersonPESEL></RepresentativePersonPESEL>
+            <RepresentativePersonNIP>NIP</RepresentativePersonNIP>
             <OperationDate>2018-02-01</OperationDate>
             <RepresentativePersonName>
                 <FirstName>Andrzej</FirstName>

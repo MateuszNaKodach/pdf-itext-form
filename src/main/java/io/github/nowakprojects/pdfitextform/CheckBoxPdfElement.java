@@ -12,8 +12,12 @@ class CheckBoxPdfElement extends AbstractPdfElement<CheckBoxPdfElement> {
         super(tag, pdfPosition, customFontSize);
     }
 
+    private CheckBoxPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, String defaultContent) {
+        super(tag, pdfPosition, customFontSize, defaultContent);
+    }
+
     public CheckBoxPdfElement withFontSize(FontSize fontSize) {
-        return new CheckBoxPdfElement(getTag(), getPdfPosition(), fontSize);
+        return new CheckBoxPdfElement(getTag(), getPdfPosition(), fontSize, this.defaultContent);
     }
 
     CheckBoxPdfElement changeX(float newX) {
@@ -26,6 +30,11 @@ class CheckBoxPdfElement extends AbstractPdfElement<CheckBoxPdfElement> {
 
     private CheckBoxPdfElement changePosition(PdfPosition pdfPosition) {
         return new CheckBoxPdfElement(this.tag, pdfPosition);
+    }
+
+    @Override
+    public CheckBoxPdfElement withDefaultContent(String defaultContent) {
+        return new CheckBoxPdfElement(this.tag, this.pdfPosition, this.fontSize, defaultContent);
     }
 
     static NeedTag builder() {

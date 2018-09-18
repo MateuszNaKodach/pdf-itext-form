@@ -4,21 +4,16 @@ import java.util.Objects;
 
 class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> {
 
-    private final String defaultContent;
-
     private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition) {
         super(tag, pdfPosition);
-        this.defaultContent = null;
     }
 
     AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize) {
         super(tag, pdfPosition, customFontSize);
-        this.defaultContent = null;
     }
 
     private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, String defaultContent) {
-        super(tag, pdfPosition, customFontSize);
-        this.defaultContent = defaultContent;
+        super(tag, pdfPosition, customFontSize, defaultContent);
     }
 
     public AbsoluteTextPdfElement withFontSize(FontSize fontSize) {
@@ -37,8 +32,8 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
         return new AbsoluteTextPdfElement(this.tag, pdfPosition, this.fontSize, this.defaultContent);
     }
 
-    private AbsoluteTextPdfElement withDefaultContent(String defaultContent) {
-        return new AbsoluteTextPdfElement(this.tag, getPdfPosition(), this.fontSize, this.defaultContent);
+    public AbsoluteTextPdfElement withDefaultContent(String defaultContent) {
+        return new AbsoluteTextPdfElement(this.tag, getPdfPosition(), this.fontSize, defaultContent);
     }
 
     static NeedTag builder() {

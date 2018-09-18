@@ -15,6 +15,10 @@ public interface PdfElement<T> extends PdfGroup {
 
     void setFontSize(FontSize fontSize);
 
+    Optional<String> getDefaultContent();
+
+    T withDefaultContent(String defaultContent);
+
     default float getX() {
         return getPdfPosition().getX();
     }

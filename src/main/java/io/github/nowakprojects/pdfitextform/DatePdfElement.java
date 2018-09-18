@@ -19,6 +19,18 @@ class DatePdfElement extends AbstractPdfElement<DatePdfElement> {
         this.spaceBetweenGroup = spaceBetweenGroup;
     }
 
+    private DatePdfElement(
+            String tag,
+            PdfPosition pdfPosition,
+            float characterWidth,
+            float spaceBetweenGroup,
+            FontSize fontSize,
+            String defaultContent) {
+        super(tag, pdfPosition, fontSize, defaultContent);
+        this.characterWidth = characterWidth;
+        this.spaceBetweenGroup = spaceBetweenGroup;
+    }
+
     float getCharacterWidth() {
         return characterWidth;
     }
@@ -29,7 +41,12 @@ class DatePdfElement extends AbstractPdfElement<DatePdfElement> {
 
     @Override
     public DatePdfElement withFontSize(FontSize fontSize) {
-        return new DatePdfElement(tag, getPdfPosition(), characterWidth, spaceBetweenGroup, fontSize);
+        return new DatePdfElement(tag, getPdfPosition(), characterWidth, spaceBetweenGroup, fontSize, this.defaultContent);
+    }
+
+    @Override
+    public DatePdfElement withDefaultContent(String defaultContent) {
+        return new DatePdfElement(this.tag, this.pdfPosition, this.characterWidth, this.spaceBetweenGroup, this.fontSize, defaultContent);
     }
 
     static NeedTag builder() {

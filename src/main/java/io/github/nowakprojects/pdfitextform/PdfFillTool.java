@@ -37,7 +37,7 @@ class PdfFillTool {
                         .filter(page -> formSchema.countElementsOnPage(page) > 0)
                         .forEach(pdfPageNumber -> put(
                                 pdfPageNumber.getValue(),
-                                generatePdfBytesFrom(formSchema.getAllElementsByPageBy(pdfPageNumber, formValues), formValues))
+                                generatePdfBytesFrom(formSchema.getSelectedElementsByPageAndValues(pdfPageNumber, formValues), formValues))
                         );
             }
         };
@@ -64,6 +64,9 @@ class PdfFillTool {
             pdfElements.forEach(pdfElement ->
                     {
                         String value = pdfFormValues.getValueByTag(pdfElement.getTag());
+                        if (value == null && pdfElement.getDefaultContent().isPresent()) {
+                            value = (String) pdfElement.getDefaultContent().get();
+                        }
                         if (value == null && !ignoreLackOfElementValue) {
                             throw new PdfFillingException("Can't find value for " + pdfElement.getTag());
                         } else if (value != null) {
