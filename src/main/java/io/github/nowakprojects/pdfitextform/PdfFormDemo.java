@@ -200,8 +200,13 @@ public class PdfFormDemo {
                                                 AbsoluteTextPdfElement.builder()
                                                         .withTag("PESEL_ERASURE")
                                                         .positionedFromBottomLeft(LEFT_PDF_SIDE + 105, 564)
-                                                        .withDefaultContent("________-")
-                                        )
+                                                        .withDefaultContent("________")
+                                        ),
+                                DatePdfElement.builder()
+                                        .withTag(getCSectionTag("OperationDate"))
+                                        .withCharacterWidth(15)
+                                        .withSpaceBetweenGroup(5)
+                                        .positionedFromBottomLeft(110, 476)
                         )
                 );
 
