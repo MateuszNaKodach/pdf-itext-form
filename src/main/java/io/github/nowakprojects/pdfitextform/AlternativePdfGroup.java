@@ -8,26 +8,26 @@ import static java.util.Arrays.asList;
 
 class AlternativePdfGroup implements PdfGroup {
 
-    private PdfElement pdfElement1;
-    private PdfElement pdfElement2;
+    private PdfElement prioritized;
+    private PdfElement alternative;
 
-    private AlternativePdfGroup(PdfElement pdfElement1, PdfElement pdfElement2) {
-        this.pdfElement1 = pdfElement1;
-        this.pdfElement2 = pdfElement2;
+    private AlternativePdfGroup(PdfElement prioritized, PdfElement alternative) {
+        this.prioritized = prioritized;
+        this.alternative = alternative;
     }
 
-    static AlternativePdfGroup orderedOr(PdfElement pdfElement1, PdfElement pdfElement2) {
-        return new AlternativePdfGroup(pdfElement1, pdfElement2);
+    static AlternativePdfGroup orderedOr(PdfElement prioritized, PdfElement alternative) {
+        return new AlternativePdfGroup(prioritized, alternative);
     }
 
     public List<PdfElement> getAllGroupElements() {
-        return new ArrayList<>(asList(pdfElement1, pdfElement2));
+        return new ArrayList<>(asList(prioritized, alternative));
     }
 
     @Override
     public List<PdfElement> getSelectedGroupElementsBy(PdfFormValues pdfFormValues) {
-        return pdfFormValues.containsValueForTag(pdfElement1.getTag())
-                ? new ArrayList<>(Collections.singletonList(pdfElement1))
-                : new ArrayList<>(Collections.singletonList(pdfElement2));
+        return pdfFormValues.containsValueForTag(prioritized.getTag())
+                ? new ArrayList<>(Collections.singletonList(prioritized))
+                : new ArrayList<>(Collections.singletonList(alternative));
     }
 }
