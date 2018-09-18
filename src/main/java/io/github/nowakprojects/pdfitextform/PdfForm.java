@@ -1,25 +1,19 @@
 package io.github.nowakprojects.pdfitextform;
 
 class PdfForm {
-    private final String formFilePath;
     private final PdfFormSchema schema;
     private final PdfFormValues values;
 
-    public PdfForm(String formFilePath, PdfFormSchema schema, PdfFormValues values) {
-        this.formFilePath = formFilePath;
+    PdfForm(PdfFormSchema schema, PdfFormValues values) {
         this.schema = schema;
         this.values = values;
     }
 
-    public String getFormFilePath() {
-        return formFilePath;
-    }
-
-    public PdfFormSchema getSchema() {
+    PdfFormSchema getSchema() {
         return schema;
     }
 
-    public PdfFormValues getValues() {
+    PdfFormValues getValues() {
         return values;
     }
 }

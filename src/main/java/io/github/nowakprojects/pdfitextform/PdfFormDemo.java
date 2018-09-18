@@ -11,20 +11,6 @@ import static io.github.nowakprojects.pdfitextform.TemplatePart.tagPart;
 /*
 Documentation iText:
 https://developers.itextpdf.com/sites/default/files/attachments/PR%20-%20iText%20in%20Action%20-%20Second%20edition%20e-book.pdf
-
-TODO:
-Definicje pliku, np. PdfFormSchema - który może z XML odczytać dane i stworzyć PdfFormSchema
-Taki PdfFormSchema musi zawierać to w jakim miejscu jest dany tag i jaka ma odległość. Może też ewentualnie mieć zmienny rozmiar czcionki, ograniczenie na wielkość pola wpisywania itp!
- */
-
-/*
-TODO: Jaka czcionka i rozmiar?
-11. Prefix ulicy?
-16. Brak pola!
-
-34. Posiadacz rachunku!!! W jaki sposob zapisac? 2 imiona czy jak?
-
-Brak: 34,40,16!
  */
 public class PdfFormDemo {
 
@@ -256,10 +242,10 @@ public class PdfFormDemo {
         final PdfFillTool pdfFillTool = PdfFillTool.withDefinedOutputDirectory(Config.DEST_DIRECTORY);
 
         final PdfFormValues pdfFormValuesNormal = pdfFormValuesReader.readFromFile("src/main/resources/input-test-normal.xml");
-        pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValuesNormal), "filledPdf-normal.pdf");
+        pdfFillTool.writeFilledPdfFormToFile(Config.ZAP_SOURCE, "filledPdf-normal.pdf", new PdfForm(pdfFormSchema, pdfFormValuesNormal));
 
         final PdfFormValues pdfFormValuesMax = pdfFormValuesReader.readFromFile("src/main/resources/input-test-max.xml");
-        pdfFillTool.fillPdfForm(new PdfForm(Config.ZAP_SOURCE, pdfFormSchema, pdfFormValuesMax), "filledPdf-max.pdf");
+        pdfFillTool.writeFilledPdfFormToFile(Config.ZAP_SOURCE, "filledPdf-max.pdf", new PdfForm(pdfFormSchema, pdfFormValuesMax));
     }
 
     private static String getASectionTag(String tag) {
