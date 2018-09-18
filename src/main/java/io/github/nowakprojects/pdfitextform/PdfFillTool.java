@@ -6,9 +6,7 @@ import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.*;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +26,10 @@ class PdfFillTool {
 
     static PdfFillTool withDefinedOutputDirectory(String pdfOutputDirectoryPath) {
         return new PdfFillTool(pdfOutputDirectoryPath);
+    }
+
+    void fillPdfForm(InputStream in, OutputStream out, Map<String, String> config) {
+
     }
 
     //TODO: Funkcja zwracajaca byte array pliku! ma na wejsci input stream in, i outptstream out
