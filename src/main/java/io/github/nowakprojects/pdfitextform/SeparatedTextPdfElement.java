@@ -11,8 +11,14 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
         this.characterWidth = characterWidth;
     }
 
-    private SeparatedTextPdfElement(String tag, PdfPosition pdfPosition, float characterWidth, FontSize fontSize, String defaultContent) {
-        super(tag, pdfPosition, fontSize, defaultContent);
+    private SeparatedTextPdfElement(
+            String tag,
+            PdfPosition pdfPosition,
+            float characterWidth,
+            FontSize fontSize,
+            String defaultContent,
+            Template template) {
+        super(tag, pdfPosition, fontSize, defaultContent, template);
         this.characterWidth = characterWidth;
     }
 
@@ -22,12 +28,12 @@ public class SeparatedTextPdfElement extends AbstractPdfElement<SeparatedTextPdf
 
     @Override
     public SeparatedTextPdfElement withFontSize(FontSize fontSize) {
-        return new SeparatedTextPdfElement(tag, getPdfPosition(), characterWidth, fontSize, this.defaultContent);
+        return new SeparatedTextPdfElement(tag, getPdfPosition(), characterWidth, fontSize, this.defaultContent, this.template);
     }
 
     @Override
     public SeparatedTextPdfElement withDefaultContent(String defaultContent) {
-        return new SeparatedTextPdfElement(this.tag, this.pdfPosition, this.characterWidth, this.fontSize, defaultContent);
+        return new SeparatedTextPdfElement(this.tag, this.pdfPosition, this.characterWidth, this.fontSize, defaultContent, this.template);
     }
 
     static SeparatedTextPdfElement.NeedTag builder() {

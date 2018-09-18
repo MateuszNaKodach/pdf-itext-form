@@ -19,6 +19,10 @@ public interface PdfElement<T> extends PdfGroup {
         return hasMultipleTags() ? Arrays.stream(getTag().split(TAG_SEPARATOR)).filter(s->!s.trim().isEmpty()).toArray(String[]::new) : new String[]{getTag()};
     }
 
+    boolean isTemplated();
+
+    Template getTemplate();
+
     PdfPosition getPdfPosition();
 
     Optional<FontSize> getFontSize();

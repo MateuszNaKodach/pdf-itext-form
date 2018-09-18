@@ -66,12 +66,17 @@ class PdfFillTool {
 
             pdfElements.forEach(pdfElement ->
                     {
-                        String value = pdfElement.hasMultipleTags()
-                                ? Arrays.stream(pdfElement.getTagsArray())
-                                .map(pdfFormValues::getValueByTag)
-                                .reduce((s, acc) -> s + PdfFormValues.VALUE_SEPARATOR + acc)
-                                .orElse(null)
-                                : pdfFormValues.getValueByTag(pdfElement.getTag());
+                        String value =
+                                pdfElement.isTemplated()
+                                        ? getTemplatePdfElementValueWith(pdfElement, pdfFormValues)
+                                        : (
+                                        pdfElement.hasMultipleTags()
+                                                ? Arrays.stream(pdfElement.getTagsArray())
+                                                .map(pdfFormValues::getValueByTag)
+                                                .reduce((s, acc) -> s + PdfFormValues.VALUE_SEPARATOR + acc)
+                                                .orElse(null)
+                                                : pdfFormValues.getValueByTag(pdfElement.getTag())
+                                );
 
                         if (value == null && pdfElement.getDefaultContent().isPresent()) {
                             value = (String) pdfElement.getDefaultContent().get();
@@ -92,6 +97,13 @@ class PdfFillTool {
         document.close();
 
         return outputStream.toByteArray();
+    }
+
+    private String getTemplatePdfElementValueWith(PdfElement pdfElement, PdfFormValues pdfFormValues) {
+        return Arrays.stream(pdfElement.getTemplate().getContent())
+                .map(templatePart -> templatePart.isTagPart() ? pdfFormValues.getValueByTag(templatePart.getContent()) : templatePart.getContent())
+                .reduce((s, acc) -> s + PdfFormValues.VALUE_SEPARATOR + acc)
+                .orElse("");
     }
 
     private static void mergePdfsLayers(String bottomFilePath, Map<Integer, byte[]> pages, String destinationPath) throws IOException, DocumentException {

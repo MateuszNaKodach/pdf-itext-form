@@ -5,6 +5,8 @@ import io.github.nowakprojects.Config;
 import static io.github.nowakprojects.pdfitextform.AlternativePdfGroup.orderedOr;
 import static io.github.nowakprojects.pdfitextform.PdfElements.elements;
 import static io.github.nowakprojects.pdfitextform.PdfGroups.groups;
+import static io.github.nowakprojects.pdfitextform.TemplatePart.staticPart;
+import static io.github.nowakprojects.pdfitextform.TemplatePart.tagPart;
 
 /*
 Documentation iText:
@@ -217,11 +219,12 @@ public class PdfFormDemo {
                                         ),
 
                                 MultilineTextPdfElement.builder()
-                                        .withTags(
-                                                getCSectionTag("RepresentativeCorrAddress/StreetKind"),
-                                                getCSectionTag("RepresentativeCorrAddress/Street"),
-                                                getCSectionTag("RepresentativeCorrAddress/HouseNumber"),
-                                                getCSectionTag("RepresentativeCorrAddress/FlatNumber")
+                                        .withTemplate(
+                                                tagPart(getCSectionTag("RepresentativeCorrAddress/StreetKind")),
+                                                tagPart(getCSectionTag("RepresentativeCorrAddress/Street")),
+                                                tagPart(getCSectionTag("RepresentativeCorrAddress/HouseNumber")),
+                                                staticPart("/"),
+                                                tagPart(getCSectionTag("RepresentativeCorrAddress/FlatNumber"))
                                         )
                                         .withMaxSize(15, 530)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE, 535),

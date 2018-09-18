@@ -12,12 +12,12 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
         super(tag, pdfPosition, customFontSize);
     }
 
-    private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, String defaultContent) {
-        super(tag, pdfPosition, customFontSize, defaultContent);
+    private AbsoluteTextPdfElement(String tag, PdfPosition pdfPosition, FontSize customFontSize, String defaultContent, Template template) {
+        super(tag, pdfPosition, customFontSize, defaultContent, template);
     }
 
     public AbsoluteTextPdfElement withFontSize(FontSize fontSize) {
-        return new AbsoluteTextPdfElement(getTag(), getPdfPosition(), fontSize, this.defaultContent);
+        return new AbsoluteTextPdfElement(getTag(), getPdfPosition(), fontSize, this.defaultContent, this.template);
     }
 
     AbsoluteTextPdfElement changeX(float newX) {
@@ -29,11 +29,11 @@ class AbsoluteTextPdfElement extends AbstractPdfElement<AbsoluteTextPdfElement> 
     }
 
     private AbsoluteTextPdfElement changePosition(PdfPosition pdfPosition) {
-        return new AbsoluteTextPdfElement(this.tag, pdfPosition, this.fontSize, this.defaultContent);
+        return new AbsoluteTextPdfElement(this.tag, pdfPosition, this.fontSize, this.defaultContent, this.template);
     }
 
     public AbsoluteTextPdfElement withDefaultContent(String defaultContent) {
-        return new AbsoluteTextPdfElement(this.tag, getPdfPosition(), this.fontSize, defaultContent);
+        return new AbsoluteTextPdfElement(this.tag, getPdfPosition(), this.fontSize, defaultContent, this.template);
     }
 
     static NeedTag builder() {
