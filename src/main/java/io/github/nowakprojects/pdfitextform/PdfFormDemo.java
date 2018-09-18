@@ -17,11 +17,8 @@ Taki PdfFormSchema musi zawierać to w jakim miejscu jest dany tag i jaka ma odl
 
 /*
 TODO: Jaka czcionka i rozmiar?
-37. Nie ma w C podpis skaldajacego pola na SecondName
-39. Czy wiemy cos czy mogą przyjsc 2 na raz? Czy powinno być przekleślenie? Jeśli tak, bardziej skomplikowana opcja. PdfAlternativeElement
 11. Prefix ulicy?
 16. Brak pola!
-17. Brak miejsca na CellPhone/ MobilePhone!? Co jesli beda dwa
 18. Brak FAX w XML
 
 34. Posiadacz rachunku!!! W jaki sposob zapisac? 2 imiona czy jak?
@@ -38,7 +35,7 @@ public class PdfFormDemo {
                 .withDefaultFontSize(FontSize.withValue(Config.FONT_SIZE))
                 .addPageElements(
                         PdfPageNumber.from(1),
-                        elements(
+                        groups(
                                 MultilineTextPdfElement.builder()
                                         .withTag(getASectionTag("PlaceOfSubmission"))
                                         .withMaxSize(15, 524)
@@ -88,11 +85,20 @@ public class PdfFormDemo {
                                         .withTag(getBSectionTag("SubmitterAddress.ZipCode"))
                                         .withMaxSize(15, 70)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE + 272, 410),
-
-                                SeparatedTextPdfElement.builder()
-                                        .withTag(getBSectionTag("ContactData.CellPhone"))
-                                        .withCharacterWidth(15)
-                                        .positionedFromBottomLeft(190, 355),
+                                orderedOr(
+                                        SeparatedTextPdfElement.builder()
+                                                .withTag(getBSectionTag("ContactData.CellPhone"))
+                                                .withCharacterWidth(15)
+                                                .positionedFromBottomLeft(190, 355),
+                                        SeparatedTextPdfElement.builder()
+                                                .withTag(getBSectionTag("ContactData.HomePhone"))
+                                                .withCharacterWidth(15)
+                                                .positionedFromBottomLeft(190, 355)
+                                        ),
+                                MultilineTextPdfElement.builder()
+                                        .withTag(getBSectionTag("Fax"))
+                                        .withMaxSize(15, 250)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE, 338),
                                 MultilineTextPdfElement.builder()
                                         .withTag(getBSectionTag("ContactData.EmailAddress"))
                                         .withMaxSize(15, 250)
@@ -140,12 +146,7 @@ public class PdfFormDemo {
                                 MultilineTextPdfElement.builder()
                                         .withTag(getBSectionTag("SubmitterCorrAddress.ZipCode"))
                                         .withMaxSize(15, 70)
-                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 272, 410 - 267),
-
-                                SeparatedTextPdfElement.builder()
-                                        .withTag(getCSectionTag("RepresentativePersonPESEL"))
-                                        .withCharacterWidth(15)
-                                        .positionedFromBottomLeft(63, 785)
+                                        .positionedFromBottomLeft(LEFT_PDF_SIDE + 272, 410 - 267)
                         )
                 ).addPageElements(
                         PdfPageNumber.from(2),
