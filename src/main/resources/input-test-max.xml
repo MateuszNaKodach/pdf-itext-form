@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Document>
+    <ACADR00001PrintData>
+        <A>
+            <PlaceOfSubmission>Max200TESTTESTTEST - Naczelnik Urzędu Skarbowego TEST - Naczelnik Urzędu Skarbowego TEST - Naczelnik Urzędu Skarbowego TEST - Naczelnik Urzędu Skarbowego TEST - Naczelnik Urzędu Skarbowego TEST - N200</PlaceOfSubmission>
+        </A>
+        <B>
+            <ContactData>
+                <CellPhone>TelefonK890123456789</CellPhone>
+                <HomePhone>TelefonS890123456789</HomePhone>
+                <EmailAddress>TESTAdresEmailTESTAdresEmailTESTAdresEmailEmailEmailEmailEmail@email.test</EmailAddress>
+            </ContactData>
+            <ElectronicAddress>adreselektronicznyMax150Max150Max150Max150Max150Max150Max150adreselektronicznyMax150Max150Max150Max150Max150Max150Max150adreselektronicznyMax150Max150</ElectronicAddress>
+            <PersonalAccountData>
+                <NRB>numer rachunku numer rachunku numer rachunku numer rachunku numer rachunku</NRB>
+                <IBAN>IIBANMax50 IBANMax50 IBANMax50 IBANMax50 IBANMax50</IBAN>
+                <SWIFT>SWIFT/BIC Max15</SWIFT>
+                <AccountOwner>
+                    <FirstName>ImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextIm</FirstName>
+                    <LastName>NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100Na</LastName>
+                    <SecondName>DrugieImieMax100Max100DrugieImie DrugieImieMax100Max100DrugieImie DrugieImieMax100Max100DrugieImieDr</SecondName>
+                </AccountOwner>
+                <BankName>NazwaBankuMax100NazwaBankuMax100NazwaBankuMax100NazwaBankuMax100NazwaBankuMax100NazwaBankuMax100Nazw</BankName>
+                <BankCountry>KrajSiedzibyBankuMax50KrajSiedzibyBankuMax50Max50M</BankCountry>
+            </PersonalAccountData>
+            <ForeignAccount>true</ForeignAccount>
+            <SubmitterCorrAddress>
+                <City>Miejscowosc Max50 Miejscowosc Max50 Miejscowosc Ma</City>
+                <FlatNumber>NumberLoka</FlatNumber>
+                <HouseNumber>NumerDomu1</HouseNumber>
+                <Street>UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100UlicaMax100 UlicaMa</Street>
+                <StreetKind>PrefixUlic</StreetKind>
+                <ZipCode>ZipCode - Max15</ZipCode>
+                <EqMainAddress>true</EqMainAddress>
+                <Commune>Gmina Max50 Gmina Max50 Gmina Max50Gmina Max50Gmin</Commune>
+                <Country>Kraj Max50Kraj Max50Kraj Max50 Kraj Max50Kraj Max</Country>
+                <Voivodenship>Województwo Max50 Max50 Województwo Max50 Wojewódz</Voivodenship>
+                <County>Powiat Max50 Powiat Max50 Powiat Max50 Powiat Powi</County>
+            </SubmitterCorrAddress>
+            <ElectronicAddressResignation>true</ElectronicAddressResignation>
+            <SubmitterAddress>
+                <StreetKind>PrefixUlic</StreetKind>
+                <Street>UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100UlicaMax100 UlicaMa</Street>
+                <HouseNumber>NumerDomu1</HouseNumber>
+                <FlatNumber>NumberLoka</FlatNumber>
+                <ZipCode>ZipCode - Max15</ZipCode>
+                <City>Miejscowosc Max50 Miejscowosc Max50 Miejscowosc Ma</City>
+                <Country>Kraj Max50Kraj Max50Kraj Max50 Kraj Max50Kraj Max</Country>
+                <Voivodenship>Województwo Max50 Max50 Województwo Max50 Wojewódz</Voivodenship>
+                <County>Powiat Max50 Powiat Max50 Powiat Max50 Powiat Powi</County>
+                <Commune>Gmina Max50 Gmina Max50 Gmina Max50Gmina Max50Gmin</Commune>
+            </SubmitterAddress>
+            <ReturnOnPersonalAccount>true</ReturnOnPersonalAccount>
+            <ResignationFromReturnToAccount>true</ResignationFromReturnToAccount>
+            <Fax>FaxMax20 FaxMax20 20</Fax>
+            <SubmitterName>
+                <FirstName>ImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextIm</FirstName>
+                <LastName>NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100Na</LastName>
+                <SecondName>DrugieImieMax100Max100DrugieImie DrugieImieMax100Max100DrugieImie DrugieImieMax100Max100DrugieImieDr</SecondName>
+            </SubmitterName>
+        </B>
+        <C>
+            <RepresentativePersonPESEL>01234567891</RepresentativePersonPESEL>
+            <RepresentativePersonNIP>0123456789</RepresentativePersonNIP>
+            <OperationDate>2018-08-11</OperationDate>
+            <RepresentativePersonName>
+                <FirstName>ImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextImieMax100TextIm</FirstName>
+                <LastName>NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100NazwiskoMax100Na</LastName>
+                <SecondName>DrugieImieMax100Max100DrugieImie DrugieImieMax100Max100DrugieImie DrugieImieMax100Max100DrugieImieDr</SecondName>
+            </RepresentativePersonName>
+            <RepresentativeCorrAddress>
+                <City>Miejscowosc Max50 Miejscowosc Max50 Miejscowosc Ma</City>
+                <FlatNumber>NumberLoka</FlatNumber>
+                <HouseNumber>NumerDomu1</HouseNumber>
+                <Street>UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100UlicaMax</Street>
+                <StreetKind>PrefixUlic</StreetKind>
+                <ZipCode>ZipCode - Max15</ZipCode>
+                <EqMainAddress>true</EqMainAddress>
+                <Commune>Gmina Max50 Gmina Max50 Gmina Max50Gmina Max50Gmin</Commune>
+                <Country>Kraj Max50Kraj Max50Kraj Max50 Kraj Max50Kraj Max</Country>
+                <Voivodenship>Województwo Max50 Max50 Województwo Max50 Wojewódz</Voivodenship>
+                <County>Powiat Max50 Powiat Max50 Powiat Max50 Powiat Powi</County>
+            </RepresentativeCorrAddress>
+        </C>
+    </ACADR00001PrintData>
+</Document>

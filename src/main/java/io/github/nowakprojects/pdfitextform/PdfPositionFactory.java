@@ -2,6 +2,10 @@ package io.github.nowakprojects.pdfitextform;
 
 class PdfPositionFactory {
 
+    static PdfPosition getBottomLeftPdfPosition(float x, float y) {
+        return getPosition(PositionType.FROM_BOTTOM_LEFT).withCoordinates(x, y);
+    }
+
     static PdfPositionBuilder getPosition(PositionType positionType) {
         return new PdfPositionBuilder(positionType);
     }
@@ -17,8 +21,6 @@ class PdfPositionFactory {
             switch (positionType) {
                 case FROM_BOTTOM_LEFT:
                     return new BottomLeftPdfPosition(x, y);
-                case FROM_TOP_LEFT:
-                    return new TopLeftPdfPosition(x, y);
                 default:
                     throw new IllegalArgumentException("Illegal position type!");
             }
