@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Document>
+    <ACADR00001PrintData>
+        <A>
+            <PlaceOfSubmission>Urząd Skarbowy Wrocław - Śródmieście</PlaceOfSubmission>
+        </A>
+        <B>
+            <ContactData>
+                <CellPhone>123123123</CellPhone>
+                <HomePhone>711234567</HomePhone>
+                <EmailAddress>adresEmail@testowy.com</EmailAddress>
+            </ContactData>
+            <ElectronicAddress></ElectronicAddress>
+            <PersonalAccountData>
+                <NRB>27 9484 1150 2954 9182 1804 6570</NRB>
+                <IBAN>9194000082530002183074127</IBAN>
+                <SWIFT>AGRIFRPPBRY</SWIFT>
+                <AccountOwner>
+                    <FirstName>Jan</FirstName>
+                    <LastName>Kowalski</LastName>
+                    <SecondName>Anotni</SecondName>
+                </AccountOwner>
+                <BankName>Nazwa Banku</BankName>
+                <BankCountry>Polska</BankCountry>
+            </PersonalAccountData>
+            <ForeignAccount>true</ForeignAccount>
+            <SubmitterCorrAddress>
+                <City>Wrocław</City>
+                <FlatNumber>3</FlatNumber>
+                <HouseNumber>5</HouseNumber>
+                <Street>Testowa</Street>
+                <StreetKind>ul.</StreetKind>
+                <ZipCode>12-345</ZipCode>
+                <EqMainAddress>true</EqMainAddress>
+                <Commune>wrocławski</Commune>
+                <Country>Polska</Country>
+                <Voivodenship>Dolnośląskie</Voivodenship>
+                <County>Wrocław</County>
+            </SubmitterCorrAddress>
+            <ElectronicAddressResignation>true</ElectronicAddressResignation>
+            <SubmitterAddress>
+                <StreetKind>pl.</StreetKind>
+                <Street>Grunwaldzki</Street>
+                <HouseNumber>999</HouseNumber>
+                <FlatNumber>12</FlatNumber>
+                <ZipCode>12-345</ZipCode>
+                <City>Testowa Wielka Miejscowość</City>
+                <Country>Polska</Country>
+                <Voivodenship>Mazowieckie</Voivodenship>
+                <County>warszawski</County>
+                <Commune>Testowa Gmina</Commune>
+            </SubmitterAddress>
+            <ReturnOnPersonalAccount>true</ReturnOnPersonalAccount>
+            <ResignationFromReturnToAccount>false</ResignationFromReturnToAccount>
+            <Fax>865-934-1234</Fax>
+            <SubmitterName>
+                <FirstName>Katarzyna</FirstName>
+                <LastName>Nowak</LastName>
+                <SecondName></SecondName>
+            </SubmitterName>
+        </B>
+        <C>
+            <RepresentativePersonPESEL>66121212345</RepresentativePersonPESEL>
+            <RepresentativePersonNIP>NIP</RepresentativePersonNIP>
+            <OperationDate>2018-02-01</OperationDate>
+            <RepresentativePersonName>
+                <FirstName>Andrzej</FirstName>
+                <LastName>Nowak</LastName>
+                <SecondName>Antoni</SecondName>
+            </RepresentativePersonName>
+            <RepresentativeCorrAddress>
+                <City>Mała Wieś Wrocławska</City>
+                <FlatNumber>2</FlatNumber>
+                <HouseNumber>13a</HouseNumber>
+                <Street>Wiejska</Street>
+                <StreetKind>ul.</StreetKind>
+                <ZipCode>12-345</ZipCode>
+                <EqMainAddress>true</EqMainAddress>
+                <Commune>wrocławski</Commune>
+                <Country>Polska</Country>
+                <Voivodenship>Dolnośląskie</Voivodenship>
+                <County>Wrocław</County>
+            </RepresentativeCorrAddress>
+        </C>
+    </ACADR00001PrintData>
+</Document>
