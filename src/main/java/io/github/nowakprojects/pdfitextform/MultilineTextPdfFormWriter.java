@@ -1,9 +1,6 @@
 package io.github.nowakprojects.pdfitextform;
 
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.Phrase;
-import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.ColumnText;
 import com.itextpdf.text.pdf.PdfContentByte;
@@ -43,11 +40,12 @@ class MultilineTextPdfFormWriter extends PdfFormWriter<MultilineTextPdfElement, 
             Rectangle rectangle = new Rectangle(
                     pdfElement.getPdfPosition().getX(),
                     pdfElement.getPdfPosition().getY() - pdfElement.getMaxHeight(),
-                    pdfElement.getY() + pdfElement.getMaxWidth(),
+                    pdfElement.getX() + pdfElement.getMaxWidth(),
                     pdfElement.getY()
             );
             columnText.setSimpleColumn(rectangle);
             // TODO: 11.09.2018 analyse what exactly is leading
+            columnText.setAlignment(Element.ALIGN_TOP);
             columnText.setLeading(fontSize);
             columnText.addText(new Phrase(content, new Font(Config.baseFont, fontSize)));
             return columnText.go(simulate);

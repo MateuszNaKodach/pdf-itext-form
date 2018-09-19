@@ -1,7 +1,6 @@
 package io.github.nowakprojects.pdfitextform;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -9,7 +8,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,24 +26,28 @@ class XmlPdfFormValuesReader implements PdfFormValuesReader {
     }
 
     private Map<String, String> tryToReadFromFile(String filePath) throws ParserConfigurationException, IOException, SAXException {
-        Map<String, String> result = new HashMap<>();
-        DocumentBuilderFactory factory =
-                DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-
-        FileInputStream input = new FileInputStream(filePath);
-        Document doc = builder.parse(input);
-        doc.getDocumentElement().normalize();
-
-        Element element = doc.getDocumentElement();
-        NodeList nodeList = element.getChildNodes();
-
-        for (int temp = 0; temp < nodeList.getLength(); temp++) {
-            Node nNode = nodeList.item(temp);
-            result.put(nNode.getNodeName(), nNode.getTextContent());
-        }
-
+        final Map<String, String> result = new HashMap<>();
+        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
+                .newInstance();
+        DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+        Document document = docBuilder.parse(new File(filePath));
+        Node node = document.getDocumentElement();
+        addNodeWithChildrenToMap(node, result, null);
         return result;
+    }
+
+    private void addNodeWithChildrenToMap(Node node, Map<String, String> map, String nodePrefix) {
+        final Node firstChild = node.getFirstChild();
+        if (firstChild != null && firstChild.getNodeValue() != null) {
+            map.put(nodePrefix == null ? "" : (nodePrefix + "." + node.getNodeName()), firstChild.getNodeValue());
+        }
+        NodeList nodeList = node.getChildNodes();
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            Node currentNode = nodeList.item(i);
+            if (currentNode.getNodeType() == Node.ELEMENT_NODE) {
+                addNodeWithChildrenToMap(currentNode, map, nodePrefix == null ? node.getNodeName() : (nodePrefix + "." + node.getNodeName()));
+            }
+        }
     }
 
 

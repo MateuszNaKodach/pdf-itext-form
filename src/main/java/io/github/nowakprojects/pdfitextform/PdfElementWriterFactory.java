@@ -15,6 +15,8 @@ class PdfElementWriterFactory {
             return new SeparatedTextPdfFormWriter((SeparatedTextPdfElement) pdfElement, content);
         } else if (pdfElement instanceof DatePdfElement) {
             return new DatePdfFormWriter((DatePdfElement) pdfElement, content);
+        } else if (pdfElement instanceof CheckBoxPdfElement) {
+            return new CheckBoxPdfFormWriter((CheckBoxPdfElement) pdfElement, content);
         } else {
             return new SimplePdfFormWriter(pdfElement, content);
         }
