@@ -72,7 +72,7 @@
                 <City>Miejscowosc Max50 Miejscowosc Max50 Miejscowosc Ma</City>
                 <FlatNumber>NumberLoka</FlatNumber>
                 <HouseNumber>NumerDomu1</HouseNumber>
-                <Street>UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100UlicaMax100 UlicaMa</Street>
+                <Street>UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100 UlicaMax100UlicaMax100 UlicaMax100UlicaMax</Street>
                 <StreetKind>PrefixUlic</StreetKind>
                 <ZipCode>ZipCode - Max15</ZipCode>
                 <EqMainAddress>true</EqMainAddress>

@@ -122,7 +122,7 @@ public class PdfFormDemo {
                                                 getBSectionTag("SubmitterCorrAddress/StreetKind"),
                                                 getBSectionTag("SubmitterCorrAddress/Street")
                                         )
-                                        .withMaxSize(15, 305)
+                                        .withMaxSize(15, 280)
                                         .positionedFromBottomLeft(LEFT_PDF_SIDE + 135, 435 - 267),
                                 MultilineTextPdfElement.builder()
                                         .withTag(getBSectionTag("SubmitterCorrAddress/HouseNumber"))

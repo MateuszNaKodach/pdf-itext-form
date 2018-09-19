@@ -27,23 +27,19 @@ class PdfFillTool {
         return new PdfFillTool(pdfOutputDirectoryPath);
     }
 
-    void writeFilledPdfFormToOutputStream(InputStream in, OutputStream out, PdfForm pdfForm) {
-        fillPdfForm(in,out,pdfForm);
-    }
-
     void writeFilledPdfFormToFile(String pdfFormFilePath, String pdfOutputFileName, PdfForm pdfForm) {
         File formFile = new File(pdfFormFilePath);
         try {
             final FileInputStream fileInputStream = new FileInputStream(formFile);
             String destinationPath = pdfOutputDirectoryPath + pdfOutputFileName;
             final FileOutputStream fileOutputStream = new FileOutputStream(destinationPath);
-            fillPdfForm(fileInputStream, fileOutputStream, pdfForm);
+            writeFilledPdfFormToOutputStream(fileInputStream, fileOutputStream, pdfForm);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
 
-    private void fillPdfForm(InputStream inputStream, OutputStream outputStream, PdfForm pdfForm) {
+    void writeFilledPdfFormToOutputStream(InputStream inputStream, OutputStream outputStream, PdfForm pdfForm) {
         final PdfFormSchema formSchema = pdfForm.getSchema();
         final PdfFormValues formValues = pdfForm.getValues();
         final Map<Integer, byte[]> topPages = new HashMap<Integer, byte[]>() {
